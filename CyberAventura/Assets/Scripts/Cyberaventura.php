@@ -70,7 +70,7 @@ function login( arg, arg1)
         if (http.readyState===4 && http.status===200)
         {
             var respuesta = this.responseText;
-            u.getUnity().SendMessage("Nivel", "recibirLogin", respuesta);
+            u.getUnity().SendMessage("AdminSQL", "recibirLogin", respuesta);
         }
         
     }
@@ -87,7 +87,7 @@ function guardarcuestionario( IDBulk, IDCuenta, Formato, Puntuacion, Tiempo )
         if (http.readyState===4 && http.status===200)
         {
             var respuesta = this.responseText;
-            u.getUnity().SendMessage("Camara", "recibirCuestionario", respuesta);
+            u.getUnity().SendMessage("AdminSQL", "recibirCuestionario", respuesta);
         }
         
     }
@@ -105,7 +105,7 @@ function pediravance( arg)
         if (http.readyState===4 && http.status===200)
         {
             var respuesta = this.responseText;
-            u.getUnity().SendMessage("Camara", "recibirAvance", respuesta);
+            u.getUnity().SendMessage("AdminSQL", "recibirAvance", respuesta);
         }
         
     }
@@ -120,7 +120,7 @@ function pedirtop20()
         if (http.readyState===4 && http.status===200)
         {
             var respuesta = this.responseText;
-            u.getUnity().SendMessage("Camara", "recibirTop20", respuesta);
+            u.getUnity().SendMessage("AdminSQL", "recibirTop20", respuesta);
         }
         
     }
@@ -135,7 +135,7 @@ function pedirpromdesvypor()
         if (http.readyState===4 && http.status===200)
         {
             var respuesta = this.responseText;
-            u.getUnity().SendMessage("Camara", "recibirDesvy", respuesta);
+            u.getUnity().SendMessage("AdminSQL", "recibirDesvy", respuesta);
         }
         
     }
@@ -150,7 +150,7 @@ function crearnuevorun( arg )
         if (http.readyState===4 && http.status===200)
         {
             var respuesta = this.responseText;
-            u.getUnity().SendMessage("Camara", "recibirRun", respuesta);
+            u.getUnity().SendMessage("AdminSQL", "recibirRun", respuesta);
         }
         
     }
@@ -165,7 +165,7 @@ function buscarparticipante( arg )
         if (http.readyState===4 && http.status===200)
         {
             var respuesta = this.responseText;
-            u.getUnity().SendMessage("Camara", "recibirParticipante", respuesta);
+            u.getUnity().SendMessage("AdminSQL", "recibirParticipante", respuesta);
         }
         
     }

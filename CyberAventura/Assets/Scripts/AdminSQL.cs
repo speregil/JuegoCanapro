@@ -4,6 +4,7 @@ using System.Collections;
 public class AdminSQL : MonoBehaviour {
 
 	public 	static string 	LOGOUT = "LogOut";
+	private CRUD			ConexionBD;
 	private string 			UsuarioActual;
 	private Run 			RunActual;
 
@@ -13,6 +14,7 @@ public class AdminSQL : MonoBehaviour {
 	
 	void Start () {
 		UsuarioActual = LOGOUT;
+		ConexionBD = (CRUD)GetComponent(typeof(CRUD));
 	}
 
 	public string DarUsuarioActual(){
@@ -54,5 +56,5 @@ public class AdminSQL : MonoBehaviour {
 		flag[10] = false;
 		flag[11] = false;
 		RunActual = new Run(flag,32,8.2f);
-	}
+	}	
 }

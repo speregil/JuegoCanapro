@@ -13,21 +13,23 @@ public class Interfaz : MonoBehaviour {
 	private GUIContent contenidoBoxLogin;
 	private GUIContent contenidoBotonLogin;
 
-	private const int LOGIN = 1;
-	private const int TUTO = 2;
-	private const int PRINCIPAL = 3;
-	private const int MAPA = 4;
-	private const int ESTADISTICAS = 5;
-	private const int MODO = 6;
+	public 	GUISkin		skinLogin;
+	private const int 	LOGIN = 1;
+	private const int 	TUTO = 2;
+	private const int 	PRINCIPAL = 3;
+	private const int 	MAPA = 4;
+	private const int 	ESTADISTICAS = 5;
+	private const int 	MODO = 6;
 
-	private int estado;
-	private string login = "ingrese su cuenta aqui";
-	private string pass = "prueba";
-
-	private AdminSQL SQL;
+	private string		login;
+	private string		pass;
+	private int 		estado;
+	private AdminSQL 	SQL;
 
 	// Use this for initialization
 	void Start () {
+		login = "Nombre de usuario";
+		pass = "Contraseña";
 		estiloBotonModoJuego = new GUIStyle();
 		estiloBotonMapa = new GUIStyle();
 		estiloBotonEstadisticas = new GUIStyle();
@@ -47,22 +49,24 @@ public class Interfaz : MonoBehaviour {
 	
 	// Update is called once per frame
 	void OnGUI () {
+		GUI.skin = skinLogin;
 		if(LOGIN == estado)
 		{
-			if(GUI.Button(new Rect((Screen.width*3/8),(Screen.height/2+Screen.height*2/16),(Screen.width*1/8),(Screen.height*1/32)), "Loguearse"))
+			GUI.Box(new Rect(0,0,Screen.width,Screen.height), contenidoBoxLogin);
+			if(GUI.Button(new Rect((Screen.width*3/8),(Screen.height/2+Screen.height*2/16),(Screen.width*1/10),(Screen.height*1/32)), "Ingresar"))
 			{
 				SQL.LogIn("Usuario","Contraseña");
 				estado = PRINCIPAL;
 			}
 			GUI.Label(new Rect((Screen.width/4),(Screen.height*3/8)-(Screen.height*1/32),(Screen.width*1/4),(Screen.height*1/16)), "Cuenta");
 			GUI.Label(new Rect((Screen.width/4),(Screen.height/2)-(Screen.height*1/32),(Screen.width*1/4),(Screen.height*1/16)), "Contraseña");
-			GUI.Box(new Rect((Screen.width*1/8),(Screen.height*1/4),(Screen.width*3/4),(Screen.height*1/2)), contenidoBoxLogin);
-			login = GUI.TextField(new Rect((Screen.width/4),(Screen.height*3/8),(Screen.width*1/4),(Screen.height*1/16)), login);
-			pass = GUI.PasswordField(new Rect((Screen.width/4),(Screen.height/2),(Screen.width*1/4),(Screen.height*1/16)), pass, "*"[0]);
-			GUI.Label(new Rect((Screen.width*1/8),(Screen.height*1/4-Screen.height*1/16),(Screen.width*1/4),(Screen.height*1/16)), "Login");
+
+			login = GUI.TextField(new Rect((Screen.width/4),(Screen.height*3/8),(Screen.width*1/4),(Screen.height*1/8)),login);
+			pass = GUI.PasswordField(new Rect((Screen.width/4),(Screen.height/2),(Screen.width*1/4),(Screen.height*1/8)),pass, "*"[0]);
 		}
 		else if(PRINCIPAL == estado)
 		{
+			GUI.Box(new Rect(0,0,Screen.width,Screen.height), contenidoBoxLogin);
 			if(GUI.Button(new Rect((Screen.width/8),(Screen.height/12),(Screen.width*1/4),(Screen.height*1/16)), "Jugar"))
 			{
 				estado = MODO;
@@ -87,6 +91,7 @@ public class Interfaz : MonoBehaviour {
 		}
 		else if(MODO == estado)
 		{
+			GUI.Box(new Rect(0,0,Screen.width,Screen.height), contenidoBoxLogin);
 			if(GUI.Button(new Rect((Screen.width/3),(Screen.height/9),(Screen.width*1/4),(Screen.height*1/16)), "Nuevo Juego"))
 			{
 				SQL.NuevoRun();

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class CRUD{
+public class CRUD : MonoBehaviour{
 	//String con el formato de respuesta del login
 	public string login;
 	//String con el formato de respuesta de guardarCuestionario
@@ -44,8 +44,8 @@ public class CRUD{
 		int i = 0;
 		while(indice > i)
 		{
-			i++;
 			formato += ";"+IDPreguntas[i]+";"+respuestas[i]+";"+tiempos[i]+";";
+			i++;
 		}
 		Application.ExternalCall("guardarcuestionario", IDBulk, IDCuenta, formato, puntuacion, tiempo);
 	}
