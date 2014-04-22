@@ -6,6 +6,7 @@ public class AdminSQL : MonoBehaviour {
 	public 	static string 	LOGOUT = "LogOut";
 	private CRUD			ConexionBD;
 	private string 			UsuarioActual;
+	private string			LlaveUsuario;
 	private Run 			RunActual;
 
 	void Awake(){
@@ -25,9 +26,20 @@ public class AdminSQL : MonoBehaviour {
 		return RunActual;
 	}
 
-	public void LogIn(string User, string Password){
-		// Llamados para hacer el login
-		UsuarioActual = "Mario";
+	public string LogIn(string User, string Password){
+		ConexionBD.hacerLogin(User, Password);
+		LlaveUsuario = ConexionBD.login;// Hay que parcear esta informacion
+		// Prueba dummy para la presentacion
+		if(User.Equals("123")){
+			UsuarioActual = "Alexis";
+			return "exito";
+		}
+		else if(User.Equals("456")){
+			UsuarioActual = "Sonia";
+			return "mora";
+		}
+
+		return "fallo";
 	}
 
 	public void LogOut(){
@@ -35,8 +47,7 @@ public class AdminSQL : MonoBehaviour {
 	}
 
 	public void NuevoRun(){
-		// Crear y guardar un nuevo run, guardar el identificador en la 
-		// variable respectiva
+		ConexionBD.crearNuevoRun(int.Parse(LlaveUsuario));
 		RunActual = new Run();
 	}
 

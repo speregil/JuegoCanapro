@@ -2,8 +2,9 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Interfaz.cs">
     <Files>
-      <File FileName="Assets\Scripts\Interfaz.cs" Line="94" Column="73" />
-      <File FileName="Assets\Scripts\CRUD.cs" Line="58" Column="41" />
+      <File FileName="Assets\Scripts\AdminSQL.cs" Line="41" Column="3" />
+      <File FileName="Assets\Scripts\Interfaz.cs" Line="67" Column="64" />
+      <File FileName="Assets\Scripts\CRUD.cs" Line="35" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
