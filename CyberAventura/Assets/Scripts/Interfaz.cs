@@ -82,6 +82,7 @@ public class Interfaz : MonoBehaviour {
 			if(GUI.Button(new Rect((Screen.width/8),(Screen.height/12),(Screen.width*1/4),(Screen.height*1/16)), "Jugar"))
 			{
 				estado = MODO;
+				info = "INICIA UN NUEVO JUEGO O CARGA TU AVANCE PREVIO";
 			}
 			if(GUI.Button(new Rect((Screen.width/8),(Screen.height*1/3),(Screen.width*1/4),(Screen.height*1/16)), "Estadisticas"))
 			{
@@ -104,10 +105,15 @@ public class Interfaz : MonoBehaviour {
 		else if(MODO == estado)
 		{
 			GUI.Box(new Rect(0,0,Screen.width,Screen.height), contenidoBoxLogin);
+			GUI.Label(new Rect((Screen.width/3)-50,0,(Screen.width*1/2),(Screen.height*1/3)), info);
 			if(GUI.Button(new Rect((Screen.width/3),(Screen.height/9),(Screen.width*1/4),(Screen.height*1/16)), "Nuevo Juego"))
 			{
-				SQL.NuevoRun();
-				Application.LoadLevel("Mapa");
+				if(!SQL.primerRun){
+					SQL.NuevoRun();
+					Application.LoadLevel("Mapa");
+				}
+				else
+					info = "YA HAS COMPLETADO EL JUEGO, REVISA LA SECCION DE ESTADISTICAS PARA VER TUS RESULTADOS";
 			}
 			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*4/9),(Screen.width*1/4),(Screen.height*1/16)), "Cargar Partida"))
 			{

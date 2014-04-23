@@ -9,6 +9,9 @@ public class AdminSQL : MonoBehaviour {
 	private string			LlaveUsuario;
 	private Run 			RunActual;
 
+	//variable ultra provicional
+	public bool primerRun = false;
+
 	void Awake(){
 		DontDestroyOnLoad(transform.gameObject);
 	}
@@ -24,6 +27,10 @@ public class AdminSQL : MonoBehaviour {
 
 	public Run DarRunActual(){
 		return RunActual;
+	}
+
+	public string DarLlaveActual(){
+		return LlaveUsuario;
 	}
 
 	public string LogIn(string User, string Password){
@@ -67,5 +74,17 @@ public class AdminSQL : MonoBehaviour {
 		flag[10] = false;
 		flag[11] = false;
 		RunActual = new Run(flag,32,8.2f);
-	}	
+	}
+
+	public void GuardarBulk(int IDBulk, int IDCuenta, int puntuacion, float tiempo){
+		float[] tiempos = new float[1];
+		char[] respuestas = new char[1];
+		int[] IDPreguntas = new int[1];
+		ConexionBD.guardarCuestionario(IDBulk,tiempos, IDCuenta, respuestas, puntuacion, tiempo, IDPreguntas);
+	}
+
+	/**public bool verificarUsuario(string IDCuenta){
+		//Verificar que no halla hecho un run previo
+
+	}**/
 }

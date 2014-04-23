@@ -16,8 +16,10 @@ public class AdminNivel : MonoBehaviour {
 	private int				totalEdificios;
 	private int				totalPuntos;
 	private float			totalTiempo;
-	private string			MensajeSalida = "               Salvaremos su progreso, puede cargarlo despues desde el menu inicial\n                                         ¿Desea volver al menu inicial?";
+	private string			MensajeSalida = "\t\t\tSalvaremos su progreso, puede cargarlo despues desde el menu inicial\n                                         ¿Desea volver al menu inicial?";
 
+
+	
 	void Start (){
 		panel = (PanelPregunta)GetComponent(typeof(PanelPregunta));
 		mov = (Movimiento)personaje.GetComponent(typeof(Movimiento));
@@ -99,9 +101,11 @@ public class AdminNivel : MonoBehaviour {
 		totalPuntos = RunActual.DarPuntuacionTotal();
 		totalTiempo = RunActual.DarTiempoTotal();
 		totalEdificios = RunActual.DarBulksCompletos();
+		SQL.GuardarBulk(ID, int.Parse(SQL.DarLlaveActual()),puntos,tiempo);
 
 		if(totalEdificios == 12){
 			gano = true;
+			SQL.primerRun = true;
 		}
 	}
 
