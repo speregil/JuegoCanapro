@@ -3,17 +3,27 @@ using System.Collections;
 
 public class Interfaz : MonoBehaviour {
 
-	private GUIStyle estiloBotonModoJuego;
-	private GUIStyle estiloBotonMapa;
-	private GUIStyle estiloBotonEstadisticas;
-	private GUIStyle estiloBotonLogin;
-	private GUIStyle estiloTextLogin;
-	private GUIStyle estiloTextPassword;
-
-	private GUIContent contenidoBoxLogin;
-	private GUIContent contenidoBotonLogin;
-
 	public 	GUISkin		skinLogin;
+	public 	GUISkin		skinMenu;
+	public 	Texture2D	imgEstadisticas;
+	public 	Texture2D	imgJugar;
+	public 	Texture2D	imgExtras;
+	public 	Texture2D	imgTutorial;
+	public 	Texture2D	imgSalir;
+	public 	Texture2D	imgNuevo;
+	public 	Texture2D	imgCargar;
+	public 	Texture2D	imgVolver;
+
+	private GUIContent contenidoBoxJugar;
+	private GUIContent contenidoBoxExtras;
+	private GUIContent contenidoBoxEstadisticas;
+	private GUIContent contenidoBoxTutorial;
+	private GUIContent contenidoBoxSalir;
+	private GUIContent contenidoBoxNuevo;
+	private GUIContent contenidoBoxCargar;
+	private GUIContent contenidoBoxVolver;
+
+
 	private const int 	LOGIN = 1;
 	private const int 	TUTO = 2;
 	private const int 	PRINCIPAL = 3;
@@ -35,14 +45,24 @@ public class Interfaz : MonoBehaviour {
 		login = "";
 		pass = "";
 		info = "BIENVENIDO A LA CYBER AVENTURA CANAPRO";
-		estiloBotonModoJuego = new GUIStyle();
-		estiloBotonMapa = new GUIStyle();
-		estiloBotonEstadisticas = new GUIStyle();
-		estiloBotonLogin = new GUIStyle();
+		contenidoBoxJugar = new GUIContent();
+		contenidoBoxJugar.image = (Texture2D)imgJugar;
+		contenidoBoxExtras = new GUIContent();
+		contenidoBoxExtras.image = (Texture2D)imgExtras;
+		contenidoBoxEstadisticas = new GUIContent();
+		contenidoBoxEstadisticas.image = (Texture2D)imgEstadisticas;
+		contenidoBoxTutorial = new GUIContent();
+		contenidoBoxTutorial.image = (Texture2D)imgTutorial;
+		contenidoBoxSalir = new GUIContent();
+		contenidoBoxSalir.image = (Texture2D)imgSalir;
+		contenidoBoxNuevo = new GUIContent();
+		contenidoBoxNuevo.image = (Texture2D)imgNuevo;
+		contenidoBoxCargar = new GUIContent();
+		contenidoBoxCargar.image = (Texture2D)imgCargar;
+		contenidoBoxVolver = new GUIContent();
+		contenidoBoxVolver.image = (Texture2D)imgVolver;
 
-		contenidoBoxLogin = new GUIContent();
-		contenidoBotonLogin = new GUIContent();
-
+	
 		GameObject adSQL = GameObject.Find("AdminSQL");
 		SQL = (AdminSQL)adSQL.GetComponent(typeof(AdminSQL));
 
@@ -54,13 +74,14 @@ public class Interfaz : MonoBehaviour {
 	
 	// Update is called once per frame
 	void OnGUI () {
-		GUI.skin = skinLogin;
+
 		if(LOGIN == estado)
 		{
-			GUI.Box(new Rect(0,0,Screen.width,Screen.height), contenidoBoxLogin);
-			login = GUI.TextField(new Rect((Screen.width/4),(Screen.height*3/8),(Screen.width*1/4),(Screen.height*1/8)),login);
-			pass = GUI.PasswordField(new Rect((Screen.width/4),(Screen.height/2),(Screen.width*1/4),(Screen.height*1/8)),pass, "*"[0]);
-			if(GUI.Button(new Rect((Screen.width*3/8),(Screen.height/2+Screen.height*2/16),(Screen.width*1/10),(Screen.height*1/32)), "Entrar"))
+			GUI.skin = skinLogin;
+			GUI.Box(new Rect(0,0,Screen.width,Screen.height), "");
+			login = GUI.TextField(new Rect((Screen.width/4),(Screen.height*3/8),(Screen.width*1/3),(Screen.height*1/8)),login);
+			pass = GUI.PasswordField(new Rect((Screen.width/4),(Screen.height/2),(Screen.width*1/3),(Screen.height*1/8)),pass, "*"[0]);
+			if(GUI.Button(new Rect((Screen.width/2),(Screen.height/2+Screen.height*2/16),(Screen.width*1/10),(Screen.height*1/8)), "Entrar"))
 			{
 				string result = SQL.LogIn(login,pass);
 				if(result.Equals("exito")){
@@ -81,26 +102,36 @@ public class Interfaz : MonoBehaviour {
 		}
 		else if(PRINCIPAL == estado)
 		{
-			GUI.Box(new Rect(0,0,Screen.width,Screen.height), contenidoBoxLogin);
-			if(GUI.Button(new Rect((Screen.width/8),(Screen.height/12),(Screen.width*1/4),(Screen.height*1/16)), "Jugar"))
+			GUI.skin = skinMenu;
+			GUI.Box(new Rect(0,0,Screen.width,Screen.height), "");
+			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*2/12),(Screen.width*1/4),(Screen.height*1/6)), "Jugar"))
 			{
 				estado = MODO;
 				info = "INICIA UN NUEVO JUEGO O CARGA TU AVANCE PREVIO";
 			}
-			if(GUI.Button(new Rect((Screen.width/8),(Screen.height*1/3),(Screen.width*1/4),(Screen.height*1/16)), "Estadisticas"))
+			GUI.Label(new Rect((Screen.width/2),(Screen.height*2/12),Screen.width/12,Screen.height/12), contenidoBoxJugar);
+			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*4/12),(Screen.width*1/4),(Screen.height*1/6)), "Extras"))
+			{
+				estado = EXTRAS;
+			}
+			GUI.Label(new Rect((Screen.width/2),(Screen.height*4/12),Screen.width/10,Screen.height/10), contenidoBoxExtras);
+			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*6/12),(Screen.width*1/4),(Screen.height*1/6)), "Estadisticas"))
 			{
 				SQL.pedirTop20();
-				estado = ESTADISTICAS;
+				estado= ESTADISTICAS;
 			}
-			if(GUI.Button(new Rect((Screen.width/8),(Screen.height*7/12),(Screen.width*1/4),(Screen.height*1/16)), "Tutorial"))
+			GUI.Label(new Rect((Screen.width/2),(Screen.height*6/12),Screen.width/7,Screen.height/7), contenidoBoxEstadisticas);
+			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*8/12),(Screen.width*1/4),(Screen.height*1/6)), "Tutorial"))
 			{
 				estado= TUTO;
 			}
-			if(GUI.Button(new Rect((Screen.width/8),(Screen.height*5/6),(Screen.width*1/4),(Screen.height*1/16)), "Salir"))
+			GUI.Label(new Rect((Screen.width/2),(Screen.height*8/12),Screen.width/10,Screen.height/10), contenidoBoxTutorial);
+			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*10/12),(Screen.width*1/4),(Screen.height*1/6)), "Salir"))
 			{
 				SQL.LogOut();
 				estado= LOGIN;
 			}
+			GUI.Label(new Rect((Screen.width/2),(Screen.height*10/12),Screen.width/10,Screen.height/10), contenidoBoxSalir);
 		}
 		else if(ESTADISTICAS == estado)
 		{
@@ -150,9 +181,10 @@ public class Interfaz : MonoBehaviour {
 		}
 		else if(MODO == estado)
 		{
-			GUI.Box(new Rect(0,0,Screen.width,Screen.height), contenidoBoxLogin);
+			GUI.skin = skinMenu;
+			GUI.Box(new Rect(0,0,Screen.width,Screen.height),"");
 			GUI.Label(new Rect((Screen.width/3)-50,0,(Screen.width*1/2),(Screen.height*1/3)), info);
-			if(GUI.Button(new Rect((Screen.width/3),(Screen.height/9),(Screen.width*1/4),(Screen.height*1/16)), "Nuevo Juego"))
+			if(GUI.Button(new Rect((Screen.width/3),(Screen.height/9),(Screen.width*1/4),(Screen.height*1/6)), "Nuevo Juego"))
 			{
 				if(!SQL.primerRun){
 					SQL.NuevoRun();
@@ -161,15 +193,18 @@ public class Interfaz : MonoBehaviour {
 				else
 					info = "YA HAS COMPLETADO EL JUEGO, REVISA LA SECCION DE ESTADISTICAS PARA VER TUS RESULTADOS";
 			}
-			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*4/9),(Screen.width*1/4),(Screen.height*1/16)), "Cargar Partida"))
+			GUI.Label(new Rect((Screen.width/2),(Screen.height/9),Screen.width/12,Screen.height/12), contenidoBoxNuevo);
+			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*4/9),(Screen.width*1/4),(Screen.height*1/6)), "Cargar Partida"))
 			{
 				SQL.CargarRun("Usuario");
 				Application.LoadLevel("Mapa");
 			}
-			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*7/9),(Screen.width*1/4),(Screen.height*1/16)), "Volver"))
+			GUI.Label(new Rect((Screen.width/2),(Screen.height*4/9),Screen.width/12,Screen.height/12), contenidoBoxCargar);
+			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*7/9),(Screen.width*1/4),(Screen.height*1/6)), "Volver"))
 			{
 				estado= PRINCIPAL;
 			}
+			GUI.Label(new Rect((Screen.width/2),(Screen.height*7/9),Screen.width/12,Screen.height/12), contenidoBoxVolver);
 		}
 		else if(EXTRAS == estado)
 		{

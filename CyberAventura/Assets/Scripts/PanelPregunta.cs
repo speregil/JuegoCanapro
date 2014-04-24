@@ -10,6 +10,8 @@ public class PanelPregunta : MonoBehaviour {
 	// Atributos
 	//--------------------------------------------------------------------------------------------------------
 
+	public 	GUISkin		skinPreguntas;			//Skin de las preguntas
+	public	GUISkin		skinConfirmacion;		//Skin del cuadro de confirmacion
 	private	Bulk		BulkActivo;				//Bulk actual de preguntas
 	private	IOPreguntas listaPreguntas;			//Conexion con el script que carga las preguntas del sistema
 	private AdminNivel	Control;				//Relacion con el script padre para indicar acciones de control en la BD
@@ -56,14 +58,16 @@ public class PanelPregunta : MonoBehaviour {
 		repetido = false;
 		confirmacion = false;
 		RectConfirmacion = new Rect((Screen.width/3) - 100,Screen.height/3 ,Screen.width/2,Screen.height/3);
-		RectPregunta = new Rect(50,50,Screen.width - 100,Screen.height - 100);
+		RectPregunta = new Rect(0,0,Screen.width,Screen.height);
 	}
 
 	void OnGUI(){
 		if(confirmacion){
+			GUI.skin = skinConfirmacion;
 			RectConfirmacion = GUI.Window(1,RectConfirmacion,WindowFunction,"");
 		}
 		else if(ventanaActiva){
+			GUI.skin = skinPreguntas;
 			RectPregunta = GUI.Window(0,RectPregunta,WindowFunction,"");
 		}
 	}

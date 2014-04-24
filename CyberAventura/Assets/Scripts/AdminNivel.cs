@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class AdminNivel : MonoBehaviour {
-
+	public	GUISkin			skinConfirmacion;
 	public 	GameObject 		personaje;
 	private	AdminSQL		SQL;
 	private PanelPregunta	panel; 
@@ -16,7 +16,7 @@ public class AdminNivel : MonoBehaviour {
 	private int				totalEdificios;
 	private int				totalPuntos;
 	private float			totalTiempo;
-	private string			MensajeSalida = "\t\t\tSalvaremos su progreso, puede cargarlo despues desde el menu inicial\n                                         ¿Desea volver al menu inicial?";
+	private string			MensajeSalida = "\t\t\tSalvaremos su progreso, puede cargarlo despues desde\n\t\t\t\tel menu inicial\n\t\t\t\t\t¿Desea volver al menu inicial?";
 
 
 	
@@ -40,7 +40,8 @@ public class AdminNivel : MonoBehaviour {
 	}
 
 	void OnGUI(){
-		GUI.Label(new Rect(Screen.width/10,Screen.height/20,Screen.width/10,Screen.height/12),"Bienvenido "+ usuarioActual);
+		GUI.skin = skinConfirmacion;
+		GUI.Label(new Rect(Screen.width/10 - 20,Screen.height/20,Screen.width/5,Screen.height/12),"Bienvenido(a) "+ usuarioActual);
 		GUI.Label(new Rect(Screen.width*3/10,Screen.height/20,Screen.width*3/10,Screen.height/12),"Haz completado "+ totalEdificios + " edificios, te faltan " + (12 - totalEdificios));
 		GUI.Label(new Rect(Screen.width*6/10,Screen.height/20,Screen.width*2/10,Screen.height/12),"Puntos: "+ totalPuntos + "     Tiempo: " + totalTiempo);
 
@@ -51,7 +52,7 @@ public class AdminNivel : MonoBehaviour {
 			RectConfirmacion = GUI.Window(2,RectConfirmacion,WindowFunction,"");
 		}
 
-		if(GUI.Button(new Rect(Screen.width*8/10,Screen.height/20,Screen.width/10,Screen.height/12), "Menu Principal")){
+		if(GUI.Button(new Rect(Screen.width*8/10,Screen.height/20,Screen.width/5,Screen.height/12), "Menu Principal")){
 			salvar = true;
 		}
 	}
