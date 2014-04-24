@@ -5,7 +5,7 @@
          $yeah = $_POST["data"];
     }
     //echo $yeah;
-    $connection = mysqli_connect("localhost", "root", "password", "Canapro",3306);
+    $connection = mysqli_connect("localhost", "root", "", "canapro",3306);
     mysqli_autocommit($connection, FALSE);
     if($yeah === "login")
     {
@@ -109,12 +109,12 @@
     //Hecho
     else if($yeah === "pedirtop20")
     {
-        $query = "SELECT ID, LOGIN, NOMBRE, PUNTUACION FROM CUENTA ORDER BY PUNTUACION DESC LIMIT 20";
+        $query = "SELECT ID, LOGIN, NOMBRE, PUNTUACION FROM CUENTA ORDER BY PUNTUACION DESC";
         $resultado = mysqli_query($connection, $query);
         $respuesta = "top20";
         while($numero = mysqli_fetch_array($resultado, MYSQL_NUM))
         {
-            $respuesta .= ";".$numero[0].";".$numero[1].";".$numero[2].";".$numero[3].";".$numero[4];
+            $respuesta .= ";".$numero[0].";".$numero[1].";".$numero[2].";".$numero[3];
         }
         //mysql_close($connection);
         echo $respuesta;

@@ -108,8 +108,9 @@ public class CRUD : MonoBehaviour{
 	/*
 	 * Guarda el resultado del top20 en su variable
 	 * */
-	public void recibirTop20(string formato)
+	public void recibirtop20(string formato)
 	{
+		//Debug.Log(formato);
 		top20 = formato;
 	}
 	/*

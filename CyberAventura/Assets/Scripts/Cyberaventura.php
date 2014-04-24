@@ -60,7 +60,7 @@
 						break;
 					}
 				});
-				u.initPlugin(jQuery("#unityPlayer")[0], "xampp.unity3d");
+				u.initPlugin(jQuery("#unityPlayer")[0], "canapro.unity3D");
 			});
 function login( arg, arg1)
 {
@@ -74,7 +74,7 @@ function login( arg, arg1)
         }
         
     }
-    http.open("GET", "http://localhost:12345/xampp/script.php?data=login&datas="+arg+"&datass="+arg1+"", true);
+    http.open("GET", "http://localhost:8080/CyberAventura/script.php?data=login&datas="+arg+"&datass="+arg1+"", true);
     http.send(null);
     
 }
@@ -91,10 +91,10 @@ function guardarcuestionario( IDBulk, IDCuenta, Formato, Puntuacion, Tiempo )
         }
         
     }
-    http.open("POST", "http://localhost:12345/xampp/script.php", true);
-    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    http.setRequestHeader("Content-length", params.length);
-    http.setRequestHeader("Connection", "close");
+    http.open("POST", "http://localhost:8080/CyberAventura/script.php", true);
+    //http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    //http.setRequestHeader("Content-length", params.length);
+    //http.setRequestHeader("Connection", "close");
     http.send(params);
 }
 function pediravance( arg)
@@ -109,7 +109,7 @@ function pediravance( arg)
         }
         
     }
-    http.open("GET", "http://localhost:12345/xampp/script.php?data=pediravance&datas="+arg+"", true);
+    http.open("GET", "http://localhost:8080/CyberAventura/script.php?data=pediravance&datas="+arg+"", true);
     http.send(null);
 }
 function pedirtop20()
@@ -120,11 +120,11 @@ function pedirtop20()
         if (http.readyState===4 && http.status===200)
         {
             var respuesta = this.responseText;
-            u.getUnity().SendMessage("AdminSQL", "recibirTop20", respuesta);
+            u.getUnity().SendMessage("AdminSQL", "recibirtop20", respuesta);
         }
         
     }
-    http.open("GET", "http://localhost:12345/xampp/script.php?data=pedirtop20", true);
+    http.open("GET", "http://localhost:8080/xampp/script.php?data=pedirtop20", false);
     http.send(null);
 }
 function pedirpromdesvypor()
@@ -139,7 +139,7 @@ function pedirpromdesvypor()
         }
         
     }
-    http.open("GET", "http://localhost:12345/xampp/script.php?data=pedirpromdesvypor", true);
+    http.open("GET", "http://localhost:8080/CyberAventura/script.php?data=pedirpromdesvypor", true);
     http.send(null);
 }
 function crearnuevorun( arg )
@@ -154,7 +154,7 @@ function crearnuevorun( arg )
         }
         
     }
-    http.open("GET", "http://localhost:12345/xampp/script.php?data=crearnuevorun&datas="+arg+"", true);
+    http.open("GET", "http://localhost:8080/CyberAventura/script.php?data=crearnuevorun&datas="+arg+"", true);
     http.send(null);
 }
 function buscarparticipante( arg )
@@ -169,7 +169,7 @@ function buscarparticipante( arg )
         }
         
     }
-    http.open("GET", "http://localhost:12345/xampp/script.php?data=buscarparticipante&datas="+arg+"", true);
+    http.open("GET", "http://localhost:8080/CyberAventura/script.php?data=buscarparticipante&datas="+arg+"", true);
     http.send(null);
 }
 		-->

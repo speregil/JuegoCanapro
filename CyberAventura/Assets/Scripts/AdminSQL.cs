@@ -83,6 +83,15 @@ public class AdminSQL : MonoBehaviour {
 		ConexionBD.guardarCuestionario(IDBulk,tiempos, IDCuenta, respuestas, puntuacion, tiempo, IDPreguntas);
 	}
 
+	public string top20()
+	{
+		return ConexionBD.top20;
+	}
+	public void pedirTop20()
+	{
+		ConexionBD.pedirTop20 ();
+	}
+
 	/**public bool verificarUsuario(string IDCuenta){
 		//Verificar que no halla hecho un run previo
 
