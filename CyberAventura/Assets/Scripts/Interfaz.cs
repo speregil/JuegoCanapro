@@ -5,6 +5,9 @@ public class Interfaz : MonoBehaviour {
 
 	public 	GUISkin		skinLogin;
 	public 	GUISkin		skinMenu;
+	public	GUISkin		skinExtras;
+	public 	GUISkin		skinEstadisticas;
+	public	GUISkin		skinBotonVolver;
 	public 	Texture2D	imgEstadisticas;
 	public 	Texture2D	imgJugar;
 	public 	Texture2D	imgExtras;
@@ -13,6 +16,8 @@ public class Interfaz : MonoBehaviour {
 	public 	Texture2D	imgNuevo;
 	public 	Texture2D	imgCargar;
 	public 	Texture2D	imgVolver;
+	public	Texture2D	imgVolverExtras;
+	public	Texture2D	imgVolverExtrasOver;
 
 	private GUIContent contenidoBoxJugar;
 	private GUIContent contenidoBoxExtras;
@@ -39,6 +44,7 @@ public class Interfaz : MonoBehaviour {
 	private AdminSQL 	SQL;
 	private int numeroImagenes = 82;
 	private Vector2 scrollPosition = Vector2.zero;
+	private bool modal = false;
 
 	// Use this for initialization
 	void Start () {
@@ -135,12 +141,15 @@ public class Interfaz : MonoBehaviour {
 		}
 		else if(ESTADISTICAS == estado)
 		{
+			GUI.skin = skinEstadisticas;
+			GUI.Label(new Rect((0),(0),(Screen.width),(Screen.height)), "");
 			string formato = SQL.top20();
 			string respuesta = "";
 			string[] cadena = formato.Split(new char [] {';'});
 			//GUI.Box(new Rect((Screen.width/12),(Screen.height*1/12),(Screen.width*10/12),(Screen.height*10/12)), "Panel principal");
-			scrollPosition = GUI.BeginScrollView(new Rect((Screen.width/12),(Screen.height*1/12),(Screen.width*1/2),(Screen.height*10/12)), scrollPosition, 
-			                                     new Rect(0,0,0,Screen.height/12*cadena.Length/4), false, true);
+			scrollPosition = GUI.BeginScrollView(new Rect((Screen.width/128),(Screen.height*1/128),(Screen.width*82/96),(Screen.height)), scrollPosition, 
+			                                     new Rect(0,0,Screen.width*10/12,numeroImagenes/5*Screen.height/6+Screen.height/6), false, true);
+
 			int indice = 1;
 			for(int i = 1; i < cadena.Length;)
 			{
@@ -172,12 +181,19 @@ public class Interfaz : MonoBehaviour {
 			//}
 			//GUI.Label(
 			GUI.EndScrollView();
-			GUI.Label(new Rect(Screen.width*7/12,Screen.height/2,500,100), respuesta);
-			if(GUI.Button(new Rect((Screen.width/12), Screen.height*11/12, (Screen.width/12), (Screen.height*1/13)), "Volver"))
+			//GUI.Label(new Rect(Screen.width*7/12,Screen.height/2,500,100), respuesta);
+
+			GUI.Box(new Rect((0),(0),(Screen.width),(Screen.height)), "");
+			GUI.skin = skinBotonVolver;
+			Rect rect = new Rect((Screen.width*113/128), (Screen.height*57/64)+(Screen.height*1/128), (Screen.width*7/64), (Screen.height*1/13));
+			if(!modal)
+				GUI.ModalWindow(0, new Rect(Screen.width/2-300, Screen.height/2-150, 600, 300), doMyWindow, "\n\n\n"+respuesta);
+			if(GUI.Button( rect, "Volver"))
 			{
 				estado = PRINCIPAL;
+				modal = false;
 			}
-			//GUI.Label(new Rect(300,300,500,500), SQL.top20());
+				//GUI.Label(new Rect(300,300,500,500), SQL.top20());
 		}
 		else if(MODO == estado)
 		{
@@ -208,17 +224,19 @@ public class Interfaz : MonoBehaviour {
 		}
 		else if(EXTRAS == estado)
 		{
-			//GUI.Box(new Rect((Screen.width/12),(Screen.height*1/12),(Screen.width*10/12),(Screen.height*10/12)), "Panel principal");
-			scrollPosition = GUI.BeginScrollView(new Rect((Screen.width/12),(Screen.height*1/12),(Screen.width*10/12),(Screen.height*10/12)), scrollPosition, 
-			                                     new Rect(0,0,Screen.width*10/12,numeroImagenes/5*Screen.height/6), false, true);
+			GUI.skin = skinExtras;
+			GUI.Label(new Rect((0),(0),(Screen.width),(Screen.height)), "");
+			scrollPosition = GUI.BeginScrollView(new Rect((Screen.width/128),(Screen.height*1/128),(Screen.width*82/96),(Screen.height)), scrollPosition, 
+			                                     new Rect(0,0,Screen.width*10/12,numeroImagenes/5*Screen.height/6+Screen.height/6), false, true);
 			int alto = 0;
 			int ancho = 0;
-			for(int i = 0; i < numeroImagenes; i++)
+			for(int i = 0; i < numeroImagenes;)
 			{
-				if(!((Screen.width/6)+(Screen.width/6*(ancho)) >= Screen.width*11/12))
+				if(!((Screen.width/6)+(Screen.width/6*(ancho)) >= Screen.width*21/24))
 				{
-					GUI.Button(new Rect((Screen.width/6*(ancho)), Screen.height/6*alto, (Screen.width/6), (Screen.height*1/6)), "Imagen");
+					GUI.Button(new Rect((Screen.width/6*(ancho)), Screen.height/6*alto, (Screen.width/6), (Screen.height*1/6)), "");
 					ancho++;
+					i++;
 				}
 				else
 				{
@@ -227,7 +245,19 @@ public class Interfaz : MonoBehaviour {
 				}
 			}
 			GUI.EndScrollView();
-			GUI.Button(new Rect((Screen.width/12), Screen.height*11/12, (Screen.width/12), (Screen.height*1/13)), "Volver");
+			GUI.Box(new Rect((0),(0),(Screen.width),(Screen.height)), "");
+			GUI.skin = skinBotonVolver;
+			Rect rect = new Rect((Screen.width*113/128), (Screen.height*57/64)+(Screen.height*1/128), (Screen.width*7/64), (Screen.height*1/13));
+			if(GUI.Button( rect, "Volver"))
+				estado = PRINCIPAL;
+
+		}
+	}
+	void doMyWindow(int windowID)
+	{
+		if (GUI.Button(new Rect(200, 100, 200, 100), "Aceptar"))
+		{
+			modal = true;
 		}
 	}
 }
