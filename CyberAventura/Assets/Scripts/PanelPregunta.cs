@@ -38,6 +38,7 @@ public class PanelPregunta : MonoBehaviour {
 	private float		seccion;				//Controla la barra de progreso del contador en interfaz
 	private char[]		split;					//Secuencia de chars para identificar el ID del bulk activo
 	private string		mensajeConfirmacion;	//Mensaje diferencial dependiendo si hace un bulk por primera vez o no
+	public	GameObject	personaje;				//Personaje de la escena necesario para la animacion
 
 	//---------------------------------------------------------------------------------------------------------
 	// Constructor
@@ -151,16 +152,19 @@ public class PanelPregunta : MonoBehaviour {
 				if(GUI.Button(new Rect(RectConfirmacion.width/3 - 50,RectConfirmacion.height/3 + 50,RectConfirmacion.width/2,RectConfirmacion.height/3), "CONTINUAR")){
 					confirmacion = false;
 					repetido = false;
+					personaje.GetComponent<Movimiento>().cambiarLlego(false);
 				}
 			}
 			else{
 				if(GUI.Button(new Rect(RectConfirmacion.width/4,RectConfirmacion.height/3 + 50,RectConfirmacion.width/4,RectConfirmacion.height/3), "SI")){
 					confirmacion = false;
 					CargarLista(bulkActual);
+					personaje.GetComponent<Movimiento>().cambiarLlego(false);
 				}
 					
 				if(GUI.Button(new Rect(2*(RectConfirmacion.width/4)+5,RectConfirmacion.height/3 + 50,RectConfirmacion.width/4,RectConfirmacion.height/3), "NO")){
 					confirmacion = false;
+					personaje.GetComponent<Movimiento>().cambiarLlego(false);
 				}
 			}
 		}
