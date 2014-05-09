@@ -18,7 +18,7 @@
         $tiempo = $_POST["datasssss"];
         $puntuacion = $_POST["datassss"];
         $formato = $_POST["datasss"];
-        $query = "SELECT IDRUN, PUNTUACION, TIEMPO FROM RUN WHERE IDCUENTA = ".$cuenta." ORDER BY IDRUN ASC LIMIT 1";
+        $query = "SELECT IDRUN, PUNTUACION, TIEMPO FROM RUN WHERE IDCUENTA = ".$cuenta." ORDER BY IDRUN DESC LIMIT 1";
         $resultado = mysqli_query($connection, $query);
         if(!$resultado)
         {
@@ -58,9 +58,8 @@
             $indice = 0;
             while($cantidad > $indice )
             {
-                $query = "INSERT INTO REGISTRO (IDCUENTA, IDPREGUNTA, IDRESPUESTA, TIEMPOCONSUMIDO, IDRUN) VALUES (".$cuenta.",".$arreglo[0].", ".$arreglo[1].", ".$arreglo[2].", ".$IDRun.")";
+                $query = "INSERT INTO REGISTRO (IDCUENTA, IDPREGUNTA, IDRESPUESTA, TIEMPOCONSUMIDO, IDRUN) VALUES (".$cuenta.",".$arreglo[indice].", ".$arreglo[indice+1].", ".$arreglo[indice+2].", ".$IDRun.")";
                 $resultado = mysqli_query($connection, $query);
-                $arreglo[$indice];
                 $indice += 3;
                 if(!$resultado)
                 {
@@ -228,4 +227,24 @@
         mysqli_close($connection);
         echo $respuesta;
     }
+	else if($yeah === "primerbulk")
+	{
+		$yeah = $_GET["datas"];
+		$query = "SELECT IDRUN FROM BULK WHERE IDCUENTA = '".$yeah."'";
+        $resultado = mysqli_query($connection, $query);
+        if(mysqli_num_rows($resultado) > 0)
+		{
+			echo "no";
+		}
+		else
+		{
+			$query = "SELECT IDCUENTA FROM RUN WHERE IDCUENTA = '".$yeah."'";
+			$resultado = mysqli_query($connection, $query);
+			if(mysqli_num_rows($resultado) > 0)
+			{
+				echo "si";
+			}
+			echo "si";
+		}
+	}
         

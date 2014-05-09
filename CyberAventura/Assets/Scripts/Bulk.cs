@@ -13,6 +13,7 @@ public class Bulk{
 	private string 	ID;				//Cadena que identifica el bulk
 	private int 	puntuacion;		//Total de preguntas correctas
 	private float 	tiempoTotal;	//Total de tiempo empleado
+	private	string respuestas;		//Cadena con la secuencia de respuestas dadas
 
 	//---------------------------------------------------------------------------------
 	// Constructor
@@ -21,6 +22,7 @@ public class Bulk{
 	public Bulk(string nID){
 		ID = nID;
 		puntuacion = 0;
+		respuestas = "";
 	}
 
 	//---------------------------------------------------------------------------------
@@ -54,5 +56,15 @@ public class Bulk{
 
 	public float DarTiempo(){
 		return tiempoTotal;
+	}
+
+	public void concatenar(string a)
+	{
+		respuestas += a;
+	}
+
+	public string darRespuestas()
+	{
+		return respuestas;
 	}
 }

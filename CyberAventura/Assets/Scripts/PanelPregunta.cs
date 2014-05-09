@@ -39,6 +39,7 @@ public class PanelPregunta : MonoBehaviour {
 	private char[]		split;					//Secuencia de chars para identificar el ID del bulk activo
 	private string		mensajeConfirmacion;	//Mensaje diferencial dependiendo si hace un bulk por primera vez o no
 	public	GameObject	personaje;				//Personaje de la escena necesario para la animacion
+	private	int IDPreguntaActual;				//IDPreguntaActual
 
 	//---------------------------------------------------------------------------------------------------------
 	// Constructor
@@ -136,7 +137,7 @@ public class PanelPregunta : MonoBehaviour {
 				if(GUI.Button(new Rect(RectPregunta.width/3,RectPregunta.height/3,RectPregunta.width/3,RectPregunta.height/3), "¡TERMINASTE!")){
 					BulkActivo.AsignarTiempo(tiempoTotal);
 					int id = (int.Parse(BulkActivo.DarID().Substring(4))) - 1;
-					Control.CompletarBulk(id,BulkActivo.DarPuntuacion(),BulkActivo.DarTiempo());
+					Control.CompletarBulk(id,BulkActivo.DarPuntuacion(),BulkActivo.DarTiempo(), BulkActivo);
 					termino = false;
 					ventanaActiva = false;
 
@@ -206,6 +207,8 @@ public class PanelPregunta : MonoBehaviour {
 	void ValidarRespuesta(string Opcion){
 		if(listaPreguntas.ValidarRespuesta(Opcion)){
 			BulkActivo.SumarPunto();
+			IDPreguntaActual = listaPreguntas.DarID();
+			BulkActivo.concatenar(IDPreguntaActual+Opcion);
 			tiempoTotal += guiTime;
 			preguntaActiva = false;
 			respuestaCorrecta = true;

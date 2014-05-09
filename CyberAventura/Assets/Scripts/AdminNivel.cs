@@ -95,14 +95,14 @@ public class AdminNivel : MonoBehaviour {
 		panel.PedirConfirmacion(bulkActual, this);
 	}
 
-	public void CompletarBulk(int ID, int puntos, float tiempo){
+	public void CompletarBulk(int ID, int puntos, float tiempo, Bulk bulkActivo){
 		RunActual.completarBulk(ID);
 		RunActual.SumarPuntos(puntos);
 		RunActual.SumarTiempo(tiempo);
 		totalPuntos = RunActual.DarPuntuacionTotal();
 		totalTiempo = RunActual.DarTiempoTotal();
 		totalEdificios = RunActual.DarBulksCompletos();
-		SQL.GuardarBulk(ID, int.Parse(SQL.DarLlaveActual()),puntos,tiempo);
+		SQL.GuardarBulk(ID, int.Parse(SQL.DarLlaveActual()),puntos,tiempo, bulkActivo);
 
 		if(totalEdificios == 12){
 			gano = true;

@@ -19,8 +19,8 @@
 <script type="text/javascript">
 		<!--
 			var config = {
-				width: 960, 
-				height: 600,
+				width: 1366, 
+				height: 768,
 				params: { enableDebugging:"0" }
 				
 			};
@@ -74,7 +74,7 @@ function login( arg, arg1)
         }
         
     }
-    http.open("GET", "http://localhost:8080/CyberAventura/script.php?data=login&datas="+arg+"&datass="+arg1+"", true);
+    http.open("GET", "http://50.62.166.14:81/script.php?data=login&datas="+arg+"&datass="+arg1+"", true);
     http.send(null);
     
 }
@@ -91,8 +91,8 @@ function guardarcuestionario( IDBulk, IDCuenta, Formato, Puntuacion, Tiempo )
         }
         
     }
-    http.open("POST", "http://localhost:8080/CyberAventura/script.php", true);
-    //http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.open("POST", "http://50.62.166.14:81/script.php", true);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     //http.setRequestHeader("Content-length", params.length);
     //http.setRequestHeader("Connection", "close");
     http.send(params);
@@ -109,7 +109,7 @@ function pediravance( arg)
         }
         
     }
-    http.open("GET", "http://localhost:8080/CyberAventura/script.php?data=pediravance&datas="+arg+"", true);
+    http.open("GET", "http://50.62.166.14:81/script.php?data=pediravance&datas="+arg+"", true);
     http.send(null);
 }
 function pedirtop20()
@@ -124,7 +124,7 @@ function pedirtop20()
         }
         
     }
-    http.open("GET", "http://localhost:8080/xampp/script.php?data=pedirtop20", false);
+    http.open("GET", "http://50.62.166.14:81/script.php?data=pedirtop20", false);
     http.send(null);
 }
 function pedirpromdesvypor()
@@ -139,7 +139,7 @@ function pedirpromdesvypor()
         }
         
     }
-    http.open("GET", "http://localhost:8080/CyberAventura/script.php?data=pedirpromdesvypor", true);
+    http.open("GET", "http://50.62.166.14:81/script.php?data=pedirpromdesvypor", true);
     http.send(null);
 }
 function crearnuevorun( arg )
@@ -154,7 +154,7 @@ function crearnuevorun( arg )
         }
         
     }
-    http.open("GET", "http://localhost:8080/CyberAventura/script.php?data=crearnuevorun&datas="+arg+"", true);
+    http.open("GET", "http://50.62.166.14:81/script.php?data=crearnuevorun&datas="+arg+"", true);
     http.send(null);
 }
 function buscarparticipante( arg )
@@ -169,7 +169,22 @@ function buscarparticipante( arg )
         }
         
     }
-    http.open("GET", "http://localhost:8080/CyberAventura/script.php?data=buscarparticipante&datas="+arg+"", true);
+    http.open("GET", "http://50.62.166.14:81/script.php?data=buscarparticipante&datas="+arg+"", true);
+    http.send(null);
+}
+function esprimerbulk( arg )
+{
+	http=new XMLHttpRequest();
+    http.onreadystatechange = function()
+    {
+        if (http.readyState===4 && http.status===200)
+        {
+            var respuesta = this.responseText;
+            u.getUnity().SendMessage("AdminSQL", "recibirPrimerBulk", respuesta);
+        }
+        
+    }
+    http.open("GET", "http://50.62.166.14:81/script.php?data=primerbulk&datas="+arg+"", true);
     http.send(null);
 }
 		-->
@@ -199,7 +214,7 @@ function buscarparticipante( arg )
 		}
 		div.content {
 			margin: auto;
-			width: 960px;
+			width: 1366px;
 		}
 		div.broken,
 		div.missing {
@@ -223,17 +238,17 @@ function buscarparticipante( arg )
 		}
 		div#unityPlayer {
 			cursor: default;
-			height: 600px;
-			width: 960px;
+			height: 768px;
+			width: 1366px;
 		}
 		-->
 		</style>
 
 </head>
-    <body bgcolor=#AAAAAA >
-    <p class="header"><span>Unity Web Player | </span>CyberAventura Canapro</p>
+    	<body>
+		<p class="header"><span>Unity Web Player | </span>CyberAventura</p>
 		<div class="content">
-			<div id="unityPlayer" id ="SinCambiar">
+			<div id="unityPlayer">
 				<div class="missing">
 					<a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now!">
 						<img alt="Unity Web Player. Install now!" src="http://webplayer.unity3d.com/installation/getunity.png" width="193" height="63" />
@@ -247,6 +262,5 @@ function buscarparticipante( arg )
 			</div>
 		</div>
 		<p class="footer">&laquo; created with <a href="http://unity3d.com/unity/" title="Go to unity3d.com">Unity</a> &raquo;</p>
-                
-</body>
+	</body>
 </html>

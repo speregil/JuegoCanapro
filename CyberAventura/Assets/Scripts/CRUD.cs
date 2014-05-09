@@ -16,6 +16,10 @@ public class CRUD : MonoBehaviour{
 	public string nuevoRun;
 	//String con el formato de repsuesta de buscarParticipante
 	public string participante;
+	//Booleano con confirmacion de si es primer Bulk
+	public bool esPrimerBulk;
+	//Booleano con confirmacion de si es primer Run
+	public bool esPrimerRun;
 
 	//Clase para hacer consultas en la base de datos
 	public CRUD()
@@ -27,6 +31,8 @@ public class CRUD : MonoBehaviour{
 		desvy = "";
 		nuevoRun = "";
 		participante = "";
+		esPrimerBulk = false;
+		esPrimerRun = false;
 	}
 	//Permite hacer login en la aplicacion
 	public void hacerLogin(string user, string password)
@@ -45,9 +51,10 @@ public class CRUD : MonoBehaviour{
 		int i = 0;
 		while(indice > i)
 		{
-			formato += ";"+IDPreguntas[i]+";"+respuestas[i]+";"+tiempos[i]+";";
+			formato += IDPreguntas[i]+";"+respuestas[i]+";"+tiempos[i]+";";
 			i++;
 		}
+		formato = formato.Substring(0, formato.Length-1);
 		Application.ExternalCall("guardarcuestionario", IDBulk, IDCuenta, formato, puntuacion, tiempo);
 	}
 	/*
@@ -67,6 +74,10 @@ public class CRUD : MonoBehaviour{
 	public void pedirTop20()
 	{
 		Application.ExternalCall("pedirtop20");
+	}
+	public void primerBulk(string IDCuenta)
+	{
+		Application.ExternalCall("esprimerbulk");
 	}
 	/*
 	 * Formato: pedirpromdesvypor;promediopuntuaciones;desviacionestandarpuntuaciones;
@@ -140,5 +151,22 @@ public class CRUD : MonoBehaviour{
 	public void recibirCuestionario(string formato)
 	{
 		cuestionario = formato;
+	}
+	public void recibirPrimerBulk(string formato)
+	{
+		if(formato.Equals("si"))
+		{
+			esPrimerBulk = true;
+			esPrimerRun = true;
+		}
+		else if(formato.Equals("sisi"))
+		{
+			esPrimerBulk = true;
+			esPrimerRun = false;
+		}
+		else
+		{
+			esPrimerBulk = false;
+		}
 	}
 }

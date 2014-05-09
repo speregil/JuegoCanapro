@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class Interfaz : MonoBehaviour {
@@ -8,6 +8,7 @@ public class Interfaz : MonoBehaviour {
 	public	GUISkin		skinExtras;
 	public 	GUISkin		skinEstadisticas;
 	public	GUISkin		skinBotonVolver;
+	public	GUISkin		skinPreguntas;
 	public 	Texture2D	imgEstadisticas;
 	public 	Texture2D	imgJugar;
 	public 	Texture2D	imgExtras;
@@ -92,6 +93,8 @@ public class Interfaz : MonoBehaviour {
 				string result = SQL.LogIn(login,pass);
 				if(result.Equals("exito")){
 					estado = PRINCIPAL;
+					SQL.verificarPrimerBulk();
+					SQL.pedirAvance();
 				}
 				else if(result.Equals("mora")){
 					info = "AL PARECER NO ESTÁS AL DÍA CON TUS OBLIGACIONES,\n NO PUEDES PARTICIPAR";
@@ -149,11 +152,11 @@ public class Interfaz : MonoBehaviour {
 			//GUI.Box(new Rect((Screen.width/12),(Screen.height*1/12),(Screen.width*10/12),(Screen.height*10/12)), "Panel principal");
 			scrollPosition = GUI.BeginScrollView(new Rect((Screen.width/128),(Screen.height*1/128),(Screen.width*82/96),(Screen.height)), scrollPosition, 
 			                                     new Rect(0,0,Screen.width*10/12,numeroImagenes/5*Screen.height/6+Screen.height/6), false, true);
-
+			GUI.skin = skinPreguntas;
 			int indice = 1;
 			for(int i = 1; i < cadena.Length;)
 			{
-				GUI.Button(new Rect(0, Screen.height/12*(indice-1), (Screen.width*6/12), (Screen.height/12)), ""+indice+". *Nombre: "+cadena[i+2]+" *Puntuacion: "+cadena[i+3]);
+				GUI.Button(new Rect(0, Screen.height/12*(indice-1), (Screen.width*82/96), (Screen.height/12)), ""+indice+". *Nombre: "+cadena[i+2]+" *Puntuacion: "+cadena[i+3]);
 				if(SQL.DarUsuarioActual().Equals(cadena[i+2]))
 				{
 					respuesta = "Estas de posicion "+indice;
@@ -165,7 +168,7 @@ public class Interfaz : MonoBehaviour {
 			{
 				respuesta = "No has participado aun";
 			}
-
+			GUI.skin = skinEstadisticas;
 			//for(int i = 0; i < numeroImagenes; i++)
 			//{
 			//	if(!((Screen.width/6)+(Screen.width/6*(ancho)) >= Screen.width*11/12))
@@ -200,21 +203,30 @@ public class Interfaz : MonoBehaviour {
 			GUI.skin = skinMenu;
 			GUI.Box(new Rect(0,0,Screen.width,Screen.height),"");
 			GUI.Label(new Rect((Screen.width/3)-50,0,(Screen.width*1/2),(Screen.height*1/3)), info);
-			if(GUI.Button(new Rect((Screen.width/3),(Screen.height/9),(Screen.width*1/4),(Screen.height*1/6)), "Nuevo Juego"))
+			if(GUI.Button(new Rect((Screen.width/3),(Screen.height/9),(Screen.width*1/4),(Screen.height*1/6)), "Jugar"))
 			{
-				if(!SQL.primerRun){
+				if(SQL.esPrimerRun()){
 					SQL.NuevoRun();
 					Application.LoadLevel("Mapa");
 				}
+				else if(!SQL.esPrimerBulk())
+				{
+					SQL.CargarRun();
+					Application.LoadLevel("Mapa");
+					//info = "YA HAS COMPLETADO EL JUEGO, REVISA LA SECCION DE ESTADISTICAS PARA VER TUS RESULTADOS";
+				}
 				else
-					info = "YA HAS COMPLETADO EL JUEGO, REVISA LA SECCION DE ESTADISTICAS PARA VER TUS RESULTADOS";
+				{
+					SQL.CargarRun();
+					Application.LoadLevel("Mapa");
+				}
 			}
-			GUI.Label(new Rect((Screen.width/2),(Screen.height/9),Screen.width/12,Screen.height/12), contenidoBoxNuevo);
-			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*4/9),(Screen.width*1/4),(Screen.height*1/6)), "Cargar Partida"))
-			{
-				SQL.CargarRun("Usuario");
-				Application.LoadLevel("Mapa");
-			}
+			//GUI.Label(new Rect((Screen.width/2),(Screen.height/9),Screen.width/12,Screen.height/12), contenidoBoxNuevo);
+			//if(GUI.Button(new Rect((Screen.width/3),(Screen.height*4/9),(Screen.width*1/4),(Screen.height*1/6)), "Cargar Partida"))
+			//{
+			//	SQL.CargarRun("Usuario");
+			//	Application.LoadLevel("Mapa");
+			//}
 			GUI.Label(new Rect((Screen.width/2),(Screen.height*4/9),Screen.width/12,Screen.height/12), contenidoBoxCargar);
 			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*7/9),(Screen.width*1/4),(Screen.height*1/6)), "Volver"))
 			{
