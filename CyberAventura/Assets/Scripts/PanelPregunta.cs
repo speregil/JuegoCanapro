@@ -10,8 +10,11 @@ public class PanelPregunta : MonoBehaviour {
 	// Atributos
 	//--------------------------------------------------------------------------------------------------------
 
-	public 	GUISkin		skinPreguntas;			//Skin de las preguntas
+	public 	GUISkin		skinPreguntasA;			//Skin de las preguntas tipo A
+	public 	GUISkin		skinPreguntasB;			//Skin de las preguntas tipo B
+	public 	GUISkin		skinPreguntasC;			//Skin de las preguntas tipo C
 	public	GUISkin		skinConfirmacion;		//Skin del cuadro de confirmacion
+	private	GUISkin		skinTemp;				//Temporal de control para los cambios de skin
 	private	Bulk		BulkActivo;				//Bulk actual de preguntas
 	private	IOPreguntas listaPreguntas;			//Conexion con el script que carga las preguntas del sistema
 	private AdminNivel	Control;				//Relacion con el script padre para indicar acciones de control en la BD
@@ -69,7 +72,7 @@ public class PanelPregunta : MonoBehaviour {
 			RectConfirmacion = GUI.Window(1,RectConfirmacion,WindowFunction,"");
 		}
 		else if(ventanaActiva){
-			GUI.skin = skinPreguntas;
+			GUI.skin = skinPreguntasA;
 			RectPregunta = GUI.Window(0,RectPregunta,WindowFunction,"");
 		}
 	}
@@ -84,8 +87,8 @@ public class PanelPregunta : MonoBehaviour {
 				cambioTiempo = Mathf.CeilToInt(tiempoRestante - guiTime);
 				seccion = ((tiempoRestante - cambioTiempo)/tiempoRestante);
 				if(seccion < 1){
-					int ancho = Mathf.CeilToInt(seccion*((RectPregunta.width/2) - 100));
-					GUI.Box(new Rect(50, RectPregunta.height - 50,ancho,RectPregunta.height/4),"");
+					// If que se volvio inutil al quitar la barra de tiempo pero que no quiero quitar
+					// para no tener que reestructurar todo el condicional
 				}
 				else{
 					tiempoTotal += tiempoRestante;
@@ -95,17 +98,35 @@ public class PanelPregunta : MonoBehaviour {
 				}
 
 				// Dibujar la pregunta
-				GUI.Label(new Rect(50,50,(RectPregunta.width/2) - 50,RectPregunta.height - 50),textoActual);
-				if(GUI.Button(new Rect(RectPregunta.width/2,50,RectPregunta.width/2 - 50,RectPregunta.height/8),AActual))
+				GUI.Label(new Rect(50,50,RectPregunta.width - 150,RectPregunta.height/2),textoActual);
+				GUI.Box(new Rect(RectPregunta.width/9 - 10,RectPregunta.height/2 + 10,RectPregunta.width*2/3,RectPregunta.height/20),"");
+				skinTemp = GUI.skin;
+				GUI.skin = skinPreguntasB;
+				GUI.Label(new Rect(RectPregunta.width/3 + 62,RectPregunta.height/2 - 20,RectPregunta.width/11,RectPregunta.height/11),cambioTiempo + "");
+
+				GUI.skin = skinTemp;
+				if(GUI.Button(new Rect(20,50 + RectPregunta.height/2,RectPregunta.width/2 - 95,RectPregunta.height/8),""))
 					ValidarRespuesta(Pregunta.OPCIONA);
-				if(GUI.Button(new Rect(RectPregunta.width/2,50 + (RectPregunta.height/4),RectPregunta.width/2 - 50,RectPregunta.height/8),BActual))
+				skinTemp = GUI.skin;
+				GUI.skin = skinPreguntasC;
+				GUI.Label(new Rect(50,50 + RectPregunta.height/2,RectPregunta.width/3,RectPregunta.height/8),AActual);
+				GUI.skin = skinPreguntasB;
+				if(GUI.Button(new Rect(RectPregunta.width/2 - 70,50 + (RectPregunta.height/2),RectPregunta.width/2 - 95,RectPregunta.height/8),""))
 					ValidarRespuesta(Pregunta.OPCIONB);
-				if(GUI.Button(new Rect(RectPregunta.width/2,50 + (RectPregunta.height/2),RectPregunta.width/2 - 50,RectPregunta.height/8),CActual))
+				GUI.skin = skinPreguntasC;
+				GUI.Label(new Rect(RectPregunta.width/2 - 65,50 + (RectPregunta.height/2),RectPregunta.width/3,RectPregunta.height/8),BActual);
+				GUI.skin = skinTemp;
+				if(GUI.Button(new Rect(100,60 + (RectPregunta.height/2) + (RectPregunta.height/8),RectPregunta.width/3,RectPregunta.height/8),""))
 					ValidarRespuesta(Pregunta.OPCIONC);
-				if(GUI.Button(new Rect(RectPregunta.width/2,50 + 3*(RectPregunta.height/4),RectPregunta.width/2 - 50,RectPregunta.height/8),DActual))
+				skinTemp = GUI.skin;
+				GUI.skin = skinPreguntasC;
+				GUI.Label(new Rect(115,60 + (RectPregunta.height/2) + (RectPregunta.height/8),RectPregunta.width/3 - 20,RectPregunta.height/8),CActual);
+				GUI.skin = skinPreguntasB;
+				if(GUI.Button(new Rect(RectPregunta.width/2 - 70,60 + (RectPregunta.height/2) + (RectPregunta.height/8),RectPregunta.width/3,RectPregunta.height/8),""))
 					ValidarRespuesta(Pregunta.OPCIOND);
-
-
+				GUI.skin = skinPreguntasC;
+				GUI.Label(new Rect(RectPregunta.width/2 - 60,60 + (RectPregunta.height/2) + (RectPregunta.height/8),RectPregunta.width/3 - 20,RectPregunta.height/8),DActual);
+				GUI.skin = skinTemp;
 			}
 			else if(respuestaCorrecta){
 				if(GUI.Button(new Rect(RectPregunta.width/3,RectPregunta.height/3,RectPregunta.width/3,RectPregunta.height/3), "¡CORRECTO!")){
