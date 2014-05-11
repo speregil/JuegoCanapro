@@ -62,7 +62,7 @@ public class PanelPregunta : MonoBehaviour {
 		termino = false;
 		repetido = false;
 		confirmacion = false;
-		RectConfirmacion = new Rect((Screen.width/3) - 100,Screen.height/3 ,Screen.width/2,Screen.height/3);
+		RectConfirmacion = new Rect(Screen.width/100,Screen.height/100 ,1024,551);
 		RectPregunta = new Rect(0,0,Screen.width,Screen.height);
 	}
 
@@ -169,22 +169,25 @@ public class PanelPregunta : MonoBehaviour {
 
 		// Ventana de confirmacion
 		if(WindowID == 1){
-			GUI.Label(new Rect(RectConfirmacion.width/3,50,(RectConfirmacion.width/2) - 10,RectConfirmacion.height - 50),mensajeConfirmacion);
+			GUI.Label(new Rect(RectConfirmacion.width/3 + 20,RectConfirmacion.height*1/5,(RectConfirmacion.width/2) - 10,RectConfirmacion.height/20), "Bienvenido A: Edificio XYZ");
+			GUI.Box(new Rect(RectConfirmacion.width*1/6 - 20 ,RectConfirmacion.height*1/3 - 20,RectConfirmacion.width*3/8,RectConfirmacion.height*2/5), "Foto del edificio");
+			GUI.Label(new Rect(RectConfirmacion.width*5/9 ,RectConfirmacion.height*1/3 - 20,RectConfirmacion.width*1/3,RectConfirmacion.height*2/5), "Descripcion del edificio");
+			GUI.Label(new Rect(RectConfirmacion.width*1/6 - 20,RectConfirmacion.height*6/8,(RectConfirmacion.width/2) - 10,RectConfirmacion.height - 50),mensajeConfirmacion);
 			if(repetido){
-				if(GUI.Button(new Rect(RectConfirmacion.width/3 - 50,RectConfirmacion.height/3 + 50,RectConfirmacion.width/2,RectConfirmacion.height/3), "CONTINUAR")){
+				if(GUI.Button(new Rect(RectConfirmacion.width*3/5,RectConfirmacion.height*6/8 - 20,RectConfirmacion.width/6,RectConfirmacion.height/9), "CONTINUAR")){
 					confirmacion = false;
 					repetido = false;
 					personaje.GetComponent<Movimiento>().cambiarLlego(false);
 				}
 			}
 			else{
-				if(GUI.Button(new Rect(RectConfirmacion.width/4,RectConfirmacion.height/3 + 50,RectConfirmacion.width/4,RectConfirmacion.height/3), "SI")){
+				if(GUI.Button(new Rect(RectConfirmacion.width*3/5,RectConfirmacion.height*6/8 - 20,RectConfirmacion.width/10,RectConfirmacion.height/9), "SI")){
 					confirmacion = false;
 					CargarLista(bulkActual);
 					personaje.GetComponent<Movimiento>().cambiarLlego(false);
 				}
 					
-				if(GUI.Button(new Rect(2*(RectConfirmacion.width/4)+5,RectConfirmacion.height/3 + 50,RectConfirmacion.width/4,RectConfirmacion.height/3), "NO")){
+				if(GUI.Button(new Rect(RectConfirmacion.width*4/5,RectConfirmacion.height*6/8 - 20,RectConfirmacion.width/10,RectConfirmacion.height/9), "NO")){
 					confirmacion = false;
 					personaje.GetComponent<Movimiento>().cambiarLlego(false);
 				}
@@ -249,7 +252,7 @@ public class PanelPregunta : MonoBehaviour {
 		Control = padre;
 
 		if(Control.EstaCompleto((int.Parse(IDBulk.Substring(4)))- 1)){
-			mensajeConfirmacion = "Ya has completado este edificio previamente\nSi deseas mejorar tu tiempo debes hacerlo en un nuevo juego.";
+			mensajeConfirmacion = "Ya has completado este edificio previamente";
 			repetido = true;
 		}
 		else{

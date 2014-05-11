@@ -86,9 +86,9 @@ public class Interfaz : MonoBehaviour {
 		{
 			GUI.skin = skinLogin;
 			GUI.Box(new Rect(0,0,Screen.width,Screen.height), "");
-			login = GUI.TextField(new Rect((Screen.width/4),(Screen.height*3/8),(Screen.width*1/3),(Screen.height*1/8)),login);
-			pass = GUI.PasswordField(new Rect((Screen.width/4),(Screen.height/2),(Screen.width*1/3),(Screen.height*1/8)),pass, "*"[0]);
-			if(GUI.Button(new Rect((Screen.width/2),(Screen.height/2+Screen.height*2/16),(Screen.width*1/10),(Screen.height*1/8)), "Entrar"))
+			login = GUI.TextField(new Rect((Screen.width/4),(Screen.height*3/8),(Screen.width*1/3),(Screen.height*1/10)),login);
+			pass = GUI.PasswordField(new Rect((Screen.width/4),(Screen.height/2),(Screen.width*1/3),(Screen.height*1/10)),pass, "*"[0]);
+			if(GUI.Button(new Rect((Screen.width/2),(Screen.height/2+Screen.height*2/16),(Screen.width*1/10),(Screen.height*1/16)), "Entrar"))
 			{
 				string result = SQL.LogIn(login,pass);
 				if(result.Equals("exito")){
@@ -103,7 +103,7 @@ public class Interfaz : MonoBehaviour {
 					info = "USUARIO O CONTRASEÑA INCORRECTOS.\nSI NO ERES MIEMBRO DE CANAPRO ¡PUEDES INSCRIBIRTE YA!";
 				}
 			}
-			GUI.Label(new Rect((Screen.width/3),(Screen.height*1/12),(Screen.width*1/2),(Screen.height*1/3)), info);
+			GUI.Label(new Rect((Screen.width*1/4),(Screen.height*1/12),(Screen.width*1/2),(Screen.height*1/3)), info);
 			GUI.Label(new Rect((Screen.width/4),(Screen.height*3/8)-(Screen.height*1/32),(Screen.width*1/4),(Screen.height*1/16)), "Número de cédula");
 			GUI.Label(new Rect((Screen.width/4),(Screen.height/2)-(Screen.height*1/32),(Screen.width*1/4),(Screen.height*1/16)), "Contraseña");
 
@@ -113,34 +113,34 @@ public class Interfaz : MonoBehaviour {
 		{
 			GUI.skin = skinMenu;
 			GUI.Box(new Rect(0,0,Screen.width,Screen.height), "");
-			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*2/12),(Screen.width*1/4),(Screen.height*1/6)), "    \t\t\t\tJugar"))
+			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*2/12),(Screen.width*1/4),(Screen.height*1/8)), "Jugar"))
 			{
 				estado = MODO;
 				info = "INICIA UN NUEVO JUEGO O CARGA TU AVANCE PREVIO";
 			}
-			GUI.Label(new Rect((Screen.width/2-40),(Screen.height*13/60),Screen.width/12,Screen.height/12), contenidoBoxJugar);
-			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*4/12),(Screen.width*1/4),(Screen.height*1/6)), "    \t\t\t\tExtras"))
+			GUI.Label(new Rect((Screen.width/2),(Screen.height*12/60),Screen.width/12,Screen.height/12), contenidoBoxJugar);
+			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*4/12),(Screen.width*1/4),(Screen.height*1/8)), "Extras"))
 			{
 				estado = EXTRAS;
 			}
-			GUI.Label(new Rect((Screen.width/2-40),(Screen.height*22/60),Screen.width/10,Screen.height/10), contenidoBoxExtras);
-			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*6/12),(Screen.width*1/4),(Screen.height*1/6)), "    \t\t\t\tEstadisticas"))
+			GUI.Label(new Rect((Screen.width/2),(Screen.height*21/60),Screen.width/10,Screen.height/10), contenidoBoxExtras);
+			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*6/12),(Screen.width*1/4),(Screen.height*1/8)), "Estadisticas"))
 			{
 				SQL.pedirTop20();
 				estado= ESTADISTICAS;
 			}
-			GUI.Label(new Rect((Screen.width/2-40),(Screen.height*6/12),Screen.width/7,Screen.height/7), contenidoBoxEstadisticas);
-			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*8/12),(Screen.width*1/4),(Screen.height*1/6)), "    \t\t\t\tTutorial"))
+			GUI.Label(new Rect((Screen.width/2),(Screen.height*30/60),Screen.width/7,Screen.height/7), contenidoBoxEstadisticas);
+			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*8/12),(Screen.width*1/4),(Screen.height*1/8)), "Tutorial"))
 			{
 				estado= TUTO;
 			}
-			GUI.Label(new Rect((Screen.width/2-40),(Screen.height*42/60),Screen.width/10,Screen.height/10), contenidoBoxTutorial);
-			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*10/12),(Screen.width*1/4),(Screen.height*1/6)), "    \t\t\t\tSalir"))
+			GUI.Label(new Rect((Screen.width/2),(Screen.height*41/60),Screen.width/10,Screen.height/10), contenidoBoxTutorial);
+			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*10/12),(Screen.width*1/4),(Screen.height*1/8)), "Salir"))
 			{
 				SQL.LogOut();
 				estado= LOGIN;
 			}
-			GUI.Label(new Rect((Screen.width/2-40),(Screen.height*52/60),Screen.width/10,Screen.height/10), contenidoBoxSalir);
+			GUI.Label(new Rect((Screen.width/2),(Screen.height*51/60),Screen.width/10,Screen.height/10), contenidoBoxSalir);
 		}
 		else if(ESTADISTICAS == estado)
 		{
@@ -203,7 +203,7 @@ public class Interfaz : MonoBehaviour {
 			GUI.skin = skinMenu;
 			GUI.Box(new Rect(0,0,Screen.width,Screen.height),"");
 			GUI.Label(new Rect((Screen.width/3)-50,0,(Screen.width*1/2),(Screen.height*1/3)), info);
-			if(GUI.Button(new Rect((Screen.width/3),(Screen.height/9),(Screen.width*1/4),(Screen.height*1/6)), "    \t\t\t\tJugar"))
+			if(GUI.Button(new Rect((Screen.width/3),(Screen.height/9),(Screen.width*1/4),(Screen.height*1/8)), "Jugar"))
 			{
 				if(SQL.esPrimerRun()){
 					SQL.NuevoRun();
@@ -221,18 +221,18 @@ public class Interfaz : MonoBehaviour {
 					Application.LoadLevel("Mapa");
 				}
 			}
-			GUI.Label(new Rect((Screen.width/2-40),(Screen.height*9/60),Screen.width/12,Screen.height/12), contenidoBoxNuevo);
+			GUI.Label(new Rect((Screen.width/2),(Screen.height*8/60),Screen.width/12,Screen.height/12), contenidoBoxNuevo);
 			//if(GUI.Button(new Rect((Screen.width/3),(Screen.height*4/9),(Screen.width*1/4),(Screen.height*1/6)), "Cargar Partida"))
 			//{
 			//	SQL.CargarRun("Usuario");
 			//	Application.LoadLevel("Mapa");
 			//}
 			//GUI.Label(new Rect((Screen.width/2),(Screen.height*4/9),Screen.width/12,Screen.height/12), contenidoBoxCargar);
-			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*7/9),(Screen.width*1/4),(Screen.height*1/6)), "    \t\t\t\tVolver"))
+			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*7/9),(Screen.width*1/4),(Screen.height*1/8)), "Volver"))
 			{
 				estado= PRINCIPAL;
 			}
-			GUI.Label(new Rect((Screen.width/2-40),(Screen.height*49/60),Screen.width/12,Screen.height/12), contenidoBoxVolver);
+			GUI.Label(new Rect((Screen.width/2),(Screen.height*48/60),Screen.width/12,Screen.height/12), contenidoBoxVolver);
 		}
 		else if(EXTRAS == estado)
 		{
