@@ -1,7 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PanelPregunta.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Interfaz.cs">
     <Files>
+      <File FileName="Assets\Scripts\Interfaz.cs" Line="224" Column="59" />
       <File FileName="Assets\Scripts\PanelPregunta.cs" Line="128" Column="49" />
     </Files>
   </MonoDevelop.Ide.Workbench>

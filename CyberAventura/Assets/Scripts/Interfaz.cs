@@ -51,7 +51,7 @@ public class Interfaz : MonoBehaviour {
 	void Start () {
 		login = "";
 		pass = "";
-		info = "BIENVENIDO A LA CYBER AVENTURA CANAPRO";
+		info = "BIENVENIDO A LA CYBERAVENTURA CANAPRO 2014, UN JUEGO QUE TE PERMITIRA GANAR, SI CONOCES DE COOPERATIVISMO. ANIMO!!! INICIA";
 		contenidoBoxJugar = new GUIContent();
 		contenidoBoxJugar.image = (Texture2D)imgJugar;
 		contenidoBoxExtras = new GUIContent();
@@ -113,34 +113,34 @@ public class Interfaz : MonoBehaviour {
 		{
 			GUI.skin = skinMenu;
 			GUI.Box(new Rect(0,0,Screen.width,Screen.height), "");
-			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*2/12),(Screen.width*1/4),(Screen.height*1/6)), "Jugar"))
+			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*2/12),(Screen.width*1/4),(Screen.height*1/6)), "    \t\t\t\tJugar"))
 			{
 				estado = MODO;
 				info = "INICIA UN NUEVO JUEGO O CARGA TU AVANCE PREVIO";
 			}
-			GUI.Label(new Rect((Screen.width/2),(Screen.height*2/12),Screen.width/12,Screen.height/12), contenidoBoxJugar);
-			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*4/12),(Screen.width*1/4),(Screen.height*1/6)), "Extras"))
+			GUI.Label(new Rect((Screen.width/2-40),(Screen.height*13/60),Screen.width/12,Screen.height/12), contenidoBoxJugar);
+			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*4/12),(Screen.width*1/4),(Screen.height*1/6)), "    \t\t\t\tExtras"))
 			{
 				estado = EXTRAS;
 			}
-			GUI.Label(new Rect((Screen.width/2),(Screen.height*4/12),Screen.width/10,Screen.height/10), contenidoBoxExtras);
-			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*6/12),(Screen.width*1/4),(Screen.height*1/6)), "Estadisticas"))
+			GUI.Label(new Rect((Screen.width/2-40),(Screen.height*22/60),Screen.width/10,Screen.height/10), contenidoBoxExtras);
+			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*6/12),(Screen.width*1/4),(Screen.height*1/6)), "    \t\t\t\tEstadisticas"))
 			{
 				SQL.pedirTop20();
 				estado= ESTADISTICAS;
 			}
-			GUI.Label(new Rect((Screen.width/2),(Screen.height*6/12),Screen.width/7,Screen.height/7), contenidoBoxEstadisticas);
-			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*8/12),(Screen.width*1/4),(Screen.height*1/6)), "Tutorial"))
+			GUI.Label(new Rect((Screen.width/2-40),(Screen.height*6/12),Screen.width/7,Screen.height/7), contenidoBoxEstadisticas);
+			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*8/12),(Screen.width*1/4),(Screen.height*1/6)), "    \t\t\t\tTutorial"))
 			{
 				estado= TUTO;
 			}
-			GUI.Label(new Rect((Screen.width/2),(Screen.height*8/12),Screen.width/10,Screen.height/10), contenidoBoxTutorial);
-			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*10/12),(Screen.width*1/4),(Screen.height*1/6)), "Salir"))
+			GUI.Label(new Rect((Screen.width/2-40),(Screen.height*42/60),Screen.width/10,Screen.height/10), contenidoBoxTutorial);
+			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*10/12),(Screen.width*1/4),(Screen.height*1/6)), "    \t\t\t\tSalir"))
 			{
 				SQL.LogOut();
 				estado= LOGIN;
 			}
-			GUI.Label(new Rect((Screen.width/2),(Screen.height*10/12),Screen.width/10,Screen.height/10), contenidoBoxSalir);
+			GUI.Label(new Rect((Screen.width/2-40),(Screen.height*52/60),Screen.width/10,Screen.height/10), contenidoBoxSalir);
 		}
 		else if(ESTADISTICAS == estado)
 		{
@@ -203,7 +203,7 @@ public class Interfaz : MonoBehaviour {
 			GUI.skin = skinMenu;
 			GUI.Box(new Rect(0,0,Screen.width,Screen.height),"");
 			GUI.Label(new Rect((Screen.width/3)-50,0,(Screen.width*1/2),(Screen.height*1/3)), info);
-			if(GUI.Button(new Rect((Screen.width/3),(Screen.height/9),(Screen.width*1/4),(Screen.height*1/6)), "Jugar"))
+			if(GUI.Button(new Rect((Screen.width/3),(Screen.height/9),(Screen.width*1/4),(Screen.height*1/6)), "    \t\t\t\tJugar"))
 			{
 				if(SQL.esPrimerRun()){
 					SQL.NuevoRun();
@@ -221,18 +221,18 @@ public class Interfaz : MonoBehaviour {
 					Application.LoadLevel("Mapa");
 				}
 			}
-			//GUI.Label(new Rect((Screen.width/2),(Screen.height/9),Screen.width/12,Screen.height/12), contenidoBoxNuevo);
+			GUI.Label(new Rect((Screen.width/2-40),(Screen.height*9/60),Screen.width/12,Screen.height/12), contenidoBoxNuevo);
 			//if(GUI.Button(new Rect((Screen.width/3),(Screen.height*4/9),(Screen.width*1/4),(Screen.height*1/6)), "Cargar Partida"))
 			//{
 			//	SQL.CargarRun("Usuario");
 			//	Application.LoadLevel("Mapa");
 			//}
-			GUI.Label(new Rect((Screen.width/2),(Screen.height*4/9),Screen.width/12,Screen.height/12), contenidoBoxCargar);
-			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*7/9),(Screen.width*1/4),(Screen.height*1/6)), "Volver"))
+			//GUI.Label(new Rect((Screen.width/2),(Screen.height*4/9),Screen.width/12,Screen.height/12), contenidoBoxCargar);
+			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*7/9),(Screen.width*1/4),(Screen.height*1/6)), "    \t\t\t\tVolver"))
 			{
 				estado= PRINCIPAL;
 			}
-			GUI.Label(new Rect((Screen.width/2),(Screen.height*7/9),Screen.width/12,Screen.height/12), contenidoBoxVolver);
+			GUI.Label(new Rect((Screen.width/2-40),(Screen.height*49/60),Screen.width/12,Screen.height/12), contenidoBoxVolver);
 		}
 		else if(EXTRAS == estado)
 		{
