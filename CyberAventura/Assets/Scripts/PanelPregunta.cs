@@ -13,6 +13,7 @@ public class PanelPregunta : MonoBehaviour {
 	public 	GUISkin		skinPreguntasA;			//Skin de las preguntas tipo A
 	public 	GUISkin		skinPreguntasB;			//Skin de las preguntas tipo B
 	public 	GUISkin		skinPreguntasC;			//Skin de las preguntas tipo C
+	public  GUISkin		skinPreguntasD;			//Skin de las preguntas tipo D
 	public	GUISkin		skinConfirmacion;		//Skin del cuadro de confirmacion
 	private	GUISkin		skinTemp;				//Temporal de control para los cambios de skin
 	private	Bulk		BulkActivo;				//Bulk actual de preguntas
@@ -99,33 +100,34 @@ public class PanelPregunta : MonoBehaviour {
 
 				// Dibujar la pregunta
 				GUI.Label(new Rect(50,50,RectPregunta.width - 150,RectPregunta.height/2),textoActual);
-				GUI.Box(new Rect(RectPregunta.width/9 - 10,RectPregunta.height/2 + 10,RectPregunta.width*2/3,RectPregunta.height/20),"");
+				GUI.Box(new Rect(5,RectPregunta.height/2 + 30,RectPregunta.width*5/6+35,RectPregunta.height/20-15),"");
 				skinTemp = GUI.skin;
 				GUI.skin = skinPreguntasB;
-				GUI.Label(new Rect(RectPregunta.width/3 + 62,RectPregunta.height/2 - 20,RectPregunta.width/11,RectPregunta.height/11),cambioTiempo + "");
-
+				GUI.Label(new Rect(RectPregunta.width/3 + 75,RectPregunta.height/2 - 15,RectPregunta.width/11,RectPregunta.height/11),cambioTiempo + "");
 				GUI.skin = skinTemp;
-				if(GUI.Button(new Rect(20,50 + RectPregunta.height/2,RectPregunta.width/2 - 95,RectPregunta.height/8),""))
+
+				if(GUI.Button(new Rect(5,65 + RectPregunta.height/2,RectPregunta.width/2 - 105, Screen.height*7/60),""))
 					ValidarRespuesta(Pregunta.OPCIONA);
 				skinTemp = GUI.skin;
 				GUI.skin = skinPreguntasC;
-				GUI.Label(new Rect(50,50 + RectPregunta.height/2,RectPregunta.width/3,RectPregunta.height/8),AActual);
+				GUI.Label(new Rect(50,60 + RectPregunta.height/2,RectPregunta.width/3,RectPregunta.height/8),AActual);
 				GUI.skin = skinPreguntasB;
-				if(GUI.Button(new Rect(RectPregunta.width/2 - 70,50 + (RectPregunta.height/2),RectPregunta.width/2 - 95,RectPregunta.height/8),""))
+
+				if(GUI.Button(new Rect(RectPregunta.width/2 - 85,65 + (RectPregunta.height/2),RectPregunta.width/2 - 105,RectPregunta.height*7/60),""))
 					ValidarRespuesta(Pregunta.OPCIONB);
 				GUI.skin = skinPreguntasC;
-				GUI.Label(new Rect(RectPregunta.width/2 - 65,50 + (RectPregunta.height/2),RectPregunta.width/3,RectPregunta.height/8),BActual);
-				GUI.skin = skinTemp;
-				if(GUI.Button(new Rect(100,60 + (RectPregunta.height/2) + (RectPregunta.height/8),RectPregunta.width/3,RectPregunta.height/8),""))
-					ValidarRespuesta(Pregunta.OPCIONC);
-				skinTemp = GUI.skin;
+				GUI.Label(new Rect(RectPregunta.width/2 - 65,60 + (RectPregunta.height/2),RectPregunta.width/3,RectPregunta.height/8),BActual);
 				GUI.skin = skinPreguntasC;
-				GUI.Label(new Rect(115,60 + (RectPregunta.height/2) + (RectPregunta.height/8),RectPregunta.width/3 - 20,RectPregunta.height/8),CActual);
-				GUI.skin = skinPreguntasB;
-				if(GUI.Button(new Rect(RectPregunta.width/2 - 70,60 + (RectPregunta.height/2) + (RectPregunta.height/8),RectPregunta.width/3,RectPregunta.height/8),""))
+
+				if(GUI.Button(new Rect(80,70 + (RectPregunta.height/2) + (RectPregunta.height/8),RectPregunta.width/2 - 180,Screen.height*7/60),""))
+					ValidarRespuesta(Pregunta.OPCIONC);
+				GUI.Label(new Rect(115,65 + (RectPregunta.height/2) + (RectPregunta.height/8),RectPregunta.width/3 - 20,RectPregunta.height/8),CActual);
+				GUI.skin = skinPreguntasD;
+
+				if(GUI.Button(new Rect(RectPregunta.width/2 - 85,70 + (RectPregunta.height/2) + (RectPregunta.height/8),RectPregunta.width/2 - 180,Screen.height*7/60),""))
 					ValidarRespuesta(Pregunta.OPCIOND);
 				GUI.skin = skinPreguntasC;
-				GUI.Label(new Rect(RectPregunta.width/2 - 60,60 + (RectPregunta.height/2) + (RectPregunta.height/8),RectPregunta.width/3 - 20,RectPregunta.height/8),DActual);
+				GUI.Label(new Rect(RectPregunta.width/2 - 60,65 + (RectPregunta.height/2) + (RectPregunta.height/8),RectPregunta.width/3 - 20,RectPregunta.height/8),DActual);
 				GUI.skin = skinTemp;
 			}
 			else if(respuestaCorrecta){

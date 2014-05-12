@@ -3,6 +3,7 @@ using System.Collections;
 
 public class AdminNivel : MonoBehaviour {
 	public	GUISkin			skinConfirmacion;
+	public	GUISkin			skinBtnVolver;
 	public 	GameObject 		personaje;
 	private	AdminSQL		SQL;
 	private PanelPregunta	panel; 
@@ -51,8 +52,11 @@ public class AdminNivel : MonoBehaviour {
 		if(gano){
 			RectConfirmacion = GUI.Window(2,RectConfirmacion,WindowFunction,"");
 		}
-
-		if(GUI.Button(new Rect(Screen.width*8/10,Screen.height/20,Screen.width/5,Screen.height/12), "Menu Principal")){
+		//GUI.Box(new Rect((0),(0),(Screen.width),(Screen.height)), "");
+		GUI.skin = skinBtnVolver;
+		Rect rect = new Rect((Screen.width*113/128)+5, (Screen.height*57/64)+(Screen.height*1/128), (Screen.width*7/64), (Screen.height*6/78));
+		if(GUI.Button( rect, "Regresar"))
+		{
 			salvar = true;
 		}
 	}
