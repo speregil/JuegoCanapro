@@ -77,7 +77,7 @@ public class CRUD : MonoBehaviour{
 	}
 	public void primerBulk(string IDCuenta)
 	{
-		Application.ExternalCall("esprimerbulk");
+		Application.ExternalCall("esprimerbulk", IDCuenta);
 	}
 	/*
 	 * Formato: pedirpromdesvypor;promediopuntuaciones;desviacionestandarpuntuaciones;
@@ -107,6 +107,7 @@ public class CRUD : MonoBehaviour{
 	 * */
 	public void recibirLogin(string formato)
 	{
+		Application.ExternalCall("debug", "Login: "+formato);
 		login = formato;
 	}
 	/*
@@ -114,6 +115,7 @@ public class CRUD : MonoBehaviour{
 	 * */
 	public void recibirAvance(string formato)
 	{
+		Application.ExternalCall("debug", "Avance: "+formato);
 		avance = formato;
 	}
 	/*
@@ -137,12 +139,14 @@ public class CRUD : MonoBehaviour{
 	public void recibirRun(string formato)
 	{
 		nuevoRun = formato;
+		Application.ExternalCall("debug", "nuevon run: "+formato);
 	}
 	/*
 	 * Guarda el resultado del participante en su variable
 	 * */
 	public void recibirParticipante(string formato)
 	{
+		Application.ExternalCall("debug", "participante: "+formato);
 		participante = formato;
 	}
 	/*
@@ -150,10 +154,12 @@ public class CRUD : MonoBehaviour{
 	 * */
 	public void recibirCuestionario(string formato)
 	{
+		Application.ExternalCall("debug", "cuestionario: "+formato);
 		cuestionario = formato;
 	}
 	public void recibirPrimerBulk(string formato)
 	{
+		Application.ExternalCall("debug", "es el primer run?: "+formato);
 		if(formato.Equals("si"))
 		{
 			esPrimerBulk = true;
@@ -167,6 +173,7 @@ public class CRUD : MonoBehaviour{
 		else
 		{
 			esPrimerBulk = false;
+			esPrimerRun = false;
 		}
 	}
 }

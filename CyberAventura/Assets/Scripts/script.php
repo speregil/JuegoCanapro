@@ -58,12 +58,12 @@
             $indice = 0;
             while($cantidad > $indice )
             {
-                $query = "INSERT INTO REGISTRO (IDCUENTA, IDPREGUNTA, IDRESPUESTA, TIEMPOCONSUMIDO, IDRUN) VALUES (".$cuenta.",".$arreglo[indice].", ".$arreglo[indice+1].", ".$arreglo[indice+2].", ".$IDRun.")";
+                $query = "INSERT INTO REGISTRO (IDCUENTA, IDPREGUNTA, IDRESPUESTA, TIEMPOCONSUMIDO, IDRUN) VALUES (".$cuenta.",".$arreglo[$indice].", ".$arreglo[$indice+1].", ".$arreglo[$indice+2].", ".$IDRun.")";
                 $resultado = mysqli_query($connection, $query);
                 $indice += 3;
                 if(!$resultado)
                 {
-                    mysql_close($connection);
+                    mysqli_close($connection);
                     echo "Fracaso";
                 }
             }
@@ -72,22 +72,22 @@
         }
         else
         {
-            mysql_close($connection);
+            mysqli_close($connection);
             echo "Fracaso";
         }
     }
     //Hecho y sin probar
     else if($yeah === "pediravance")
     {
-        $cuenta = $_GET("datas");
-        $query = "SELECT IDRUN, PUNTUACION, TIEMPO FROM RUN WHERE IDCUENTA = ".$cuenta."ORDER BY IDRUN ASC LIMIT 1";
+        $cuenta = $_GET["datas"];
+        $query = "SELECT IDRUN, PUNTUACION, TIEMPO FROM RUN WHERE IDCUENTA = ".$cuenta." ORDER BY IDRUN ASC LIMIT 1";
         $resultado = mysqli_query($connection, $query);
         $numero = mysqli_fetch_array($resultado, MYSQL_NUM);
         $IDRun = $numero[0];
         $puntuacionActual = $numero[1];
         $tiempoActual = $numero[2];
         
-        $query = "SELECT LOGIN, NOMBRE, PUNTUACION, PROMEDIOTIEMPO FROM CUENTA WHERE IDCUENTA = ".$cuenta."ORDER BY IDRUN ASC LIMIT 1";
+        $query = "SELECT LOGIN, NOMBRE, PUNTUACION, PROMEDIOTIEMPO FROM CUENTA WHERE ID = ".$cuenta."";
         $resultado = mysqli_query($connection, $query);
         $numero = mysqli_fetch_array($resultado, MYSQL_NUM);
         $login = $numero[0];
@@ -95,7 +95,7 @@
         $puntuacion = $numero[2];
         $promedioTiempo = $numero[3];
         
-        $query = "SELECT IDBULK, TIEMPO, PUNTUACION FROM BULK WHERE IDRUN = ".$IDRun." AND IDCUENTA = ".$cuenta."ORDER BY IDBULK DESC LIMIT 1";
+        $query = "SELECT IDBULK, TIEMPO, PUNTUACION FROM BULK WHERE IDRUN = ".$IDRun." AND IDCUENTA = ".$cuenta." ORDER BY IDBULK DESC LIMIT 1";
         $resultado = mysqli_query($connection, $query);
         $formato = $nombre.";".$puntuacion.";".$promedioTiempo.";".$IDRun.";".$tiempoActual.";".$puntuacionActual;
         $formato .= ";bulks";
@@ -230,7 +230,7 @@
 	else if($yeah === "primerbulk")
 	{
 		$yeah = $_GET["datas"];
-		$query = "SELECT IDRUN FROM BULK WHERE IDCUENTA = '".$yeah."'";
+		$query = "SELECT IDRUN FROM BULK WHERE IDCUENTA = ".$yeah."";
         $resultado = mysqli_query($connection, $query);
         if(mysqli_num_rows($resultado) > 0)
 		{
@@ -238,7 +238,7 @@
 		}
 		else
 		{
-			$query = "SELECT IDCUENTA FROM RUN WHERE IDCUENTA = '".$yeah."'";
+			$query = "SELECT IDCUENTA FROM RUN WHERE IDCUENTA = ".$yeah."";
 			$resultado = mysqli_query($connection, $query);
 			if(mysqli_num_rows($resultado) > 0)
 			{

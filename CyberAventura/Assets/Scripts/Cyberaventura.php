@@ -81,7 +81,7 @@ function login( arg, arg1)
 function guardarcuestionario( IDBulk, IDCuenta, Formato, Puntuacion, Tiempo )
 {
     http=new XMLHttpRequest();
-    var params = "data=guardarcuestionario&datas="+IDBulk+"&datass="+IDCuenta+"&datasss="+Formato+"&datassss="+Puntuacion+"&datasssss="+Tiempo;
+    var params = "?data=guardarcuestionario&datas="+IDBulk+"&datass="+IDCuenta+"&datasss="+Formato+"&datassss="+Puntuacion+"&datasssss="+Tiempo;
     http.onreadystatechange = function()
     {
         if (http.readyState===4 && http.status===200)
@@ -91,7 +91,7 @@ function guardarcuestionario( IDBulk, IDCuenta, Formato, Puntuacion, Tiempo )
         }
         
     }
-    http.open("POST", "http://50.62.166.14:81/script.php", true);
+    http.open("POST", "http://50.62.166.14:81/script.php", false);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     //http.setRequestHeader("Content-length", params.length);
     //http.setRequestHeader("Connection", "close");
@@ -109,7 +109,7 @@ function pediravance( arg)
         }
         
     }
-    http.open("GET", "http://50.62.166.14:81/script.php?data=pediravance&datas="+arg+"", true);
+    http.open("GET", "http://50.62.166.14:81/script.php?data=pediravance&datas="+arg+"", false);
     http.send(null);
 }
 function pedirtop20()
@@ -186,6 +186,10 @@ function esprimerbulk( arg )
     }
     http.open("GET", "http://50.62.166.14:81/script.php?data=primerbulk&datas="+arg+"", true);
     http.send(null);
+}
+function debug(arg)
+{
+	console.log(arg);
 }
 		-->
 		</script>

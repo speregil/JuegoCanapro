@@ -61,8 +61,6 @@ public class AdminSQL : MonoBehaviour {
 
 	public void CargarRun(){
 		// Cargar los datos del run de la bd
-		if(!ConexionBD.nuevoRun.Equals("Fracaso"))
-		{
 			string[] cadena = ConexionBD.avance.Split(new char [] {';'});
 			if(cadena.Length > 7)
 			{
@@ -77,20 +75,17 @@ public class AdminSQL : MonoBehaviour {
 				for(int i = 7; i < cadena.Length;)
 				{
 					bulks[indice] = int.Parse(cadena[i]);
-					puntuaciones[indice] = int.Parse(cadena[i+1]);
-					tiempos[indice] = float.Parse(cadena[i+2]);
+					tiempos[indice] = float.Parse(cadena[i+1]);
+					puntuaciones[indice] = int.Parse(cadena[i+2]);
 					indice++;
 					i = i+3;
 				}
 				int f = 0;
 				while(f<indice)
 				{
-					if(puntuaciones[f]!=0 )
-					{
-						flag[f]=true;
-						sumaPuntuacion += puntuaciones[f];
-						sumaTiempo += tiempos[f];
-					}
+					flag[bulks[f]]=true;
+					sumaPuntuacion += puntuaciones[f];
+					sumaTiempo += tiempos[f];
 					f++;
 				}
 
@@ -100,7 +95,6 @@ public class AdminSQL : MonoBehaviour {
 			{
 				RunActual = new Run();
 			}
-		}
 	}
 
 	public void GuardarBulk(int IDBulk, int IDCuenta, int puntuacion, float tiempo, Bulk bulkActivo){
