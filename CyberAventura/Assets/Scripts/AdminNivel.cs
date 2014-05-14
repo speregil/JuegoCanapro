@@ -18,7 +18,7 @@ public class AdminNivel : MonoBehaviour {
 	private int				totalPuntos;
 	private float			totalTiempo;
 	private string			MensajeSalida = "\t\t\tSalvaremos su progreso, puede cargarlo despues desde\n\t\t\t\tel menu inicial\n\t\t\t\t\t¿Desea volver al menu inicial?";
-
+	public	Texture			imgBarraInfo;
 
 	
 	void Start (){
@@ -42,9 +42,10 @@ public class AdminNivel : MonoBehaviour {
 
 	void OnGUI(){
 		GUI.skin = skinConfirmacion;
-		GUI.Label(new Rect(Screen.width/10 - 20,Screen.height/20,Screen.width/5,Screen.height/12),"Bienvenido(a) "+ usuarioActual);
-		GUI.Label(new Rect(Screen.width*3/10,Screen.height/20,Screen.width*3/10,Screen.height/12),"Haz completado "+ totalEdificios + " edificios, te faltan " + (12 - totalEdificios));
-		GUI.Label(new Rect(Screen.width*6/10,Screen.height/20,Screen.width*2/10,Screen.height/12),"Puntos: "+ totalPuntos + "     Tiempo: " + totalTiempo);
+		GUI.Label(new Rect(Screen.width*3/10,Screen.height/20,Screen.width*7/10,Screen.height/12), imgBarraInfo);
+		GUI.Label(new Rect(Screen.width*14/40 - 20,Screen.height/20+Screen.height*78/10000,Screen.width/5,Screen.height/12),"Bienvenido(a) "+ usuarioActual);
+		GUI.Label(new Rect(Screen.width*5/10,Screen.height/20+Screen.height*78/10000,Screen.width*3/10,Screen.height/12),"Haz completado "+ totalEdificios + " edificios, te faltan " + (12 - totalEdificios));
+		GUI.Label(new Rect(Screen.width*8/10,Screen.height/20+Screen.height*78/10000,Screen.width*2/10,Screen.height/12),"Puntos: "+ totalPuntos + "     Tiempo: " + totalTiempo);
 
 		if(salvar)
 			RectConfirmacion = GUI.Window(1,RectConfirmacion,WindowFunction,"");

@@ -65,6 +65,7 @@ public class PanelPregunta : MonoBehaviour {
 		confirmacion = false;
 		RectConfirmacion = new Rect(Screen.width/100,Screen.height/100 ,1024,551);
 		RectPregunta = new Rect(0,0,Screen.width,Screen.height);
+		Fader.Instance.FadeOut(1);
 	}
 
 	void OnGUI(){
@@ -100,34 +101,34 @@ public class PanelPregunta : MonoBehaviour {
 
 				// Dibujar la pregunta
 				GUI.Label(new Rect(50,50,RectPregunta.width - 150,RectPregunta.height/2),textoActual);
-				GUI.Box(new Rect(5,RectPregunta.height/2 + 30,RectPregunta.width*5/6+35,RectPregunta.height/20-15),"");
+				GUI.Box(new Rect(5,RectPregunta.height/2 + Screen.height*39/1000,RectPregunta.width*5/6+Screen.width*256/10000,RectPregunta.height/20-Screen.height*195/10000),"");
 				skinTemp = GUI.skin;
 				GUI.skin = skinPreguntasB;
-				GUI.Label(new Rect(RectPregunta.width/3 + 75,RectPregunta.height/2 - 15,RectPregunta.width/11,RectPregunta.height/11),cambioTiempo + "");
+				GUI.Label(new Rect(RectPregunta.width/3 + Screen.width*549/10000,RectPregunta.height/2 - Screen.height*195/10000,RectPregunta.width/11,RectPregunta.height/11),cambioTiempo + "");
 				GUI.skin = skinTemp;
 
-				if(GUI.Button(new Rect(5,65 + RectPregunta.height/2,RectPregunta.width/2 - 105, Screen.height*7/60),""))
+				if(GUI.Button(new Rect(5,Screen.height*84/1000 + RectPregunta.height/2,RectPregunta.width/2 - Screen.width*768/10000, Screen.height*7/60),""))
 					ValidarRespuesta(Pregunta.OPCIONA);
 				skinTemp = GUI.skin;
 				GUI.skin = skinPreguntasC;
-				GUI.Label(new Rect(50,60 + RectPregunta.height/2,RectPregunta.width/3,RectPregunta.height/8),AActual);
+				GUI.Label(new Rect(Screen.width*366/10000,Screen.height*781/10000 + RectPregunta.height/2,RectPregunta.width/3,RectPregunta.height/8),AActual);
 				GUI.skin = skinPreguntasB;
 
-				if(GUI.Button(new Rect(RectPregunta.width/2 - 85,65 + (RectPregunta.height/2),RectPregunta.width/2 - 105,RectPregunta.height*7/60),""))
+				if(GUI.Button(new Rect(RectPregunta.width/2 - Screen.width*62/1000,Screen.height*84/1000 + (RectPregunta.height/2),RectPregunta.width/2 - Screen.width*79/1000,RectPregunta.height*7/60),""))
 					ValidarRespuesta(Pregunta.OPCIONB);
 				GUI.skin = skinPreguntasC;
-				GUI.Label(new Rect(RectPregunta.width/2 - 65,60 + (RectPregunta.height/2),RectPregunta.width/3,RectPregunta.height/8),BActual);
+				GUI.Label(new Rect(RectPregunta.width/2 - Screen.width*47/1000,60 + (RectPregunta.height/2),RectPregunta.width/3,RectPregunta.height/8),BActual);
 				GUI.skin = skinPreguntasC;
 
-				if(GUI.Button(new Rect(80,70 + (RectPregunta.height/2) + (RectPregunta.height/8),RectPregunta.width/2 - 180,Screen.height*7/60),""))
+				if(GUI.Button(new Rect(Screen.width*58/1000,Screen.height*91/1000 + (RectPregunta.height/2) + (RectPregunta.height/8),RectPregunta.width/2 - Screen.width*131/1000,Screen.height*7/60),""))
 					ValidarRespuesta(Pregunta.OPCIONC);
-				GUI.Label(new Rect(115,65 + (RectPregunta.height/2) + (RectPregunta.height/8),RectPregunta.width/3 - 20,RectPregunta.height/8),CActual);
+				GUI.Label(new Rect(Screen.width*84/1000,Screen.height*84/1000 + (RectPregunta.height/2) + (RectPregunta.height/8),RectPregunta.width/3 - Screen.width*146/10000,RectPregunta.height/8),CActual);
 				GUI.skin = skinPreguntasD;
 
-				if(GUI.Button(new Rect(RectPregunta.width/2 - 85,70 + (RectPregunta.height/2) + (RectPregunta.height/8),RectPregunta.width/2 - 180,Screen.height*7/60),""))
+				if(GUI.Button(new Rect(RectPregunta.width/2 - Screen.width*62/1000,Screen.height*91/1000 + (RectPregunta.height/2) + (RectPregunta.height/8),RectPregunta.width/2 - Screen.width*131/1000,Screen.height*7/60),""))
 					ValidarRespuesta(Pregunta.OPCIOND);
 				GUI.skin = skinPreguntasC;
-				GUI.Label(new Rect(RectPregunta.width/2 - 60,65 + (RectPregunta.height/2) + (RectPregunta.height/8),RectPregunta.width/3 - 20,RectPregunta.height/8),DActual);
+				GUI.Label(new Rect(RectPregunta.width/2 - Screen.width*439/10000,Screen.width*47/1000 + (RectPregunta.height/2) + (RectPregunta.height/8),RectPregunta.width/3 - Screen.width*146/10000,RectPregunta.height/8),DActual);
 				GUI.skin = skinTemp;
 			}
 			else if(respuestaCorrecta){
@@ -184,7 +185,7 @@ public class PanelPregunta : MonoBehaviour {
 			}
 			else{
 				if(GUI.Button(new Rect(RectConfirmacion.width*3/5,RectConfirmacion.height*6/8 - 20,RectConfirmacion.width/10,RectConfirmacion.height/9), "SI")){
-					confirmacion = false;
+					Fader.Instance.FadeIn().StartCoroutine(this, "esperar");
 					CargarLista(bulkActual);
 					personaje.GetComponent<Movimiento>().cambiarLlego(false);
 				}
@@ -262,5 +263,13 @@ public class PanelPregunta : MonoBehaviour {
 		}
 
 		confirmacion = true;
+	}
+	private IEnumerator esperar()
+	{
+		yield return new WaitForSeconds (1);
+		{
+			confirmacion = false;
+		}
+		Fader.Instance.FadeOut(1);
 	}
 }

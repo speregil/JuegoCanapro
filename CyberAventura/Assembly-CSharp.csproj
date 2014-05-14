@@ -46,6 +46,17 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Screen Fader Pack\Code\DefaultScreenFader.cs" />
+     <Compile Include="Assets\Screen Fader Pack\Code\Fader.cs" />
+     <Compile Include="Assets\Screen Fader Pack\Code\ImageScreenFader.cs" />
+     <Compile Include="Assets\Screen Fader Pack\Code\SquaredScreenFader.cs" />
+     <Compile Include="Assets\Screen Fader Pack\Code\StripeScreenFader.cs" />
+     <Compile Include="Assets\Screen Fader Pack\Demo\Demo - Coroutines\DemoCoroutineGUI.cs" />
+     <Compile Include="Assets\Screen Fader Pack\Demo\Demo - Default\DemoDefaultGUI.cs" />
+     <Compile Include="Assets\Screen Fader Pack\Demo\Demo - Squared\DemoSquaredGUI.cs" />
+     <Compile Include="Assets\Screen Fader Pack\Demo\Demo - Stripes\DemoStripesGUI.cs" />
+     <Compile Include="Assets\Screen Fader Pack\Demo\Other stuff\RotatableObject.cs" />
+     <Compile Include="Assets\Screen Fader Pack\Demo\Other stuff\SwitchScenesGUI.cs" />
      <Compile Include="Assets\Scripts\AdminNivel.cs" />
      <Compile Include="Assets\Scripts\AdminSQL.cs" />
      <Compile Include="Assets\Scripts\Bulk.cs" />
@@ -70,6 +81,7 @@
      <None Include="Assets\Resources\Bulk4.txt" />
      <None Include="Assets\Resources\Bulk3.txt" />
      <None Include="Assets\Resources\Bulk8.txt" />
+     <None Include="Assets\Screen Fader Pack\ReadMe (eng).txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

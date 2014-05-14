@@ -19,6 +19,7 @@ public class Interfaz : MonoBehaviour {
 	public 	Texture2D	imgVolver;
 	public	Texture2D	imgVolverExtras;
 	public	Texture2D	imgVolverExtrasOver;
+	public	Texture2D	contenidoBoxImagen;
 
 	private GUIContent contenidoBoxJugar;
 	private GUIContent contenidoBoxExtras;
@@ -93,9 +94,10 @@ public class Interfaz : MonoBehaviour {
 				info = "BIENVENIDO A LA CYBERAVENTURA CANAPRO 2014, UN JUEGO QUE TE PERMITIRA GANAR, SI CONOCES DE COOPERATIVISMO. ANIMO!!! INICIA";
 				string result = SQL.LogIn(login,pass);
 				if(result.Equals("exito")){
-					estado = PRINCIPAL;
+
 					SQL.verificarPrimerBulk();
 					SQL.pedirAvance();
+					Fader.Instance.FadeIn(0.25f).StartCoroutine(this, "esperarInterno");
 				}
 				else if(result.Equals("mora")){
 					info = "AL PARECER NO ESTÁS AL DÍA CON TUS OBLIGACIONES,\n NO PUEDES PARTICIPAR";
@@ -119,30 +121,36 @@ public class Interfaz : MonoBehaviour {
 			{
 				estado = MODO;
 				info = "INICIA UN NUEVO JUEGO O CARGA TU AVANCE PREVIO";
+
 			}
 			GUI.Label(new Rect((Screen.width*3/12),(Screen.height*12/60),Screen.width/12,Screen.height/12), contenidoBoxJugar);
 			if(GUI.Button(new Rect((Screen.width/12),(Screen.height*14/48),(Screen.width*1/4),(Screen.height*1/8)), "Extras"))
 			{
+				//Fader.Instance.FadeIn().StartCoroutine(this, "esperarInterno");
 				estado = EXTRAS;
 			}
 			GUI.Label(new Rect((Screen.width*3/12),(Screen.height*18/60),Screen.width/10,Screen.height/10), contenidoBoxExtras);
 			if(GUI.Button(new Rect((Screen.width/12),(Screen.height*20/48),(Screen.width*1/4),(Screen.height*1/8)), "Estadisticas"))
 			{
 				SQL.pedirTop20();
+				//Fader.Instance.FadeIn().StartCoroutine(this, "esperarInterno");
 				estado= ESTADISTICAS;
 			}
 			GUI.Label(new Rect((Screen.width*3/12),(Screen.height*24/60),Screen.width/7,Screen.height/7), contenidoBoxEstadisticas);
 			if(GUI.Button(new Rect((Screen.width/12),(Screen.height*26/48),(Screen.width*1/4),(Screen.height*1/8)), "Tutorial"))
 			{
+				//Fader.Instance.FadeIn().StartCoroutine(this, "esperarInterno");
 				estado= TUTO;
 			}
 			GUI.Label(new Rect((Screen.width*3/12),(Screen.height*33/60),Screen.width/10,Screen.height/10), contenidoBoxTutorial);
 			if(GUI.Button(new Rect((Screen.width/12),(Screen.height*32/48),(Screen.width*1/4),(Screen.height*1/8)), "Salir"))
 			{
 				SQL.LogOut();
+				//Fader.Instance.FadeIn().StartCoroutine(this, "esperarInterno");
 				estado= LOGIN;
 			}
 			GUI.Label(new Rect((Screen.width*3/12),(Screen.height*41/60),Screen.width/10,Screen.height/10), contenidoBoxSalir);
+			GUI.Label(new Rect((Screen.width*9/24),(Screen.height*11/48),Screen.width*97/180,Screen.height*97/180), contenidoBoxImagen);
 		}
 		else if(ESTADISTICAS == estado)
 		{
@@ -195,6 +203,7 @@ public class Interfaz : MonoBehaviour {
 				GUI.ModalWindow(0, new Rect(Screen.width/2-300, Screen.height/2-150, 600, 300), doMyWindow, "\n\n\n"+respuesta);
 			if(GUI.Button( rect, "Volver"))
 			{
+				//Fader.Instance.FadeIn().StartCoroutine(this, "esperarInterno");
 				estado = PRINCIPAL;
 				modal = false;
 			}
@@ -207,21 +216,23 @@ public class Interfaz : MonoBehaviour {
 			GUI.Label(new Rect((Screen.width/3)-50,0,(Screen.width*1/2),(Screen.height*1/3)), info);
 			if(GUI.Button(new Rect((Screen.width/3),(Screen.height/4),(Screen.width*1/4),(Screen.height*1/8)), "Jugar"))
 			{
+
 				if(SQL.esPrimerRun()){
 					SQL.NuevoRun();
-					Application.LoadLevel("Mapa");
 				}
 				else if(!SQL.esPrimerBulk())
 				{
 					SQL.CargarRun();
-					Application.LoadLevel("Mapa");
 					//info = "YA HAS COMPLETADO EL JUEGO, REVISA LA SECCION DE ESTADISTICAS PARA VER TUS RESULTADOS";
 				}
 				else
 				{
 					SQL.CargarRun();
-					Application.LoadLevel("Mapa");
 				}
+				Fader.Instance.FadeIn(0.25f).StartCoroutine(this,"esperar");
+				//Application.LoadLevel("Mapa");
+				//esperar();  
+
 			}
 			GUI.Label(new Rect((Screen.width/2),(Screen.height*1/4+15),Screen.width/12,Screen.height/12), contenidoBoxNuevo);
 			//if(GUI.Button(new Rect((Screen.width/3),(Screen.height*4/9),(Screen.width*1/4),(Screen.height*1/6)), "Cargar Partida"))
@@ -274,4 +285,19 @@ public class Interfaz : MonoBehaviour {
 			modal = true;
 		}
 	}
+	IEnumerator esperar()
+	{
+		yield return new WaitForSeconds (0.25f);
+		{        Application.LoadLevel("Mapa");  
+		}
+	}
+	IEnumerator esperarInterno()
+	{
+		yield return new WaitForSeconds (0.25f);
+		{        
+			estado = PRINCIPAL;
+			Fader.Instance.FadeOut(0.25f);
+		}
+	}
+
 }
