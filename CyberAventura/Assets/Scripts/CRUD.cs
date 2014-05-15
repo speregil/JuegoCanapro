@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using UnityEngine;
 
 public class CRUD : MonoBehaviour{
@@ -38,16 +39,16 @@ public class CRUD : MonoBehaviour{
 	public void hacerLogin(string user, string password)
 	{
 		Application.ExternalCall("login", user, password);
-		login = "1";
+		login = "23";
 	}
 	//Se deben pasar igual numero de tiempos, respuestas, y de IDPreguntas o pueden crear errores
 	/*
 	 * Este metodo puede retornar strings: "Fracaso" o "Exito"
 	 * */
-	public void guardarCuestionario(int IDBulk, float[] tiempos, int IDCuenta, char[] respuestas, int puntuacion, float tiempo, int[] IDPreguntas)
+	public void guardarCuestionario(int IDBulk, float[] tiempos, int IDCuenta, string[] respuestas, int puntuacion, float tiempo, string[] IDPreguntas)
 	{
 		string formato = "";
-		int indice = tiempos.Length;
+		int indice = respuestas.Length;
 		int i = 0;
 		while(indice > i)
 		{

@@ -91,12 +91,11 @@ public class Interfaz : MonoBehaviour {
 			pass = GUI.PasswordField(new Rect((Screen.width/4),(Screen.height/2),(Screen.width*1/3),(Screen.height*1/10)),pass, "*"[0]);
 			if(GUI.Button(new Rect((Screen.width/2-40),(Screen.height/2+Screen.height*2/16),(Screen.width*1/10),(Screen.height*1/16)), "INGRESAR"))
 			{
-				info = "BIENVENIDO A LA CYBERAVENTURA CANAPRO 2014, UN JUEGO QUE TE PERMITIRA GANAR, SI CONOCES DE COOPERATIVISMO. ANIMO!!! INICIA";
+				info = "BIENVENIDO A LA CYBERAVENTURA CANAPRO 2014, UN JUEGO QUE TE PERMITIRA GANAR, SI CONOCES DE COOPERATIVISMO. ANIMO!!!";
 				string result = SQL.LogIn(login,pass);
 				if(result.Equals("exito")){
 
 					SQL.verificarPrimerBulk();
-					SQL.pedirAvance();
 					Fader.Instance.FadeIn(0.25f).StartCoroutine(this, "esperarInterno");
 				}
 				else if(result.Equals("mora")){
@@ -217,18 +216,6 @@ public class Interfaz : MonoBehaviour {
 			if(GUI.Button(new Rect((Screen.width/3),(Screen.height/4),(Screen.width*1/4),(Screen.height*1/8)), "Jugar"))
 			{
 
-				if(SQL.esPrimerRun()){
-					SQL.NuevoRun();
-				}
-				else if(!SQL.esPrimerBulk())
-				{
-					SQL.CargarRun();
-					//info = "YA HAS COMPLETADO EL JUEGO, REVISA LA SECCION DE ESTADISTICAS PARA VER TUS RESULTADOS";
-				}
-				else
-				{
-					SQL.CargarRun();
-				}
 				Fader.Instance.FadeIn(0.25f).StartCoroutine(this,"esperar");
 				//Application.LoadLevel("Mapa");
 				//esperar();  
@@ -296,6 +283,16 @@ public class Interfaz : MonoBehaviour {
 		yield return new WaitForSeconds (0.25f);
 		{        
 			estado = PRINCIPAL;
+			SQL.pedirAvance();
+			if(SQL.esPrimerRun()){
+				SQL.NuevoRun();
+				SQL.asginarRunFalse();
+				SQL.CargarRun();
+			}
+			else
+			{
+				SQL.CargarRun();
+			}
 			Fader.Instance.FadeOut(0.25f);
 		}
 	}

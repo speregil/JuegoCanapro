@@ -235,12 +235,14 @@ public class PanelPregunta : MonoBehaviour {
 		if(listaPreguntas.ValidarRespuesta(Opcion)){
 			BulkActivo.SumarPunto();
 			IDPreguntaActual = listaPreguntas.DarID();
-			BulkActivo.concatenar(IDPreguntaActual+Opcion);
+			BulkActivo.concatenar(IDPreguntaActual+";"+Opcion+";");
 			tiempoTotal += guiTime;
 			preguntaActiva = false;
 			respuestaCorrecta = true;
 		}
 		else{
+			IDPreguntaActual = listaPreguntas.DarID();
+			BulkActivo.concatenar(IDPreguntaActual+";"+Opcion+";");
 			preguntaActiva = false;
 			respuestaIncorrecta = true;
 			tiempoTotal += guiTime;

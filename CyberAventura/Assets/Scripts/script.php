@@ -1,9 +1,13 @@
 <?php
-    $yeah = $_GET["data"];
-    if($yeah === NULL)
+    
+    if(isset($_GET["data"]))
     {
-         $yeah = $_POST["data"];
+		$yeah = $_GET["data"];
     }
+	else
+	{
+		$yeah = $_POST["data"];
+	}
     //echo $yeah;
     $connection = mysqli_connect("localhost", "root", "", "canapro",3306);
     mysqli_autocommit($connection, FALSE);
@@ -22,8 +26,9 @@
         $resultado = mysqli_query($connection, $query);
         if(!$resultado)
         {
-            mysql_close($connection);
+            mysqli_close($connection);
             echo "Fracaso";
+			exit(0);
         }
         $numero = mysqli_fetch_array($resultado, MYSQL_NUM);
         $IDRun = $numero[0];
@@ -31,49 +36,54 @@
         $puntuacionRun += $puntuacion;
         $tiempoRun = $numero[2];
         $tiempoRun += $tiempo;
-        $query = "UPDATE RUN SET PUNTUACION =".$puntuacionRun.", TIEMPO =".$tiempoRun." WHERE IDCUENTA = ".$cuenta." AND IDRUN = ".$IDRun;
+        $query = "UPDATE RUN SET PUNTUACION =".$puntuacionRun.", TIEMPO = ".$tiempoRun." WHERE IDCUENTA = ".$cuenta." AND IDRUN = ".$IDRun;
         $resultado = mysqli_query($connection, $query);
         if(!$resultado)
         {
-            mysql_close($connection);
+            mysqli_close($connection);
             echo "Fracaso";
+			exit(0);
         }
-        if($IDRun === 1)
+        if($IDRun === "1")
         {
-            $query = "UPDATE CUENTA SET PUNTUACION =".$puntuacionRun.", TIEMPO ".$tiempoRun."WHERE ID = ".$cuenta;
+            $query = "UPDATE CUENTA SET PUNTUACION = ".$puntuacionRun.", PROMEDIOTIEMPO = ".$tiempoRun." WHERE ID = ".$cuenta;
             $resultado = mysqli_query($connection, $query);
             if(!$resultado)
             {
-                mysql_close($connection);
+                mysqli_close($connection);
                 echo "Fracaso";
+				exit(0);
             }
         }
         
-        $query = "INSERT INTO BULK (IDRUN, IDBULK, IDCUENTA, TIEMPO, PUNTUACION) VALUES (".$IDRun.",".$bulk.", ".$cuenta.", ".$tiempo.", ".$puntuacion.")";
+        $query = "INSERT INTO BULK (IDRUN, IDBULK, IDCUENTA, TIEMPO, PUNTUACION) VALUES (".$IDRun.", ".$bulk.", ".$cuenta.", ".$tiempo.", ".$puntuacion.")";
         $resultado = mysqli_query($connection, $query);
         if($resultado)
         {
-            $arreglo = split(";", formato);
+            $arreglo = split(";", $formato);
             $cantidad = count($arreglo);
             $indice = 0;
             while($cantidad > $indice )
             {
-                $query = "INSERT INTO REGISTRO (IDCUENTA, IDPREGUNTA, IDRESPUESTA, TIEMPOCONSUMIDO, IDRUN) VALUES (".$cuenta.",".$arreglo[$indice].", ".$arreglo[$indice+1].", ".$arreglo[$indice+2].", ".$IDRun.")";
-                $resultado = mysqli_query($connection, $query);
+                $query = "INSERT INTO REGISTRO (IDCUENTA, IDPREGUNTA, IDRESPUESTA, TIEMPOCONSUMIDO, IDRUN) VALUES (".$cuenta.",".$arreglo[$indice].", '".$arreglo[$indice+1]."', ".$arreglo[$indice+2].", ".$IDRun.")";
+				$resultado = mysqli_query($connection, $query);
                 $indice += 3;
                 if(!$resultado)
                 {
-                    mysqli_close($connection);
+                    //mysqli_close($connection);
                     echo "Fracaso";
+					exit(0);
                 }
             }
             mysqli_commit($connection);
             echo "Exito";
+			exit(0);
         }
         else
         {
             mysqli_close($connection);
             echo "Fracaso";
+			exit(0);
         }
     }
     //Hecho y sin probar
@@ -95,14 +105,17 @@
         $puntuacion = $numero[2];
         $promedioTiempo = $numero[3];
         
-        $query = "SELECT IDBULK, TIEMPO, PUNTUACION FROM BULK WHERE IDRUN = ".$IDRun." AND IDCUENTA = ".$cuenta." ORDER BY IDBULK DESC LIMIT 1";
+        $query = "SELECT IDBULK, TIEMPO, PUNTUACION FROM BULK WHERE IDRUN = ".$IDRun." AND IDCUENTA = ".$cuenta." ORDER BY IDBULK DESC";
         $resultado = mysqli_query($connection, $query);
         $formato = $nombre.";".$puntuacion.";".$promedioTiempo.";".$IDRun.";".$tiempoActual.";".$puntuacionActual;
         $formato .= ";bulks";
-        while($numero = mysqli_fetch_array($resultado, MYSQL_NUM))
-        {
-            $formato .= ";".$numero[0].";".$numero[1].";".$numero[2];
-        }
+		if($resultado)
+		{
+			while($numero = mysqli_fetch_array($resultado, MYSQL_NUM))
+			{
+				$formato .= ";".$numero[0].";".$numero[1].";".$numero[2];
+			}
+		}
         echo $formato;
     }
     //Hecho

@@ -62,8 +62,7 @@ public class AdminSQL : MonoBehaviour {
 	public void CargarRun(){
 		// Cargar los datos del run de la bd
 			string[] cadena = ConexionBD.avance.Split(new char [] {';'});
-			if(cadena.Length > 7)
-			{
+
 				int[] bulks = new int[(cadena.Length-7)/3];
 				int[] puntuaciones = new int[(cadena.Length-7)/3];
 				float[] tiempos = new float[(cadena.Length-7)/3];
@@ -90,21 +89,17 @@ public class AdminSQL : MonoBehaviour {
 				}
 
 				RunActual = new Run(flag,sumaPuntuacion,sumaTiempo);
-			}
-			else
-			{
-				RunActual = new Run();
-			}
 	}
 
 	public void GuardarBulk(int IDBulk, int IDCuenta, int puntuacion, float tiempo, Bulk bulkActivo){
 		string respuestas = bulkActivo.darRespuestas();
 		int i = 0;
 		int indice = 0;
-		char[] caracteres = respuestas.ToCharArray();
-		char[] respuestass = new char[caracteres.Length/2+1];
-		int[] IDPreguntas = new int[caracteres.Length/2+1];
-		float[] tiempos = new float[caracteres.Length/2+1];
+		respuestas = respuestas.Substring(0, respuestas.Length-1);
+		string[] caracteres = respuestas.Split(new char [] {';'});
+		string[] respuestass = new string[caracteres.Length/2];
+		string[] IDPreguntas = new string[caracteres.Length/2];
+		float[] tiempos = new float[caracteres.Length/2];
 		while(i+1 < caracteres.Length )
 		{
 			IDPreguntas[indice] = caracteres[i];
@@ -140,7 +135,10 @@ public class AdminSQL : MonoBehaviour {
 	{
 		ConexionBD.pedirAvance(LlaveUsuario);
 	}
-
+	public void asginarRunFalse()
+	{
+		ConexionBD.esPrimerRun = false;
+	}
 	/**public bool verificarUsuario(string IDCuenta){
 		//Verificar que no halla hecho un run previo
 

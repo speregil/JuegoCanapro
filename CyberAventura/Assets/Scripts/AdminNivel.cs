@@ -43,7 +43,7 @@ public class AdminNivel : MonoBehaviour {
 	void OnGUI(){
 		GUI.skin = skinConfirmacion;
 		GUI.Label(new Rect(Screen.width*3/10,Screen.height/20,Screen.width*7/10,Screen.height/12), imgBarraInfo);
-		GUI.Label(new Rect(Screen.width*14/40 - 20,Screen.height/20+Screen.height*78/10000,Screen.width/5,Screen.height/12),"Bienvenido(a) "+ usuarioActual);
+		GUI.Label(new Rect(Screen.width*14/40 - 60,Screen.height/20+Screen.height*78/10000,Screen.width/4,Screen.height/12),"Bienvenido(a) "+ usuarioActual);
 		GUI.Label(new Rect(Screen.width*5/10,Screen.height/20+Screen.height*78/10000,Screen.width*3/10,Screen.height/12),"Haz completado "+ totalEdificios + " edificios, te faltan " + (12 - totalEdificios));
 		GUI.Label(new Rect(Screen.width*8/10,Screen.height/20+Screen.height*78/10000,Screen.width*2/10,Screen.height/12),"Puntos: "+ totalPuntos + "     Tiempo: " + totalTiempo);
 

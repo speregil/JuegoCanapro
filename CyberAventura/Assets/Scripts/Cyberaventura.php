@@ -81,7 +81,7 @@ function login( arg, arg1)
 function guardarcuestionario( IDBulk, IDCuenta, Formato, Puntuacion, Tiempo )
 {
     http=new XMLHttpRequest();
-    var params = "?data=guardarcuestionario&datas="+IDBulk+"&datass="+IDCuenta+"&datasss="+Formato+"&datassss="+Puntuacion+"&datasssss="+Tiempo;
+    var params = "data=guardarcuestionario&datas="+IDBulk+"&datass="+IDCuenta+"&datasss="+Formato+"&datassss="+Puntuacion+"&datasssss="+Tiempo;
     http.onreadystatechange = function()
     {
         if (http.readyState===4 && http.status===200)
@@ -91,7 +91,8 @@ function guardarcuestionario( IDBulk, IDCuenta, Formato, Puntuacion, Tiempo )
         }
         
     }
-    http.open("POST", "http://50.62.166.14:81/script.php", false);
+	console.log("parametros: "+params);
+    http.open("POST", "http://50.62.166.14:81/script.php");
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     //http.setRequestHeader("Content-length", params.length);
     //http.setRequestHeader("Connection", "close");
