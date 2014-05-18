@@ -24,6 +24,9 @@ public class AdminNivel : MonoBehaviour {
 	private float			totalTiempo;
 	private string			MensajeSalida = "\t\t\tSalvaremos su progreso, puede cargarlo despues desde\n\t\t\t\tel menu inicial\n\t\t\t\t\t¿Desea volver al menu inicial?";
 	public	Texture			imgBarraInfo;
+	private	Texture2D		imagenEdActual;
+	private	string			nombreEdActual;
+	private string			descripcionEdActual;
 
 	
 	void Start (){
@@ -147,5 +150,23 @@ public class AdminNivel : MonoBehaviour {
 
 	public bool EstaCompleto(int IDBulk){
 		return RunActual.DarFlag(IDBulk);
+	}
+
+	public void setDatosEdificio(Texture2D imagen, string nombre, string descripcion){
+		imagenEdActual = imagen;
+		nombreEdActual = nombre;
+		descripcionEdActual = descripcion;
+	}
+
+	public Texture2D darImagen(){
+		return imagenEdActual;
+	}
+
+	public string darNombre(){
+		return nombreEdActual;
+	}
+
+	public string darDescripcion(){
+		return descripcionEdActual;
 	}
 }

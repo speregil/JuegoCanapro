@@ -10,9 +10,12 @@ public class OnClick : MonoBehaviour {
 	// Atributos
 	//----------------------------------------------------------------------------
 
-	public 	GameObject 	Admin;		//Conexion con el administrador del mapa. Asignar en Inspector
-	public 	string		ID;			//Identificador del grupo de preguntas que este edificio carga 
-	private AdminNivel 	adminNivel;	//Referencia al script de admnistracion
+	public 	GameObject 	Admin;				//Conexion con el administrador del mapa. Asignar en Inspector
+	public	string		nombreEdificio;		//Nombre del edificio
+	public	Texture2D	imagenEdificio;		//Imagen de la sede del edificio
+	public	string		descripcionEdificio;	//Descripcion de la sede
+	public 	string		ID;					//Identificador del grupo de preguntas que este edificio carga 
+	private AdminNivel 	adminNivel;			//Referencia al script de admnistracion
 
 	//----------------------------------------------------------------------------
 	// Constructor
@@ -30,5 +33,6 @@ public class OnClick : MonoBehaviour {
 	// hacia el
 	void OnMouseDown(){
 		adminNivel.nuevoDestino(transform.position, ID);
+		adminNivel.setDatosEdificio(imagenEdificio, nombreEdificio, descripcionEdificio);
 	} 
 }

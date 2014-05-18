@@ -191,9 +191,9 @@ public class PanelPregunta : MonoBehaviour {
 
 		// Ventana de confirmacion
 		if(WindowID == 1){
-			GUI.Label(new Rect(RectConfirmacion.width/3 + 20,RectConfirmacion.height*1/5,(RectConfirmacion.width/2) - 10,RectConfirmacion.height/20), "Bienvenido A: Edificio XYZ");
-			GUI.Box(new Rect(RectConfirmacion.width*1/6 - 20 ,RectConfirmacion.height*1/3 - 20,RectConfirmacion.width*3/8,RectConfirmacion.height*2/5), "Foto del edificio");
-			GUI.Label(new Rect(RectConfirmacion.width*5/9 ,RectConfirmacion.height*1/3 - 20,RectConfirmacion.width*1/3,RectConfirmacion.height*2/5), "Descripcion del edificio");
+			GUI.Label(new Rect(RectConfirmacion.width/3 + 20,RectConfirmacion.height*1/5,(RectConfirmacion.width/2) - 10,RectConfirmacion.height/20), "Bienvenido A: " + Control.darNombre());
+			GUI.Box(new Rect(RectConfirmacion.width*1/6 - 20 ,RectConfirmacion.height*1/3 - 20,RectConfirmacion.width*3/8,RectConfirmacion.height*2/5), Control.darImagen());
+			GUI.Label(new Rect(RectConfirmacion.width*5/9 ,RectConfirmacion.height*1/3 - 20,RectConfirmacion.width*1/3,RectConfirmacion.height*2/5), "" + Control.darDescripcion());
 			GUI.Label(new Rect(RectConfirmacion.width*1/6 - 20,RectConfirmacion.height*6/8,(RectConfirmacion.width/2) - 10,RectConfirmacion.height - 50),mensajeConfirmacion);
 			if(repetido){
 				if(GUI.Button(new Rect(RectConfirmacion.width*3/5,RectConfirmacion.height*6/8 - 20,RectConfirmacion.width/6,RectConfirmacion.height/9), "CONTINUAR")){

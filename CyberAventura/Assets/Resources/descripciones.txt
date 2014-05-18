@@ -1,0 +1,11 @@
+1;Un hotel campestre, ubicado en Puente Nacional. Este complejo turístico cuenta con 25 habitaciones dotadas con todo lo que usted requiere para su descanso, además tiene restaurante, salón de conferencias, piscina, zona de camping y amplias zonas de juegos;
+2;Oficinas principales de Canapro, ubicadas en Bogotá;
+3;La Corporación Internacional para el Desarrollo Educativo CIDE, desarrolla un proyecto social y así mejorar la calidad de vida de la comunidad educativa contribuyendo a la construcción de una nación solidaria y equitativa;
+4;Somos una Institución educativa que genera procesos pedagógicos de alta calidad, comprometidos con el desarrollo humano de los estudiantes, de sus familias y de nuestra identidad colombiana;
+5;Nuestras oficinas ubicadas en el muncipio de Fusagasuga;
+6;Nuestras oficinas ubicadas en el centro comercial Gran Estación de a ciudad de Bogotá;
+7;CANAPRO ofrece a sus asociados la posibilidad de reservar habitaciones, pasadias o camping en el Centro Vacacional Guaré en CARMEN DE APICALÁ;
+8;BIENVENIDOS A PROXUMIR. REDES SOLIDARIAS DE CONSUMO REMUNERADOS, MIENTRAS EL PRODUCTOR GANA Y EL CONSUMIDOR GASTA EL * PROXUMIDOR * GASTA PARA GANAR;
+9;Nuestras oficinas ubicadas en el municipio de Soacha;
+10;CANAPRO ofrece a sus asociados la posibilidad de reservar una casa de vacaciones con capacidad para 6 personas en Puerto Lopez (META), en un conjunto cerrado que consta de 6 casas y piscina;
+11;NUestras oficinas ubicadas en la ciudad de Villavicencio;
