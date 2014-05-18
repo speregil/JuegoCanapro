@@ -5,6 +5,10 @@ public class AdminNivel : MonoBehaviour {
 	public	GUISkin			skinConfirmacion;
 	public	GUISkin			skinBtnVolver;
 	public 	GameObject 		personaje;
+	public	Camera			camaraPrincipal;
+	public	Camera			camaraAnimacion;
+	public	GameObject		AnimCorrecto;
+	public	GameObject		AnimIncorrecto;
 	private	AdminSQL		SQL;
 	private PanelPregunta	panel; 
 	private Movimiento 		mov;
@@ -14,6 +18,7 @@ public class AdminNivel : MonoBehaviour {
 	private Rect			RectConfirmacion;
 	private bool			salvar;
 	private bool			gano;
+	private bool			onMapa;
 	private int				totalEdificios;
 	private int				totalPuntos;
 	private float			totalTiempo;
@@ -22,6 +27,10 @@ public class AdminNivel : MonoBehaviour {
 
 	
 	void Start (){
+		//camaraPrincipal.enabled = false;
+		camaraAnimacion.enabled = false;
+		activarCorrecto(false);
+		activarIncorrecto(false);
 		panel = (PanelPregunta)GetComponent(typeof(PanelPregunta));
 		mov = (Movimiento)personaje.GetComponent(typeof(Movimiento));
 		GameObject adSQL = GameObject.Find("AdminSQL");
@@ -34,6 +43,7 @@ public class AdminNivel : MonoBehaviour {
 		RectConfirmacion = new Rect((Screen.width/3) - 100,Screen.height/3 ,Screen.width/2,Screen.height/3);
 		salvar = false;
 		gano = false;
+		onMapa = true;
 	}
 
 	void Update (){
@@ -41,24 +51,26 @@ public class AdminNivel : MonoBehaviour {
 	}
 
 	void OnGUI(){
-		GUI.skin = skinConfirmacion;
-		GUI.Label(new Rect(Screen.width*3/10,Screen.height/20,Screen.width*7/10,Screen.height/12), imgBarraInfo);
-		GUI.Label(new Rect(Screen.width*14/40 - 60,Screen.height/20+Screen.height*78/10000,Screen.width/4,Screen.height/12),"Bienvenido(a) "+ usuarioActual);
-		GUI.Label(new Rect(Screen.width*5/10,Screen.height/20+Screen.height*78/10000,Screen.width*3/10,Screen.height/12),"Haz completado "+ totalEdificios + " edificios, te faltan " + (12 - totalEdificios));
-		GUI.Label(new Rect(Screen.width*8/10,Screen.height/20+Screen.height*78/10000,Screen.width*2/10,Screen.height/12),"Puntos: "+ totalPuntos + "     Tiempo: " + totalTiempo);
+		if(onMapa){
+			GUI.skin = skinConfirmacion;
+			GUI.Label(new Rect(Screen.width*3/10,Screen.height/20,Screen.width*7/10,Screen.height/12), imgBarraInfo);
+			GUI.Label(new Rect(Screen.width*15/40 - 60,Screen.height/20+Screen.height*78/10000,Screen.width/3,Screen.height/12),"Hola "+ usuarioActual);
+			GUI.Label(new Rect(Screen.width*27/40,Screen.height/20+Screen.height*78/10000,Screen.width*3/10,Screen.height/12),"Edificios: "+ totalEdificios + "/12");
+			GUI.Label(new Rect(Screen.width*8/10,Screen.height/20+Screen.height*78/10000,Screen.width*2/10,Screen.height/12),"Puntos: "+ totalPuntos + "     Tiempo: " + totalTiempo);
 
-		if(salvar)
-			RectConfirmacion = GUI.Window(1,RectConfirmacion,WindowFunction,"");
+			if(salvar)
+				RectConfirmacion = GUI.Window(1,RectConfirmacion,WindowFunction,"");
 
-		if(gano){
-			RectConfirmacion = GUI.Window(2,RectConfirmacion,WindowFunction,"");
-		}
-		//GUI.Box(new Rect((0),(0),(Screen.width),(Screen.height)), "");
-		GUI.skin = skinBtnVolver;
-		Rect rect = new Rect((Screen.width*113/128)+5, (Screen.height*57/64)+(Screen.height*1/128), (Screen.width*7/64), (Screen.height*6/78));
-		if(GUI.Button( rect, "Regresar"))
-		{
-			salvar = true;
+			if(gano){
+				RectConfirmacion = GUI.Window(2,RectConfirmacion,WindowFunction,"");
+			}
+			//GUI.Box(new Rect((0),(0),(Screen.width),(Screen.height)), "");
+			GUI.skin = skinBtnVolver;
+			Rect rect = new Rect((Screen.width*113/128)+5, (Screen.height*57/64)+(Screen.height*1/128), (Screen.width*7/64), (Screen.height*6/78));
+			if(GUI.Button( rect, "Regresar"))
+			{
+				salvar = true;
+			}
 		}
 	}
 
@@ -100,12 +112,30 @@ public class AdminNivel : MonoBehaviour {
 		panel.PedirConfirmacion(bulkActual, this);
 	}
 
+	public void mostrarGUI(bool param){
+		onMapa = param;
+	}
+
+	public void activarCorrecto(bool param){
+		SpriteRenderer a = (SpriteRenderer)AnimCorrecto.GetComponent(typeof(SpriteRenderer));
+		a.enabled = param;
+		Animator an = (Animator)AnimCorrecto.GetComponent(typeof(Animator));
+		an.SetBool("activo",param);
+	}
+
+	public void activarIncorrecto(bool param){
+		SpriteRenderer a = (SpriteRenderer)AnimIncorrecto.GetComponent(typeof(SpriteRenderer));
+		a.enabled = param;
+		Animator an = (Animator)AnimIncorrecto.GetComponent(typeof(Animator));
+		an.SetBool("activo",param);
+	}
+
 	public void CompletarBulk(int ID, int puntos, float tiempo, Bulk bulkActivo){
 		RunActual.completarBulk(ID);
 		RunActual.SumarPuntos(puntos);
 		RunActual.SumarTiempo(tiempo);
 		totalPuntos = RunActual.DarPuntuacionTotal();
-		totalTiempo = RunActual.DarTiempoTotal();
+		totalTiempo = Mathf.CeilToInt(RunActual.DarTiempoTotal());
 		totalEdificios = RunActual.DarBulksCompletos();
 		SQL.GuardarBulk(ID, int.Parse(SQL.DarLlaveActual()),puntos,tiempo, bulkActivo);
 

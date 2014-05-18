@@ -10,10 +10,13 @@ public class PanelPregunta : MonoBehaviour {
 	// Atributos
 	//--------------------------------------------------------------------------------------------------------
 
+	public	Camera		camaraPrincipal;
+	public	Camera		camaraAnimacion;
 	public 	GUISkin		skinPreguntasA;			//Skin de las preguntas tipo A
 	public 	GUISkin		skinPreguntasB;			//Skin de las preguntas tipo B
 	public 	GUISkin		skinPreguntasC;			//Skin de las preguntas tipo C
 	public  GUISkin		skinPreguntasD;			//Skin de las preguntas tipo D
+	public	GUISkin		skinVacio;
 	public	GUISkin		skinConfirmacion;		//Skin del cuadro de confirmacion
 	private	GUISkin		skinTemp;				//Temporal de control para los cambios de skin
 	private	Bulk		BulkActivo;				//Bulk actual de preguntas
@@ -43,7 +46,7 @@ public class PanelPregunta : MonoBehaviour {
 	private char[]		split;					//Secuencia de chars para identificar el ID del bulk activo
 	private string		mensajeConfirmacion;	//Mensaje diferencial dependiendo si hace un bulk por primera vez o no
 	public	GameObject	personaje;				//Personaje de la escena necesario para la animacion
-	private	int IDPreguntaActual;				//IDPreguntaActual
+	private	int 		IDPreguntaActual;		//IDPreguntaActual
 
 	//---------------------------------------------------------------------------------------------------------
 	// Constructor
@@ -65,6 +68,7 @@ public class PanelPregunta : MonoBehaviour {
 		confirmacion = false;
 		RectConfirmacion = new Rect(Screen.width/100,Screen.height/100 ,1024,551);
 		RectPregunta = new Rect(0,0,Screen.width,Screen.height);
+		skinTemp = skinPreguntasA;
 		Fader.Instance.FadeOut(1);
 	}
 
@@ -74,7 +78,7 @@ public class PanelPregunta : MonoBehaviour {
 			RectConfirmacion = GUI.Window(1,RectConfirmacion,WindowFunction,"");
 		}
 		else if(ventanaActiva){
-			GUI.skin = skinPreguntasA;
+			GUI.skin = skinTemp;
 			RectPregunta = GUI.Window(0,RectPregunta,WindowFunction,"");
 		}
 	}
@@ -132,6 +136,13 @@ public class PanelPregunta : MonoBehaviour {
 				GUI.skin = skinTemp;
 			}
 			else if(respuestaCorrecta){
+				skinTemp = GUI.skin;
+				GUI.skin = skinVacio;
+				camaraAnimacion.enabled = true;
+				camaraPrincipal.enabled = false;
+				ventanaActiva = false;
+				Control.activarCorrecto(true);
+				StartCoroutine("esperar2");
 				if(GUI.Button(new Rect(RectPregunta.width/3,RectPregunta.height/3,RectPregunta.width/3,RectPregunta.height/3), "¡CORRECTO!")){
 					if(listaPreguntas.AvanzarPregunta()){
 						respuestaCorrecta = false;
@@ -144,7 +155,14 @@ public class PanelPregunta : MonoBehaviour {
 				}
 			}
 			else if(respuestaIncorrecta){
-				string respuesta = "La respuesta correcta es: " + listaPreguntas.DarRespuesta();
+				skinTemp = GUI.skin;
+				GUI.skin = skinVacio;
+				ventanaActiva = false;
+				camaraAnimacion.enabled = true;
+				camaraPrincipal.enabled = false;
+				Control.activarIncorrecto(true);
+				StartCoroutine("esperar2");
+				/*string respuesta = "La respuesta correcta es: " + listaPreguntas.DarRespuesta();
 				GUI.Label(new Rect(RectPregunta.width/3,RectPregunta.height/2 + 50,RectPregunta.width/3,RectPregunta.height/5),respuesta);
 				if(GUI.Button(new Rect(RectPregunta.width/3,RectPregunta.height/3 - 50,RectPregunta.width/3,RectPregunta.height/3), "ESO NO ES CORRECTO")){
 					if(listaPreguntas.AvanzarPregunta()){
@@ -155,7 +173,7 @@ public class PanelPregunta : MonoBehaviour {
 						respuestaIncorrecta = false;
 						termino = true;
 					}
-				}
+				}**/
 			}
 			else if(termino){
 				if(GUI.Button(new Rect(RectPregunta.width/3,RectPregunta.height/3,RectPregunta.width/3,RectPregunta.height/3), "¡TERMINASTE!")){
@@ -163,6 +181,7 @@ public class PanelPregunta : MonoBehaviour {
 					int id = (int.Parse(BulkActivo.DarID().Substring(4))) - 1;
 					Control.CompletarBulk(id,BulkActivo.DarPuntuacion(),BulkActivo.DarTiempo(), BulkActivo);
 					termino = false;
+					Control.mostrarGUI(true);
 					ventanaActiva = false;
 
 					//Bajar el bulk a la base de datos
@@ -188,6 +207,7 @@ public class PanelPregunta : MonoBehaviour {
 					Fader.Instance.FadeIn().StartCoroutine(this, "esperar");
 					CargarLista(bulkActual);
 					personaje.GetComponent<Movimiento>().cambiarLlego(false);
+					Control.mostrarGUI(false);
 				}
 					
 				if(GUI.Button(new Rect(RectConfirmacion.width*4/5,RectConfirmacion.height*6/8 - 20,RectConfirmacion.width/10,RectConfirmacion.height/9), "NO")){
@@ -273,5 +293,46 @@ public class PanelPregunta : MonoBehaviour {
 			confirmacion = false;
 		}
 		Fader.Instance.FadeOut(1);
+	}
+
+	private IEnumerator esperar2()
+	{
+		yield return new WaitForSeconds (5);
+		{
+			if(respuestaIncorrecta){
+				Control.activarIncorrecto(false);
+				if(listaPreguntas.AvanzarPregunta()){
+					respuestaIncorrecta = false;
+					ventanaActiva = true;
+					camaraAnimacion.enabled = false;
+					camaraPrincipal.enabled = true;
+					MostrarPregunta();
+				}
+				else{
+					respuestaIncorrecta = false;
+					camaraAnimacion.enabled = false;
+					camaraPrincipal.enabled = true;
+					ventanaActiva = true;
+					termino = true;
+				}
+			}
+			else if(respuestaCorrecta){
+				Control.activarCorrecto(false);
+				if(listaPreguntas.AvanzarPregunta()){
+					respuestaCorrecta = false;
+					ventanaActiva = true;
+					camaraAnimacion.enabled = false;
+					camaraPrincipal.enabled = true;
+					MostrarPregunta();
+				}
+				else{
+					respuestaCorrecta = false;
+					camaraAnimacion.enabled = false;
+					camaraPrincipal.enabled = true;
+					ventanaActiva = true;
+					termino = true;
+				}
+			}
+		}
 	}
 }
