@@ -81,6 +81,7 @@
      <None Include="Assets\Resources\Bulk4.txt" />
      <None Include="Assets\Resources\Bulk3.txt" />
      <None Include="Assets\Resources\Bulk8.txt" />
+     <None Include="Assets\Resources\descripciones.txt" />
      <None Include="Assets\Screen Fader Pack\ReadMe (eng).txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
