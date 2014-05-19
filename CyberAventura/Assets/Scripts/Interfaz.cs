@@ -96,6 +96,7 @@ public class Interfaz : MonoBehaviour {
 				if(result.Equals("exito")){
 
 					SQL.verificarPrimerBulk();
+					SQL.pedirAvance();
 					Fader.Instance.FadeIn(0.25f).StartCoroutine(this, "esperarInterno");
 				}
 				else if(result.Equals("mora")){
@@ -283,7 +284,7 @@ public class Interfaz : MonoBehaviour {
 		yield return new WaitForSeconds (0.25f);
 		{        
 			estado = PRINCIPAL;
-			SQL.pedirAvance();
+
 			if(SQL.esPrimerRun()){
 				SQL.NuevoRun();
 				SQL.asginarRunFalse();

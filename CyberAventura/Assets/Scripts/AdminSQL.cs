@@ -62,10 +62,9 @@ public class AdminSQL : MonoBehaviour {
 	public void CargarRun(){
 		// Cargar los datos del run de la bd
 			string[] cadena = ConexionBD.avance.Split(new char [] {';'});
-
-				int[] bulks = new int[(cadena.Length-7)/3];
-				int[] puntuaciones = new int[(cadena.Length-7)/3];
-				float[] tiempos = new float[(cadena.Length-7)/3];
+				int[] bulks = new int[(int)((cadena.Length-7)/3)];
+				int[] puntuaciones = new int[(int)((cadena.Length-7)/3)];
+		        float[] tiempos = new float[(int)((cadena.Length-7)/3)];
 				bool[] flag = new bool[12];
 				UsuarioActual =	cadena[0];
 				int indice = 0;
