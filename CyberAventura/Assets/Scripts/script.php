@@ -19,9 +19,8 @@
     {
         $bulk = $_POST["datas"];
         $cuenta = $_POST["datass"];
-        $tiempo = $_POST["datasssss"];
-        $puntuacion = $_POST["datassss"];
-        $formato = $_POST["datasss"];
+        $puntuacion = $_POST["datasss"];
+        $tiempo = $_POST["datassss"];
         $query = "SELECT IDRUN, PUNTUACION, TIEMPO FROM RUN WHERE IDCUENTA = ".$cuenta." ORDER BY IDRUN DESC LIMIT 1";
         $resultado = mysqli_query($connection, $query);
         if(!$resultado)
@@ -58,31 +57,29 @@
         
         $query = "INSERT INTO BULK (IDRUN, IDBULK, IDCUENTA, TIEMPO, PUNTUACION) VALUES (".$IDRun.", ".$bulk.", ".$cuenta.", ".$tiempo.", ".$puntuacion.")";
         $resultado = mysqli_query($connection, $query);
-        if($resultado)
+        if(!$resultado)
         {
-            $arreglo = split(";", $formato);
-            $cantidad = count($arreglo);
-            $indice = 0;
-            while($cantidad > $indice )
-            {
-                $query = "INSERT INTO REGISTRO (IDCUENTA, IDPREGUNTA, IDRESPUESTA, TIEMPOCONSUMIDO, IDRUN) VALUES (".$cuenta.",".$arreglo[$indice].", '".$arreglo[$indice+1]."', ".$arreglo[$indice+2].", ".$IDRun.")";
-				$resultado = mysqli_query($connection, $query);
-                $indice += 3;
-                if(!$resultado)
-                {
-                    //mysqli_close($connection);
+            //$arreglo = split(";", $formato);
+            //$cantidad = count($arreglo);
+            //$indice = 0;
+            //while($cantidad > $indice )
+            //{
+            //    $query = "INSERT INTO REGISTRO (IDCUENTA, IDPREGUNTA, IDRESPUESTA, TIEMPOCONSUMIDO, IDRUN) VALUES (".$cuenta.",".$arreglo[$indice].", '".$arreglo[$indice+1]."', ".$arreglo[$indice+2].", ".$IDRun.")";
+			//	$resultado = mysqli_query($connection, $query);
+            //    $indice += 3;
+            //    if(!$resultado)
+            //   {
+            //        //mysqli_close($connection);
+					mysqli_close($connection);
                     echo "Fracaso";
 					exit(0);
-                }
-            }
-            mysqli_commit($connection);
-            echo "Exito";
-			exit(0);
+            //    }
+            //}
         }
         else
         {
-            mysqli_close($connection);
-            echo "Fracaso";
+            mysqli_commit($connection);
+            echo "Exito";
 			exit(0);
         }
     }
@@ -258,6 +255,39 @@
 				echo "si";
 			}
 			echo "si";
+		}
+	}
+	else if($yeah === "guardarpregunta")
+	{
+		$yeah = $_GET["datas"];
+		$arreglo = split(";", $yeah);
+        $cantidad = count($arreglo);
+            $query = "INSERT INTO REGISTRO (IDCUENTA, IDPREGUNTA, IDRESPUESTA, TIEMPOCONSUMIDO, IDRUN) VALUES (".$arreglo[0].",".$arreglo[1].", '".$arreglo[2]."', ".$arreglo[3].", 1)";
+			$resultado = mysqli_query($connection, $query);
+            if(!$resultado)
+            {
+                    //mysqli_close($connection);
+                    echo "Fracaso";
+					exit(0);
+            }
+         mysqli_commit($connection);
+         echo "Exito";
+		 exit(0);
+	}
+	else if($yeah === "pediravancepregunta")
+	{
+		$IDCUENTA = $_POST["datas"];
+		$query = "SELECT IDPREGUNTA FROM REGISTRO WHERE IDCUENTA = ".$IDCUENTA;
+		$resultado = mysqli_query($connection, $query);
+		$respuesta = "";
+		if(mysqli_num_rows($resultado) > 0)
+		{
+			while($numero = mysqli_fetch_array($resultado, MYSQL_NUM))
+			{
+				$respuesta .= $numero[0].";";
+			}
+			mysqli_close($connection);
+			echo $respuesta;
 		}
 	}
         

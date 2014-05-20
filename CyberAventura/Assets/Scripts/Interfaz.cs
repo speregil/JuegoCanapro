@@ -137,12 +137,12 @@ public class Interfaz : MonoBehaviour {
 				estado= ESTADISTICAS;
 			}
 			GUI.Label(new Rect((Screen.width*3/12),(Screen.height*24/60),Screen.width/7,Screen.height/7), contenidoBoxEstadisticas);
-			if(GUI.Button(new Rect((Screen.width/12),(Screen.height*26/48),(Screen.width*1/4),(Screen.height*1/8)), "Tutorial"))
-			{
+			//if(GUI.Button(new Rect((Screen.width/12),(Screen.height*26/48),(Screen.width*1/4),(Screen.height*1/8)), "Tutorial"))
+			//{
 				//Fader.Instance.FadeIn().StartCoroutine(this, "esperarInterno");
-				estado= TUTO;
-			}
-			GUI.Label(new Rect((Screen.width*3/12),(Screen.height*33/60),Screen.width/10,Screen.height/10), contenidoBoxTutorial);
+			//	estado= TUTO;
+			//}
+			//GUI.Label(new Rect((Screen.width*3/12),(Screen.height*33/60),Screen.width/10,Screen.height/10), contenidoBoxTutorial);
 			if(GUI.Button(new Rect((Screen.width/12),(Screen.height*32/48),(Screen.width*1/4),(Screen.height*1/8)), "Salir"))
 			{
 				SQL.LogOut();
@@ -216,7 +216,7 @@ public class Interfaz : MonoBehaviour {
 			GUI.Label(new Rect((Screen.width/3)-50,0,(Screen.width*1/2),(Screen.height*1/3)), info);
 			if(GUI.Button(new Rect((Screen.width/3),(Screen.height/4),(Screen.width*1/4),(Screen.height*1/8)), "Jugar"))
 			{
-
+				SQL.pedirPreguntas();
 				Fader.Instance.FadeIn(0.25f).StartCoroutine(this,"esperar");
 				//Application.LoadLevel("Mapa");
 				//esperar();  

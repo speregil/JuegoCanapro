@@ -169,4 +169,11 @@ public class AdminNivel : MonoBehaviour {
 	public string darDescripcion(){
 		return descripcionEdActual;
 	}
+	public void guardarPregunta(string formato){
+		SQL.guardarPregunta(formato);
+	}
+	public string preguntas()
+	{
+		return SQL.preguntas();
+	}
 }

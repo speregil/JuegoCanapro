@@ -78,10 +78,10 @@ function login( arg, arg1)
     http.send(null);
     
 }
-function guardarcuestionario( IDBulk, IDCuenta, Formato, Puntuacion, Tiempo )
+function guardarcuestionario( IDBulk, IDCuenta, Puntuacion, Tiempo )
 {
     http=new XMLHttpRequest();
-    var params = "data=guardarcuestionario&datas="+IDBulk+"&datass="+IDCuenta+"&datasss="+Formato+"&datassss="+Puntuacion+"&datasssss="+Tiempo;
+    var params = "data=guardarcuestionario&datas="+IDBulk+"&datass="+IDCuenta+"&datasss="+Puntuacion+"&datassss="+Tiempo;
     http.onreadystatechange = function()
     {
         if (http.readyState===4 && http.status===200)
@@ -91,7 +91,6 @@ function guardarcuestionario( IDBulk, IDCuenta, Formato, Puntuacion, Tiempo )
         }
         
     }
-	console.log("parametros: "+params);
     http.open("POST", "http://50.62.166.14:81/script.php");
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     //http.setRequestHeader("Content-length", params.length);
@@ -187,6 +186,41 @@ function esprimerbulk( arg )
     }
     http.open("GET", "http://50.62.166.14:81/script.php?data=primerbulk&datas="+arg+"", true);
     http.send(null);
+}
+function guardarpregunta(arg)
+{
+	http=new XMLHttpRequest();
+    http.onreadystatechange = function()
+    {
+        if (http.readyState===4 && http.status===200)
+        {
+            var respuesta = this.responseText;
+            u.getUnity().SendMessage("AdminSQL", "recibirPrimerBulk", respuesta);
+        }
+        
+    }
+    http.open("GET", "http://50.62.166.14:81/script.php?data=guardarpregunta&datas="+arg+"", true);
+    http.send(null)
+}
+function pedirpreguntas( IDCuenta )
+{
+    http=new XMLHttpRequest();
+    var params = "data=pediravancepregunta&datas="+IDCuenta+"";
+    http.onreadystatechange = function()
+    {
+        if (http.readyState===4 && http.status===200)
+        {
+            var respuesta = this.responseText;
+            u.getUnity().SendMessage("AdminSQL", "recibirPreguntas", respuesta);
+        }
+        
+    }
+	console.log("parametros: "+params);
+    http.open("POST", "http://50.62.166.14:81/script.php");
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    //http.setRequestHeader("Content-length", params.length);
+    //http.setRequestHeader("Connection", "close");
+    http.send(params);
 }
 function debug(arg)
 {

@@ -1,13 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Interfaz.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CRUD.cs">
     <Files>
-      <File FileName="Assets\Scripts\Interfaz.cs" Line="99" Column="24" />
-      <File FileName="Assets\Scripts\AdminSQL.cs" Line="56" Column="2" />
-      <File FileName="Assets\Scripts\PanelPregunta.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\AdminNivel.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\OnClick.cs" Line="1" Column="1" />
-      <File FileName="Assets\Screen Fader Pack\Demo\Other stuff\RotatableObject.cs" Line="6" Column="1" />
+      <File FileName="Assets\Scripts\AdminSQL.cs" Line="170" Column="27" />
+      <File FileName="Assets\Scripts\Interfaz.cs" Line="219" Column="26" />
+      <File FileName="Assets\Scripts\PanelPregunta.cs" Line="188" Column="18" />
+      <File FileName="Assets\Scripts\AdminNivel.cs" Line="118" Column="21" />
+      <File FileName="Assets\Scripts\CRUD.cs" Line="197" Column="3" />
+      <File FileName="Assets\Scripts\IOPreguntas.cs" Line="92" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

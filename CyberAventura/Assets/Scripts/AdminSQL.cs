@@ -8,6 +8,8 @@ public class AdminSQL : MonoBehaviour {
 	private string 			UsuarioActual;
 	private string			LlaveUsuario;
 	private Run 			RunActual;
+	//variable con el ID de las preguntas respondidas
+	private string			preguntass;
 
 	//variable ultra provicional
 	public bool primerRun = false;
@@ -91,23 +93,23 @@ public class AdminSQL : MonoBehaviour {
 	}
 
 	public void GuardarBulk(int IDBulk, int IDCuenta, int puntuacion, float tiempo, Bulk bulkActivo){
-		string respuestas = bulkActivo.darRespuestas();
-		int i = 0;
-		int indice = 0;
-		respuestas = respuestas.Substring(0, respuestas.Length-1);
-		string[] caracteres = respuestas.Split(new char [] {';'});
-		string[] respuestass = new string[caracteres.Length/2];
-		string[] IDPreguntas = new string[caracteres.Length/2];
-		float[] tiempos = new float[caracteres.Length/2];
-		while(i+1 < caracteres.Length )
-		{
-			IDPreguntas[indice] = caracteres[i];
-			respuestass[indice] = caracteres[i+1];
-			tiempos[indice] = 0;
-			indice++;
-			i += 2;
-		}
-		ConexionBD.guardarCuestionario(IDBulk,tiempos, IDCuenta, respuestass, puntuacion, 0, IDPreguntas);
+		//string respuestas = bulkActivo.darRespuestas();
+		//int i = 0;
+		//int indice = 0;
+		//respuestas = respuestas.Substring(0, respuestas.Length-1);
+		//string[] caracteres = respuestas.Split(new char [] {';'});
+		//string[] respuestass = new string[caracteres.Length/2];
+		//string[] IDPreguntas = new string[caracteres.Length/2];
+		//float[] tiempos = new float[caracteres.Length/2];
+		//while(i+1 < caracteres.Length )
+		//{
+		//	IDPreguntas[indice] = caracteres[i];
+		//	respuestass[indice] = caracteres[i+1];
+		//	tiempos[indice] = 0;
+		//	indice++;
+		//	i += 2;
+		//}
+		ConexionBD.guardarCuestionario(IDBulk, IDCuenta, puntuacion, tiempo);
 	}
 
 	public string top20()
@@ -137,6 +139,38 @@ public class AdminSQL : MonoBehaviour {
 	public void asginarRunFalse()
 	{
 		ConexionBD.esPrimerRun = false;
+	}
+	private void asignarPreguntaAVacio()
+	{
+		ConexionBD.guardarPregunta = "";
+	}
+	public void guardarPregunta(string formato)
+	{
+		formato = LlaveUsuario+";"+formato;
+		ConexionBD.guardaPregunta(formato);
+	}
+	public bool guardoPregunta()
+	{
+		if(ConexionBD.guardarPregunta.Equals( "Fracaso" ) || ConexionBD.guardarPregunta.Equals( "" ))
+		{
+			asignarPreguntaAVacio();
+			return false;
+		}
+		else if(ConexionBD.guardarPregunta.Equals( "Exito" ))
+		{
+			asignarPreguntaAVacio();
+			return true;
+		}
+		return false;
+	}
+	public void pedirPreguntas()
+	{
+		ConexionBD.pedirPreguntas(LlaveUsuario);
+	}
+	public string preguntas()
+	{
+		preguntass = ConexionBD.preguntas;
+		return preguntass;
 	}
 	/**public bool verificarUsuario(string IDCuenta){
 		//Verificar que no halla hecho un run previo

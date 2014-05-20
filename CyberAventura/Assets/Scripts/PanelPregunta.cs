@@ -47,6 +47,8 @@ public class PanelPregunta : MonoBehaviour {
 	private string		mensajeConfirmacion;	//Mensaje diferencial dependiendo si hace un bulk por primera vez o no
 	public	GameObject	personaje;				//Personaje de la escena necesario para la animacion
 	private	int 		IDPreguntaActual;		//IDPreguntaActual
+	private string 		preguntas;				//Preguntas respondidas
+	private bool		paso;					//Variable provisional para guardar bulk
 
 	//---------------------------------------------------------------------------------------------------------
 	// Constructor
@@ -66,6 +68,7 @@ public class PanelPregunta : MonoBehaviour {
 		termino = false;
 		repetido = false;
 		confirmacion = false;
+		paso = false;
 		RectConfirmacion = new Rect(Screen.width/100,Screen.height/100 ,1024,551);
 		RectPregunta = new Rect(0,0,Screen.width,Screen.height);
 		skinTemp = skinPreguntasA;
@@ -101,6 +104,7 @@ public class PanelPregunta : MonoBehaviour {
 					Debug.Log(tiempoTotal);
 					preguntaActiva = false;
 					respuestaIncorrecta = true;
+					ValidarRespuesta("");
 				}
 
 				// Dibujar la pregunta
@@ -176,15 +180,27 @@ public class PanelPregunta : MonoBehaviour {
 				}**/
 			}
 			else if(termino){
-				if(GUI.Button(new Rect(RectPregunta.width/3,RectPregunta.height/3,RectPregunta.width/3,RectPregunta.height/3), "¡TERMINASTE!")){
+				if(!paso)
+				{
 					BulkActivo.AsignarTiempo(tiempoTotal);
 					int id = (int.Parse(BulkActivo.DarID().Substring(4))) - 1;
 					Control.CompletarBulk(id,BulkActivo.DarPuntuacion(),BulkActivo.DarTiempo(), BulkActivo);
+					paso = true;
+				}
+				if(GUI.Button(new Rect(RectPregunta.width/3,RectPregunta.height/3,RectPregunta.width/3,RectPregunta.height/3), "¡TERMINASTE!")){
 					termino = false;
 					Control.mostrarGUI(true);
 					ventanaActiva = false;
 
 					//Bajar el bulk a la base de datos
+				}
+			}
+			else
+			{
+				listaPreguntas.AvanzarPregunta();
+				if(!estaHecha())
+				{
+					MostrarPregunta();
 				}
 			}
 		}
@@ -236,6 +252,7 @@ public class PanelPregunta : MonoBehaviour {
 	 * Carga la informacion de la pregunta e inicia la visualizacion
 	 * */
 	void MostrarPregunta(){
+		preguntas = Control.preguntas();
 		textoActual = listaPreguntas.DarTexto();
 		AActual = listaPreguntas.DarOpcionA();
 		BActual = listaPreguntas.DarOpcionB();
@@ -245,7 +262,14 @@ public class PanelPregunta : MonoBehaviour {
 		seccion = 0.0f;
 		cambioTiempo = 0.0f;
 		tiempoInicio = Time.time;
-		preguntaActiva = true;
+		if(estaHecha())
+		{
+			preguntaActiva = false;
+		}
+		else 
+		{
+			preguntaActiva = true;
+		}
 	}
 
 	/*
@@ -255,14 +279,16 @@ public class PanelPregunta : MonoBehaviour {
 		if(listaPreguntas.ValidarRespuesta(Opcion)){
 			BulkActivo.SumarPunto();
 			IDPreguntaActual = listaPreguntas.DarID();
-			BulkActivo.concatenar(IDPreguntaActual+";"+Opcion+";");
+			Control.guardarPregunta(IDPreguntaActual+";"+Opcion+";"+guiTime);
+			preguntas += IDPreguntaActual+";";
 			tiempoTotal += guiTime;
 			preguntaActiva = false;
 			respuestaCorrecta = true;
 		}
 		else{
 			IDPreguntaActual = listaPreguntas.DarID();
-			BulkActivo.concatenar(IDPreguntaActual+";"+Opcion+";");
+			Control.guardarPregunta(IDPreguntaActual+";"+Opcion+";"+guiTime);
+			preguntas += IDPreguntaActual+";";
 			preguntaActiva = false;
 			respuestaIncorrecta = true;
 			tiempoTotal += guiTime;
@@ -334,5 +360,17 @@ public class PanelPregunta : MonoBehaviour {
 				}
 			}
 		}
+	}
+	private bool estaHecha()
+	{
+		string [] cadena = this.preguntas.Split(new char [] {';'});
+		for(int i = 0; i < cadena.Length;i++)
+		{
+			if(cadena[i].Equals(""+IDPreguntaActual))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }

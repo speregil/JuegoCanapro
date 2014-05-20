@@ -21,6 +21,10 @@ public class CRUD : MonoBehaviour{
 	public bool esPrimerBulk;
 	//Booleano con confirmacion de si es primer Run
 	public bool esPrimerRun;
+	//confirmacion de guardar pregunta
+	public string guardarPregunta;
+	//preguntas respondidas
+	public string preguntas;
 
 	//Clase para hacer consultas en la base de datos
 	public CRUD()
@@ -34,6 +38,7 @@ public class CRUD : MonoBehaviour{
 		participante = "";
 		esPrimerBulk = false;
 		esPrimerRun = false;
+		guardarPregunta = "";
 	}
 	//Permite hacer login en la aplicacion
 	public void hacerLogin(string user, string password)
@@ -45,18 +50,18 @@ public class CRUD : MonoBehaviour{
 	/*
 	 * Este metodo puede retornar strings: "Fracaso" o "Exito"
 	 * */
-	public void guardarCuestionario(int IDBulk, float[] tiempos, int IDCuenta, string[] respuestas, int puntuacion, float tiempo, string[] IDPreguntas)
+	public void guardarCuestionario(int IDBulk, int IDCuenta, int puntuacion, float tiempo)
 	{
-		string formato = "";
-		int indice = respuestas.Length;
-		int i = 0;
-		while(indice > i)
-		{
-			formato += IDPreguntas[i]+";"+respuestas[i]+";"+tiempos[i]+";";
-			i++;
-		}
-		formato = formato.Substring(0, formato.Length-1);
-		Application.ExternalCall("guardarcuestionario", IDBulk, IDCuenta, formato, puntuacion, tiempo);
+		//string formato = "";
+		//int indice = respuestas.Length;
+		//int i = 0;
+		//while(indice > i)
+		//{
+		//	formato += IDPreguntas[i]+";"+respuestas[i]+";"+tiempos[i]+";";
+		//	i++;
+		//}
+		//formato = formato.Substring(0, formato.Length-1);
+		Application.ExternalCall("guardarcuestionario", IDBulk, IDCuenta, puntuacion, tiempo);
 	}
 	/*
 	 *Se pide el avance de un jugador en el juego y se entrega en el siguiente formato:
@@ -176,5 +181,23 @@ public class CRUD : MonoBehaviour{
 			esPrimerBulk = false;
 			esPrimerRun = false;
 		}
+	}
+	public void guardaPregunta(string formato)
+	{
+		Application.ExternalCall("guardarpregunta", formato);
+	}
+	public void recibirGuardarPregunta(string formato)
+	{
+		Application.ExternalCall("debug", "Guardar Pregunta: "+formato);
+		guardarPregunta = formato;
+	}
+	public void pedirPreguntas(string IDCuenta)
+	{
+		Application.ExternalCall("pedirpreguntas", IDCuenta);
+	}
+	public void recibirPreguntas(string formato)
+	{
+		Application.ExternalCall("debug", "Preguntas: "+formato);
+		preguntas = formato;
 	}
 }
