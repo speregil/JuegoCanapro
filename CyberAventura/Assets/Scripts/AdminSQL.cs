@@ -167,6 +167,7 @@ public class AdminSQL : MonoBehaviour {
 	{
 		ConexionBD.pedirPreguntas(LlaveUsuario);
 	}
+
 	public string preguntas()
 	{
 		preguntass = ConexionBD.preguntas;

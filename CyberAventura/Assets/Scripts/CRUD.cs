@@ -163,6 +163,7 @@ public class CRUD : MonoBehaviour{
 		Application.ExternalCall("debug", "cuestionario: "+formato);
 		cuestionario = formato;
 	}
+
 	public void recibirPrimerBulk(string formato)
 	{
 		Application.ExternalCall("debug", "es el primer run?: "+formato);
@@ -182,19 +183,23 @@ public class CRUD : MonoBehaviour{
 			esPrimerRun = false;
 		}
 	}
+
 	public void guardaPregunta(string formato)
 	{
 		Application.ExternalCall("guardarpregunta", formato);
 	}
+
 	public void recibirGuardarPregunta(string formato)
 	{
 		Application.ExternalCall("debug", "Guardar Pregunta: "+formato);
 		guardarPregunta = formato;
 	}
+
 	public void pedirPreguntas(string IDCuenta)
 	{
 		Application.ExternalCall("pedirpreguntas", IDCuenta);
 	}
+
 	public void recibirPreguntas(string formato)
 	{
 		Application.ExternalCall("debug", "Preguntas: "+formato);

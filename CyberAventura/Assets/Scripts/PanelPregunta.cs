@@ -147,7 +147,7 @@ public class PanelPregunta : MonoBehaviour {
 				ventanaActiva = false;
 				Control.activarCorrecto(true);
 				StartCoroutine("esperar2");
-				if(GUI.Button(new Rect(RectPregunta.width/3,RectPregunta.height/3,RectPregunta.width/3,RectPregunta.height/3), "¡CORRECTO!")){
+				/*if(GUI.Button(new Rect(RectPregunta.width/3,RectPregunta.height/3,RectPregunta.width/3,RectPregunta.height/3), "¡CORRECTO!")){
 					if(listaPreguntas.AvanzarPregunta()){
 						respuestaCorrecta = false;
 						MostrarPregunta();
@@ -156,7 +156,7 @@ public class PanelPregunta : MonoBehaviour {
 						respuestaCorrecta = false;
 						termino = true;
 					}
-				}
+				}**/
 			}
 			else if(respuestaIncorrecta){
 				skinTemp = GUI.skin;
@@ -193,14 +193,6 @@ public class PanelPregunta : MonoBehaviour {
 					ventanaActiva = false;
 
 					//Bajar el bulk a la base de datos
-				}
-			}
-			else
-			{
-				listaPreguntas.AvanzarPregunta();
-				if(!estaHecha())
-				{
-					MostrarPregunta();
 				}
 			}
 		}
@@ -245,6 +237,14 @@ public class PanelPregunta : MonoBehaviour {
 		listaPreguntas = new IOPreguntas(NombreLista);
 		BulkActivo = new Bulk(NombreLista);
 		ventanaActiva = true;
+		preguntas = Control.preguntas();
+		while(estaHecha(listaPreguntas.DarID())){
+			bool avance = listaPreguntas.AvanzarPregunta();
+			if(!avance){
+				termino = true;
+				break;
+			}
+		}
 		MostrarPregunta();
 	}
 
@@ -252,22 +252,16 @@ public class PanelPregunta : MonoBehaviour {
 	 * Carga la informacion de la pregunta e inicia la visualizacion
 	 * */
 	void MostrarPregunta(){
-		preguntas = Control.preguntas();
-		textoActual = listaPreguntas.DarTexto();
-		AActual = listaPreguntas.DarOpcionA();
-		BActual = listaPreguntas.DarOpcionB();
-		CActual = listaPreguntas.DarOpcionC();
-		DActual = listaPreguntas.DarOpcionD();
-		tiempoRestante = listaPreguntas.DarTiempo();
-		seccion = 0.0f;
-		cambioTiempo = 0.0f;
-		tiempoInicio = Time.time;
-		if(estaHecha())
-		{
-			preguntaActiva = false;
-		}
-		else 
-		{
+		if(!termino){
+			textoActual = listaPreguntas.DarTexto();
+			AActual = listaPreguntas.DarOpcionA();
+			BActual = listaPreguntas.DarOpcionB();
+			CActual = listaPreguntas.DarOpcionC();
+			DActual = listaPreguntas.DarOpcionD();
+			tiempoRestante = listaPreguntas.DarTiempo();
+			seccion = 0.0f;
+			cambioTiempo = 0.0f;
+			tiempoInicio = Time.time;
 			preguntaActiva = true;
 		}
 	}
@@ -312,6 +306,7 @@ public class PanelPregunta : MonoBehaviour {
 
 		confirmacion = true;
 	}
+
 	private IEnumerator esperar()
 	{
 		yield return new WaitForSeconds (1);
@@ -323,7 +318,7 @@ public class PanelPregunta : MonoBehaviour {
 
 	private IEnumerator esperar2()
 	{
-		yield return new WaitForSeconds (5);
+		yield return new WaitForSeconds(5);
 		{
 			if(respuestaIncorrecta){
 				Control.activarIncorrecto(false);
@@ -361,16 +356,19 @@ public class PanelPregunta : MonoBehaviour {
 			}
 		}
 	}
-	private bool estaHecha()
+
+	private bool estaHecha(int IDPregunta)
 	{
 		string [] cadena = this.preguntas.Split(new char [] {';'});
 		for(int i = 0; i < cadena.Length;i++)
 		{
-			if(cadena[i].Equals(""+IDPreguntaActual))
+			if(cadena[i].Equals(""+IDPregunta))
 			{
+				Debug.Log("--------------Es verdadero----------------");
 				return true;
 			}
 		}
+		Debug.Log("--------------Es falso----------------");
 		return false;
 	}
 }
