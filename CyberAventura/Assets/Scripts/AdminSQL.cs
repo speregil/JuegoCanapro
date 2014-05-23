@@ -10,6 +10,7 @@ public class AdminSQL : MonoBehaviour {
 	private Run 			RunActual;
 	//variable con el ID de las preguntas respondidas
 	private string			preguntass;
+	private Interfaz		conexionInterfaz;
 
 	//variable ultra provicional
 	public bool primerRun = false;
@@ -20,7 +21,10 @@ public class AdminSQL : MonoBehaviour {
 	
 	void Start () {
 		UsuarioActual = LOGOUT;
+		LlaveUsuario = "Login vacio";
 		ConexionBD = (CRUD)GetComponent(typeof(CRUD));
+		GameObject adInterfaz = GameObject.Find("GUIPrincipal");
+		conexionInterfaz= (Interfaz)adInterfaz.GetComponent(typeof(Interfaz));
 	}
 
 	public string DarUsuarioActual(){
@@ -35,20 +39,19 @@ public class AdminSQL : MonoBehaviour {
 		return LlaveUsuario;
 	}
 
-	public string LogIn(string User, string Password){
+	public void LogIn(string User, string Password){
 		ConexionBD.hacerLogin(User, Password);
-		LlaveUsuario = ConexionBD.login;// Hay que parcear esta informacion
-		// Prueba dummy para la presentacion
-		if(User.Equals("123")){
-			UsuarioActual = "Alexis";
-			return "exito";
-		}
-		else if(User.Equals("456")){
-			UsuarioActual = "Sonia";
-			return "mora";
-		}
+		ConexionBD.buscarParticipante(User);
+ 		StartCoroutine("CargarLogin");
+	}
 
-		return "fallo";
+	private IEnumerator CargarLogin(){
+		yield return new WaitForSeconds(15);
+		{
+			LlaveUsuario = ConexionBD.login;
+			UsuarioActual = ConexionBD.participante;
+			conexionInterfaz.CargarLogin(LlaveUsuario);
+		}
 	}
 
 	public void LogOut(){

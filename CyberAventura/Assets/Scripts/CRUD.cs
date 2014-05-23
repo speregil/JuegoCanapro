@@ -44,7 +44,6 @@ public class CRUD : MonoBehaviour{
 	public void hacerLogin(string user, string password)
 	{
 		Application.ExternalCall("login", user, password);
-		login = "23";
 	}
 	//Se deben pasar igual numero de tiempos, respuestas, y de IDPreguntas o pueden crear errores
 	/*

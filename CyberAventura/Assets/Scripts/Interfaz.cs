@@ -89,34 +89,22 @@ public class Interfaz : MonoBehaviour {
 			GUI.Box(new Rect(0,0,Screen.width,Screen.height), "");
 			login = GUI.TextField(new Rect((Screen.width/4),(Screen.height*3/8),(Screen.width*1/3),(Screen.height*1/10)),login);
 			pass = GUI.PasswordField(new Rect((Screen.width/4),(Screen.height/2),(Screen.width*1/3),(Screen.height*1/10)),pass, "*"[0]);
+
 			if(GUI.Button(new Rect((Screen.width/2-40),(Screen.height/2+Screen.height*2/16),(Screen.width*1/10),(Screen.height*1/16)), "INGRESAR"))
 			{
-				info = "BIENVENIDO A LA CYBERAVENTURA CANAPRO 2014, UN JUEGO QUE TE PERMITIRA GANAR, SI CONOCES DE COOPERATIVISMO. ANIMO!!!";
-				string result = SQL.LogIn(login,pass);
-				if(result.Equals("exito")){
-
-					SQL.verificarPrimerBulk();
-					SQL.pedirAvance();
-					Fader.Instance.FadeIn(0.25f).StartCoroutine(this, "esperarInterno");
-				}
-				else if(result.Equals("mora")){
-					info = "AL PARECER NO ESTÁS AL DÍA CON TUS OBLIGACIONES,\n NO PUEDES PARTICIPAR";
-				}
-				else{
-					info = "USUARIO O CONTRASEÑA INCORRECTOS.\nSI NO ERES MIEMBRO DE CANAPRO ¡PUEDES INSCRIBIRTE YA!";
-				}
+				info = "CONECTANDO...";
+				SQL.LogIn(login,pass);
 			}
+
 			GUI.Label(new Rect((Screen.width*1/4),(Screen.height*1/12),(Screen.width*1/2),(Screen.height*1/3)), info);
 			GUI.Label(new Rect((Screen.width/4),(Screen.height*3/8)-(Screen.height*1/32),(Screen.width*1/4),(Screen.height*1/16)), "    Número de cédula");
 			GUI.Label(new Rect((Screen.width/4),(Screen.height/2)-(Screen.height*1/32),(Screen.width*1/4),(Screen.height*1/16)), "    Contraseña");
-
-
 		}
 		else if(PRINCIPAL == estado)
 		{
 			GUI.skin = skinMenu;
 			GUI.Box(new Rect(0,0,Screen.width,Screen.height), "");
-			GUI.Label(new Rect((Screen.width*1/4),(Screen.height*1/12),(Screen.width*1/2),(Screen.height*1/3)), info);
+			//GUI.Label(new Rect((Screen.width*1/4),(Screen.height*1/12),(Screen.width*1/2),(Screen.height*1/3)), info);
 			if(GUI.Button(new Rect((Screen.width/12),(Screen.height*8/48),(Screen.width*1/4),(Screen.height*1/8)), "Jugar"))
 			{
 				estado = MODO;
@@ -298,4 +286,23 @@ public class Interfaz : MonoBehaviour {
 		}
 	}
 
+	public void CargarLogin(string LlaveUsuario){
+		if(LlaveUsuario.Equals("-1")){
+			info = "AUTENTICACION NO VALIDA, CONTACTECE CON EL SERVICIO DE SOPORTE";
+		}
+		else if(LlaveUsuario.Equals("-2")){
+			info = "NO ERES MIEMBRO DE CANAPRO, VISITA NUESTRA PAGINA PARA SABER COMO INSCRIBIRTE";
+		}
+		else if(LlaveUsuario.Equals("-3")){
+			info = "USUARIO O CONTRASEÑA INCORRECTOS.";
+		}
+		else if(LlaveUsuario.Equals("-4")){
+			info = "USUARIO O CONTRASEÑA INCORRECTOS.";
+		}
+		else{
+			SQL.verificarPrimerBulk();
+			SQL.pedirAvance();
+			Fader.Instance.FadeIn(0.25f).StartCoroutine(this, "esperarInterno");
+		}
+	}
 }
