@@ -13,6 +13,63 @@
     mysqli_autocommit($connection, FALSE);
     if($yeah === "login")
     {
+		$id = $_GET["datas"];
+		$pas = $_GET["datass"];
+		$servicio="http://190.144.186.146/Aqueron-WServices/wsTarjeta.asmx?wsdl"; //url del servicio
+		$parametros=array(); //parametros de la llamada
+		$parametros['Identificacion']=$id;
+		$parametros['Clave']=$pas;
+		$parametros['Id_Sistema']="100202";
+		$parametros['Token']="HihjELIX63523782177347c52416754f3e64Atamai";
+		try {  
+			$client = new SoapClient($servicio);
+			$result = $client->Consultar_Estado_Cliente($parametros);
+		} catch(Exception $e)
+		{
+			echo $e->getMessage();
+		}
+		$result = obj2array($result);
+		$respuesta = $result['Consultar_Estado_ClienteResult'];
+		$cadena = split(",", $respuesta);
+		$respuesta = "";
+		//echo $cadena[0].";";
+		//echo $cadena[1].";";
+		if($cadena[0] === "0")
+		{
+			$query = "SELECT ID, LOGIN, NOMBRE FROM CUENTA WHERE NOMBRE = '".$cadena[1]."'";
+			$resultado = mysqli_query($connection, $query);
+			if(mysqli_num_rows($resultado) > 0)
+			{
+				while($numero = mysqli_fetch_array($resultado, MYSQL_NUM))
+				{
+					$respuesta .= $numero[0];
+				}
+				mysqli_close($connection);
+				//echo "paso en la primera;";
+				echo $respuesta;
+			}
+			else
+			{
+				$query = "INSERT INTO CUENTA (LOGIN, NOMBRE, PUNTUACION, PROMEDIOTIEMPO, ROL) VALUES('".$id."', '".$cadena[1]."', 0, 0, 'E')";
+				$resultado = mysqli_query($connection, $query);
+				mysqli_commit($connection);
+				$query = "SELECT ID, LOGIN, NOMBRE FROM CUENTA WHERE NOMBRE = '".$cadena[1]."'";
+				$resultado = mysqli_query($connection, $query);
+				while($numero = mysqli_fetch_array($resultado, MYSQL_NUM))
+				{
+					$respuesta .= $numero[0];
+				}
+				mysqli_close($connection);
+				//echo "paso en la segunda;";
+				echo $respuesta;
+			}
+			exit(0);
+		}
+		else
+		{
+			echo $cadena[0];
+			exit(0);
+		}
     }
     //Hecho y sin probar
     else if($yeah === "guardarcuestionario")
@@ -288,6 +345,23 @@
 			}
 			mysqli_close($connection);
 			echo $respuesta;
+			exit(0);
 		}
 	}
-        
+	function obj2array($obj) {
+	  $out = array();
+	  foreach ($obj as $key => $val) {
+		switch(true) {
+			case is_object($val):
+			 $out[$key] = obj2array($val);
+			 break;
+		  case is_array($val):
+			 $out[$key] = obj2array($val);
+			 break;
+		  default:
+			$out[$key] = $val;
+		}
+	  }
+	  return $out;
+	}
+			
