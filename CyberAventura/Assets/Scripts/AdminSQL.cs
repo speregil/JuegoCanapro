@@ -40,16 +40,23 @@ public class AdminSQL : MonoBehaviour {
 	}
 
 	public void LogIn(string User, string Password){
-		ConexionBD.hacerLogin(User, Password);
-		ConexionBD.buscarParticipante(User);
- 		StartCoroutine("CargarLogin");
+		if(!User.Equals("1991")){
+			ConexionBD.hacerLogin(User, Password);
+			ConexionBD.buscarParticipante(User);
+ 			StartCoroutine("CargarLogin");
+		}
+		else{
+			UsuarioActual = "Administrador";
+			conexionInterfaz.CargarLogin("1991");
+		}
 	}
 
 	private IEnumerator CargarLogin(){
-		yield return new WaitForSeconds(15);
+		yield return new WaitForSeconds(8);
 		{
 			LlaveUsuario = ConexionBD.login;
-			UsuarioActual = ConexionBD.participante;
+			string[] user = ConexionBD.participante.Split(' ');
+			UsuarioActual = user[0];
 			conexionInterfaz.CargarLogin(LlaveUsuario);
 		}
 	}

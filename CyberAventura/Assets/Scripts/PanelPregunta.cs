@@ -17,6 +17,7 @@ public class PanelPregunta : MonoBehaviour {
 	public 	GUISkin		skinPreguntasC;			//Skin de las preguntas tipo C
 	public  GUISkin		skinPreguntasD;			//Skin de las preguntas tipo D
 	public	GUISkin		skinVacio;
+	public	GUISkin		skinTextoPreguntas;
 	public	GUISkin		skinConfirmacion;		//Skin del cuadro de confirmacion
 	private	GUISkin		skinTemp;				//Temporal de control para los cambios de skin
 	private	Bulk		BulkActivo;				//Bulk actual de preguntas
@@ -71,7 +72,7 @@ public class PanelPregunta : MonoBehaviour {
 		paso = false;
 		RectConfirmacion = new Rect(Screen.width/100,Screen.height/100 ,1024,551);
 		RectPregunta = new Rect(0,0,Screen.width,Screen.height);
-		skinTemp = skinPreguntasA;
+		skinTemp = skinTextoPreguntas;
 		Fader.Instance.FadeOut(1);
 	}
 
@@ -81,7 +82,7 @@ public class PanelPregunta : MonoBehaviour {
 			RectConfirmacion = GUI.Window(1,RectConfirmacion,WindowFunction,"");
 		}
 		else if(ventanaActiva){
-			GUI.skin = skinTemp;
+			GUI.skin = skinPreguntasA;
 			RectPregunta = GUI.Window(0,RectPregunta,WindowFunction,"");
 		}
 	}
@@ -108,12 +109,14 @@ public class PanelPregunta : MonoBehaviour {
 				}
 
 				// Dibujar la pregunta
+				GUI.skin = skinTextoPreguntas;
 				GUI.Label(new Rect(50,50,RectPregunta.width - 150,RectPregunta.height/2),textoActual);
+				GUI.skin = skinPreguntasA;
 				GUI.Box(new Rect(5,RectPregunta.height/2 + Screen.height*39/1000,RectPregunta.width*5/6+Screen.width*256/10000,RectPregunta.height/20-Screen.height*195/10000),"");
 				skinTemp = GUI.skin;
 				GUI.skin = skinPreguntasB;
 				GUI.Label(new Rect(RectPregunta.width/3 + Screen.width*549/10000,RectPregunta.height/2 - Screen.height*195/10000,RectPregunta.width/11,RectPregunta.height/11),cambioTiempo + "");
-				GUI.skin = skinTemp;
+				GUI.skin = skinPreguntasA;
 
 				if(GUI.Button(new Rect(5,Screen.height*84/1000 + RectPregunta.height/2,RectPregunta.width/2 - Screen.width*768/10000, Screen.height*7/60),""))
 					ValidarRespuesta(Pregunta.OPCIONA);
@@ -180,6 +183,15 @@ public class PanelPregunta : MonoBehaviour {
 				}**/
 			}
 			else if(termino){
+
+				skinTemp = GUI.skin;
+				GUI.skin = skinVacio;
+				ventanaActiva = false;
+				camaraAnimacion.enabled = true;
+				camaraPrincipal.enabled = false;
+				Control.activarTerminaste(true);
+				StartCoroutine("esperar3");
+
 				if(!paso)
 				{
 					BulkActivo.AsignarTiempo(tiempoTotal);
@@ -187,13 +199,7 @@ public class PanelPregunta : MonoBehaviour {
 					Control.CompletarBulk(id,BulkActivo.DarPuntuacion(),BulkActivo.DarTiempo(), BulkActivo);
 					paso = true;
 				}
-				if(GUI.Button(new Rect(RectPregunta.width/3,RectPregunta.height/3,RectPregunta.width/3,RectPregunta.height/3), "¡TERMINASTE!")){
-					termino = false;
-					Control.mostrarGUI(true);
-					ventanaActiva = false;
 
-					//Bajar el bulk a la base de datos
-				}
 			}
 		}
 
@@ -296,12 +302,14 @@ public class PanelPregunta : MonoBehaviour {
 		bulkActual = IDBulk;
 		Control = padre;
 
-		if(Control.EstaCompleto((int.Parse(IDBulk.Substring(4)))- 1)){
-			mensajeConfirmacion = "Ya has completado este edificio previamente";
-			repetido = true;
-		}
-		else{
-			mensajeConfirmacion = "¿Desea entrar a este edificio?";
+		if(!(Control.usuarioActual.Equals("Administrador"))){
+			if(Control.EstaCompleto((int.Parse(IDBulk.Substring(4)))- 1)){
+				mensajeConfirmacion = "Ya has completado este edificio previamente";
+				repetido = true;
+			}
+			else{
+				mensajeConfirmacion = "¿Desea entrar a este edificio?";
+			}
 		}
 
 		confirmacion = true;
@@ -318,7 +326,7 @@ public class PanelPregunta : MonoBehaviour {
 
 	private IEnumerator esperar2()
 	{
-		yield return new WaitForSeconds(5);
+		yield return new WaitForSeconds(3);
 		{
 			if(respuestaIncorrecta){
 				Control.activarIncorrecto(false);
@@ -354,6 +362,19 @@ public class PanelPregunta : MonoBehaviour {
 					termino = true;
 				}
 			}
+		}
+	}
+
+	private IEnumerator esperar3()
+	{
+		yield return new WaitForSeconds(2);
+		{
+			Control.activarTerminaste(false);
+			termino = false;
+			Control.mostrarGUI(true);
+			ventanaActiva = false;
+			camaraAnimacion.enabled = false;
+			camaraPrincipal.enabled = true;
 		}
 	}
 

@@ -9,11 +9,12 @@ public class AdminNivel : MonoBehaviour {
 	public	Camera			camaraAnimacion;
 	public	GameObject		AnimCorrecto;
 	public	GameObject		AnimIncorrecto;
+	public	GameObject		AnimTerminaste;
 	private	AdminSQL		SQL;
 	private PanelPregunta	panel; 
 	private Movimiento 		mov;
 	private string 			bulkActual;
-	private string			usuarioActual;
+	public string			usuarioActual;
 	private Run				RunActual;
 	private Rect			RectConfirmacion;
 	private bool			salvar;
@@ -30,19 +31,22 @@ public class AdminNivel : MonoBehaviour {
 
 	
 	void Start (){
-		//camaraPrincipal.enabled = false;
+		camaraPrincipal.enabled = true;
 		camaraAnimacion.enabled = false;
 		activarCorrecto(false);
 		activarIncorrecto(false);
+		activarTerminaste(false);
 		panel = (PanelPregunta)GetComponent(typeof(PanelPregunta));
 		mov = (Movimiento)personaje.GetComponent(typeof(Movimiento));
 		GameObject adSQL = GameObject.Find("AdminSQL");
 		SQL = (AdminSQL)adSQL.GetComponent(typeof(AdminSQL));
 		usuarioActual = SQL.DarUsuarioActual();
-		RunActual = SQL.DarRunActual();
-		totalEdificios = RunActual.DarBulksCompletos();
-		totalPuntos = RunActual.DarPuntuacionTotal();
-		totalTiempo = RunActual.DarTiempoTotal();
+		if(!usuarioActual.Equals("Administrador")){
+			RunActual = SQL.DarRunActual();
+			totalEdificios = RunActual.DarBulksCompletos();
+			totalPuntos = RunActual.DarPuntuacionTotal();
+			totalTiempo = RunActual.DarTiempoTotal();
+		}
 		RectConfirmacion = new Rect((Screen.width/3) - 100,Screen.height/3 ,Screen.width/2,Screen.height/3);
 		salvar = false;
 		gano = false;
@@ -130,6 +134,13 @@ public class AdminNivel : MonoBehaviour {
 		SpriteRenderer a = (SpriteRenderer)AnimIncorrecto.GetComponent(typeof(SpriteRenderer));
 		a.enabled = param;
 		Animator an = (Animator)AnimIncorrecto.GetComponent(typeof(Animator));
+		an.SetBool("activo",param);
+	}
+
+	public void activarTerminaste(bool param){
+		SpriteRenderer a = (SpriteRenderer)AnimTerminaste.GetComponent(typeof(SpriteRenderer));
+		a.enabled = param;
+		Animator an = (Animator)AnimTerminaste.GetComponent(typeof(Animator));
 		an.SetBool("activo",param);
 	}
 
