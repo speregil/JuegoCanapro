@@ -222,6 +222,21 @@ function pedirpreguntas( IDCuenta )
     //http.setRequestHeader("Connection", "close");
     http.send(params);
 }
+function pedirconteo(arg)
+{
+	http=new XMLHttpRequest();
+    http.onreadystatechange = function()
+    {
+        if (http.readyState===4 && http.status===200)
+        {
+            var respuesta = this.responseText;
+            u.getUnity().SendMessage("AdminSQL", "recibirConteo", respuesta);
+        }
+        
+    }
+    http.open("GET", "http://50.62.166.14:81/script.php?data=pedirconteo", true);
+    http.send(null)
+}
 function debug(arg)
 {
 	console.log(arg);

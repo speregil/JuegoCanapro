@@ -348,6 +348,22 @@
 			exit(0);
 		}
 	}
+	else if("pedirconteo")
+	{
+		$query = "SELECT COUNT(*) FROM CUENTA";
+		$resultado = mysqli_query($connection, $query);
+		$respuesta = "";
+		if(mysqli_num_rows($resultado) > 0)
+		{
+			while($numero = mysqli_fetch_array($resultado, MYSQL_NUM))
+			{
+				$respuesta .= $numero[0];
+			}
+			mysqli_close($connection);
+			echo $respuesta;
+			exit(0);
+		}
+	}
 	function obj2array($obj) {
 	  $out = array();
 	  foreach ($obj as $key => $val) {
