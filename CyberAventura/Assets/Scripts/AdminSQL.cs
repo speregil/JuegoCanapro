@@ -183,6 +183,14 @@ public class AdminSQL : MonoBehaviour {
 		preguntass = ConexionBD.preguntas;
 		return preguntass;
 	}
+
+	public void contarParticipantes(){
+		ConexionBD.pedirConteo();
+	}
+
+	public string pedirConteo(){
+		return ConexionBD.numParticipantes;
+	}
 	/**public bool verificarUsuario(string IDCuenta){
 		//Verificar que no halla hecho un run previo
 

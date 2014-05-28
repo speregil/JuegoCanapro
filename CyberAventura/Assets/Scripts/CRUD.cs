@@ -25,6 +25,8 @@ public class CRUD : MonoBehaviour{
 	public string guardarPregunta;
 	//preguntas respondidas
 	public string preguntas;
+	//Numero de personas que han participado
+	public string numParticipantes;
 
 	//Clase para hacer consultas en la base de datos
 	public CRUD()
@@ -39,6 +41,7 @@ public class CRUD : MonoBehaviour{
 		esPrimerBulk = false;
 		esPrimerRun = false;
 		guardarPregunta = "";
+		numParticipantes = "0";
 	}
 	//Permite hacer login en la aplicacion
 	public void hacerLogin(string user, string password)
@@ -80,6 +83,12 @@ public class CRUD : MonoBehaviour{
 	{
 		Application.ExternalCall("pedirtop20");
 	}
+
+	public void pedirConteo()
+	{
+		Application.ExternalCall("pedirconteo");
+	}
+
 	public void primerBulk(string IDCuenta)
 	{
 		Application.ExternalCall("esprimerbulk", IDCuenta);
@@ -130,6 +139,11 @@ public class CRUD : MonoBehaviour{
 	{
 		//Debug.Log(formato);
 		top20 = formato;
+	}
+
+	public void recibirConteo(string formato)
+	{
+		numParticipantes = formato;
 	}
 	/*
 	 * Guarda el resultado del desvy en su variable

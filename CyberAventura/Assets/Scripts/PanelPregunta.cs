@@ -18,6 +18,7 @@ public class PanelPregunta : MonoBehaviour {
 	public  GUISkin		skinPreguntasD;			//Skin de las preguntas tipo D
 	public	GUISkin		skinVacio;
 	public	GUISkin		skinTextoPreguntas;
+	public	GUISkin		skinBtnVolver;
 	public	GUISkin		skinConfirmacion;		//Skin del cuadro de confirmacion
 	private	GUISkin		skinTemp;				//Temporal de control para los cambios de skin
 	private	Bulk		BulkActivo;				//Bulk actual de preguntas
@@ -70,7 +71,7 @@ public class PanelPregunta : MonoBehaviour {
 		repetido = false;
 		confirmacion = false;
 		paso = false;
-		RectConfirmacion = new Rect(Screen.width/100,Screen.height/100 ,1024,551);
+		RectConfirmacion = new Rect(Screen.width*2/100,Screen.height*10/100 ,1024,551);
 		RectPregunta = new Rect(0,0,Screen.width,Screen.height);
 		skinTemp = skinTextoPreguntas;
 		Fader.Instance.FadeOut(1);
@@ -91,7 +92,12 @@ public class PanelPregunta : MonoBehaviour {
 		// Ventana de las preguntas
 		if(WindowID == 0){
 			if(preguntaActiva){
-
+				// Boton regreso
+				GUI.skin = skinBtnVolver;
+				if(GUI.Button(new Rect(RectPregunta.width*112/128,Screen.height*112/128,(Screen.width*7/64), (Screen.height*6/78)),"SALIR")){
+					preguntaActiva = false;
+					ventanaActiva = false;
+				}
 				//Timer
 				guiTime = Time.time - tiempoInicio;
 				cambioTiempo = Mathf.CeilToInt(tiempoRestante - guiTime);
@@ -205,26 +211,25 @@ public class PanelPregunta : MonoBehaviour {
 
 		// Ventana de confirmacion
 		if(WindowID == 1){
-			GUI.Label(new Rect(RectConfirmacion.width/3 + 20,RectConfirmacion.height*1/5,(RectConfirmacion.width/2) - 10,RectConfirmacion.height/20), "Bienvenido A: " + Control.darNombre());
-			GUI.Box(new Rect(RectConfirmacion.width*1/6 - 20 ,RectConfirmacion.height*1/3 - 20,RectConfirmacion.width*3/8,RectConfirmacion.height*2/5), Control.darImagen());
-			GUI.Label(new Rect(RectConfirmacion.width*5/9 ,RectConfirmacion.height*1/3 - 20,RectConfirmacion.width*1/3,RectConfirmacion.height*2/5), "" + Control.darDescripcion());
-			GUI.Label(new Rect(RectConfirmacion.width*1/6 - 20,RectConfirmacion.height*6/8,(RectConfirmacion.width/2) - 10,RectConfirmacion.height - 50),mensajeConfirmacion);
+
+			GUI.Box(new Rect(0,0,RectConfirmacion.width,RectConfirmacion.height), Control.darImagen());
 			if(repetido){
-				if(GUI.Button(new Rect(RectConfirmacion.width*3/5,RectConfirmacion.height*6/8 - 20,RectConfirmacion.width/6,RectConfirmacion.height/9), "CONTINUAR")){
+				GUI.Label(new Rect(RectConfirmacion.width*2/100,RectConfirmacion.height*4/11,RectConfirmacion.width*2/10,RectConfirmacion.height/8),mensajeConfirmacion);
+				if(GUI.Button(new Rect(0,RectConfirmacion.height/2,RectConfirmacion.width/6,RectConfirmacion.height/9), "CONTINUAR")){
 					confirmacion = false;
 					repetido = false;
 					personaje.GetComponent<Movimiento>().cambiarLlego(false);
 				}
 			}
 			else{
-				if(GUI.Button(new Rect(RectConfirmacion.width*3/5,RectConfirmacion.height*6/8 - 20,RectConfirmacion.width/10,RectConfirmacion.height/9), "SI")){
+				if(GUI.Button(new Rect(0,RectConfirmacion.height/2,RectConfirmacion.width/8,RectConfirmacion.height/9), "ENTRAR")){
 					Fader.Instance.FadeIn().StartCoroutine(this, "esperar");
 					CargarLista(bulkActual);
 					personaje.GetComponent<Movimiento>().cambiarLlego(false);
 					Control.mostrarGUI(false);
 				}
 					
-				if(GUI.Button(new Rect(RectConfirmacion.width*4/5,RectConfirmacion.height*6/8 - 20,RectConfirmacion.width/10,RectConfirmacion.height/9), "NO")){
+				if(GUI.Button(new Rect(RectConfirmacion.width*7/8,RectConfirmacion.height/2,RectConfirmacion.width/8,RectConfirmacion.height/9), "SALIR")){
 					confirmacion = false;
 					personaje.GetComponent<Movimiento>().cambiarLlego(false);
 				}

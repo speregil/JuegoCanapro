@@ -73,7 +73,7 @@ public class Interfaz : MonoBehaviour {
 	
 		GameObject adSQL = GameObject.Find("AdminSQL");
 		SQL = (AdminSQL)adSQL.GetComponent(typeof(AdminSQL));
-
+		SQL.contarParticipantes();
 		if(SQL.DarUsuarioActual().Equals(AdminSQL.LOGOUT))
 			estado = LOGIN;
 		else
@@ -96,7 +96,9 @@ public class Interfaz : MonoBehaviour {
 				SQL.LogIn(login,pass);
 			}
 
+			string conteo = SQL.pedirConteo();
 			GUI.Label(new Rect((Screen.width*1/4),(Screen.height*1/12),(Screen.width*1/2),(Screen.height*1/3)), info);
+			GUI.Label(new Rect((Screen.width*1/4),(Screen.height*3/12),(Screen.width*1/2),(Screen.height*1/3)), "Ya han participado " + conteo + " personas");
 			GUI.Label(new Rect((Screen.width/4),(Screen.height*3/8)-(Screen.height*1/32),(Screen.width*1/4),(Screen.height*1/16)), "    Número de cédula");
 			GUI.Label(new Rect((Screen.width/4),(Screen.height/2)-(Screen.height*1/32),(Screen.width*1/4),(Screen.height*1/16)), "    Contraseña");
 		}
@@ -104,7 +106,7 @@ public class Interfaz : MonoBehaviour {
 		{
 			GUI.skin = skinMenu;
 			GUI.Box(new Rect(0,0,Screen.width,Screen.height), "");
-			//GUI.Label(new Rect((Screen.width*1/4),(Screen.height*1/12),(Screen.width*1/2),(Screen.height*1/3)), info);
+			GUI.Label(new Rect((Screen.width*1/4),(Screen.height*1/12),(Screen.width*1/2),(Screen.height*1/3)), info);
 			if(GUI.Button(new Rect((Screen.width/12),(Screen.height*8/48),(Screen.width*1/4),(Screen.height*1/8)), "JUGAR"))
 			{
 				estado = MODO;
@@ -112,19 +114,19 @@ public class Interfaz : MonoBehaviour {
 
 			}
 			GUI.Label(new Rect((Screen.width*3/12),(Screen.height*12/60),Screen.width/12,Screen.height/12), contenidoBoxJugar);
-			if(GUI.Button(new Rect((Screen.width/12),(Screen.height*14/48),(Screen.width*1/4),(Screen.height*1/8)), "EXTRAS"))
+			if(GUI.Button(new Rect((Screen.width/12),(Screen.height*16/48),(Screen.width*1/4),(Screen.height*1/8)), "EXTRAS"))
 			{
 				//Fader.Instance.FadeIn().StartCoroutine(this, "esperarInterno");
 				estado = EXTRAS;
 			}
-			GUI.Label(new Rect((Screen.width*3/12),(Screen.height*18/60),Screen.width/10,Screen.height/10), contenidoBoxExtras);
-			if(GUI.Button(new Rect((Screen.width/12),(Screen.height*20/48),(Screen.width*1/4),(Screen.height*1/8)), "ESTADISTICAS"))
+			GUI.Label(new Rect((Screen.width*3/12),(Screen.height*20/60),Screen.width/10,Screen.height/10), contenidoBoxExtras);
+			if(GUI.Button(new Rect((Screen.width/12),(Screen.height*24/48),(Screen.width*1/4),(Screen.height*1/8)), "ESTADISTICAS"))
 			{
 				SQL.pedirTop20();
 				//Fader.Instance.FadeIn().StartCoroutine(this, "esperarInterno");
 				estado= ESTADISTICAS;
 			}
-			GUI.Label(new Rect((Screen.width*3/12),(Screen.height*24/60),Screen.width/7,Screen.height/7), contenidoBoxEstadisticas);
+			GUI.Label(new Rect((Screen.width*3/12),(Screen.height*28/60),Screen.width/7,Screen.height/7), contenidoBoxEstadisticas);
 			//if(GUI.Button(new Rect((Screen.width/12),(Screen.height*26/48),(Screen.width*1/4),(Screen.height*1/8)), "Tutorial"))
 			//{
 				//Fader.Instance.FadeIn().StartCoroutine(this, "esperarInterno");
@@ -134,6 +136,7 @@ public class Interfaz : MonoBehaviour {
 			if(GUI.Button(new Rect((Screen.width/12),(Screen.height*32/48),(Screen.width*1/4),(Screen.height*1/8)), "SALIR"))
 			{
 				SQL.LogOut();
+				info = "BIENVENIDO A LA CYBERAVENTURA CANAPRO 2014, UN JUEGO QUE TE PERMITIRA GANAR, SI CONOCES DE COOPERATIVISMO. ANIMO!!! INICIA";
 				//Fader.Instance.FadeIn().StartCoroutine(this, "esperarInterno");
 				estado= LOGIN;
 			}
@@ -201,8 +204,8 @@ public class Interfaz : MonoBehaviour {
 		{
 			GUI.skin = skinMenu;
 			GUI.Box(new Rect(0,0,Screen.width,Screen.height),"");
-			GUI.Label(new Rect((Screen.width/3)-50,0,(Screen.width*1/2),(Screen.height*1/3)), info);
-			if(GUI.Button(new Rect((Screen.width/3),(Screen.height/4),(Screen.width*1/4),(Screen.height*1/8)), "JUGAR"))
+			GUI.Label(new Rect(Screen.width*15/50,Screen.height*5/100,(Screen.width*1/2),(Screen.height*1/3)), info);
+			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*18/48),(Screen.width*1/4),(Screen.height*1/8)), "JUGAR"))
 			{
 				SQL.pedirPreguntas();
 				Fader.Instance.FadeIn(0.25f).StartCoroutine(this,"esperar");
@@ -210,18 +213,18 @@ public class Interfaz : MonoBehaviour {
 				//esperar();  
 
 			}
-			GUI.Label(new Rect((Screen.width/2),(Screen.height*1/4+15),Screen.width/12,Screen.height/12), contenidoBoxNuevo);
+			GUI.Label(new Rect((Screen.width*27/50),(Screen.height*18/48),Screen.width/12,Screen.height/12), contenidoBoxNuevo);
 			//if(GUI.Button(new Rect((Screen.width/3),(Screen.height*4/9),(Screen.width*1/4),(Screen.height*1/6)), "Cargar Partida"))
 			//{
 			//	SQL.CargarRun("Usuario");
 			//	Application.LoadLevel("Mapa");
 			//}
 			//GUI.Label(new Rect((Screen.width/2),(Screen.height*4/9),Screen.width/12,Screen.height/12), contenidoBoxCargar);
-			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*1/4+180),(Screen.width*1/4),(Screen.height*1/8)), "VOLVER"))
+			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*24/48),(Screen.width*1/4),(Screen.height*1/8)), "VOLVER"))
 			{
 				estado= PRINCIPAL;
 			}
-			GUI.Label(new Rect((Screen.width/2),(Screen.height*1/4+190),Screen.width/12,Screen.height/12), contenidoBoxVolver);
+			GUI.Label(new Rect((Screen.width*27/50),(Screen.height*24/48),Screen.width/12,Screen.height/12), contenidoBoxVolver);
 		}
 		else if(EXTRAS == estado)
 		{
