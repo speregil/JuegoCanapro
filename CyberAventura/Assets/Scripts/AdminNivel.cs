@@ -4,6 +4,7 @@ using System.Collections;
 public class AdminNivel : MonoBehaviour {
 	public	GUISkin			skinConfirmacion;
 	public	GUISkin			skinBtnVolver;
+	public	GUISkin			skinBarra;
 	public 	GameObject 		personaje;
 	public	Camera			camaraPrincipal;
 	public	Camera			camaraAnimacion;
@@ -23,7 +24,7 @@ public class AdminNivel : MonoBehaviour {
 	private int				totalEdificios;
 	private int				totalPuntos;
 	private float			totalTiempo;
-	private string			MensajeSalida = "\t\t\tSalvaremos su progreso, puede cargarlo despues desde\n\t\t\t\tel menu inicial\n\t\t\t\t\t¿Desea volver al menu inicial?";
+	private string			MensajeSalida = "\t\t\t¿Desea volver al menu inicial?";
 	public	Texture			imgBarraInfo;
 	private	Texture2D		imagenEdActual;
 	private	string			nombreEdActual;
@@ -59,7 +60,7 @@ public class AdminNivel : MonoBehaviour {
 
 	void OnGUI(){
 		if(onMapa){
-			GUI.skin = skinConfirmacion;
+			GUI.skin = skinBarra;
 			GUI.Label(new Rect(Screen.width*3/10,Screen.height/20,Screen.width*7/10,Screen.height/12), imgBarraInfo);
 			GUI.Label(new Rect(Screen.width*15/40 - 60,Screen.height/20+Screen.height*78/10000,Screen.width/3,Screen.height/12),"Hola "+ usuarioActual);
 			GUI.Label(new Rect(Screen.width*27/40,Screen.height/20+Screen.height*78/10000,Screen.width*3/10,Screen.height/12),"Edificios: "+ totalEdificios + "/12");
@@ -84,7 +85,7 @@ public class AdminNivel : MonoBehaviour {
 	void WindowFunction(int WindowID){
 
 		if(WindowID == 1){
-			GUI.Label(new Rect(10,50,RectConfirmacion.width - 10,RectConfirmacion.height - 50), MensajeSalida);
+			GUI.Label(new Rect(RectConfirmacion.width*19/100,RectConfirmacion.height*33/100,RectConfirmacion.width - 10,RectConfirmacion.height - 50), MensajeSalida);
 			if(GUI.Button(new Rect(RectConfirmacion.width/4,RectConfirmacion.height/3 + 50,RectConfirmacion.width/4,RectConfirmacion.height/3), "SI")){
 				//Salvar
 				Application.LoadLevel("Intro");
@@ -128,6 +129,9 @@ public class AdminNivel : MonoBehaviour {
 		a.enabled = param;
 		Animator an = (Animator)AnimCorrecto.GetComponent(typeof(Animator));
 		an.SetBool("activo",param);
+		AudioSource s = (AudioSource)AnimCorrecto.GetComponent(typeof(AudioSource));
+		if(param)
+			s.Play();
 	}
 
 	public void activarIncorrecto(bool param){
@@ -135,6 +139,9 @@ public class AdminNivel : MonoBehaviour {
 		a.enabled = param;
 		Animator an = (Animator)AnimIncorrecto.GetComponent(typeof(Animator));
 		an.SetBool("activo",param);
+		AudioSource s = (AudioSource)AnimIncorrecto.GetComponent(typeof(AudioSource));
+		if(param)
+			s.Play();
 	}
 
 	public void activarTerminaste(bool param){
@@ -142,6 +149,9 @@ public class AdminNivel : MonoBehaviour {
 		a.enabled = param;
 		Animator an = (Animator)AnimTerminaste.GetComponent(typeof(Animator));
 		an.SetBool("activo",param);
+		AudioSource s = (AudioSource)AnimTerminaste.GetComponent(typeof(AudioSource));
+		if(param)
+			s.Play();
 	}
 
 	public void CompletarBulk(int ID, int puntos, float tiempo, Bulk bulkActivo){

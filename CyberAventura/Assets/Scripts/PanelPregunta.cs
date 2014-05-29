@@ -95,6 +95,7 @@ public class PanelPregunta : MonoBehaviour {
 				// Boton regreso
 				GUI.skin = skinBtnVolver;
 				if(GUI.Button(new Rect(RectPregunta.width*112/128,Screen.height*112/128,(Screen.width*7/64), (Screen.height*6/78)),"SALIR")){
+					Control.mostrarGUI(true);
 					preguntaActiva = false;
 					ventanaActiva = false;
 				}
@@ -390,11 +391,9 @@ public class PanelPregunta : MonoBehaviour {
 		{
 			if(cadena[i].Equals(""+IDPregunta))
 			{
-				Debug.Log("--------------Es verdadero----------------");
 				return true;
 			}
 		}
-		Debug.Log("--------------Es falso----------------");
 		return false;
 	}
 }
