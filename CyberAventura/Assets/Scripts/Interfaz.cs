@@ -22,6 +22,7 @@ public class Interfaz : MonoBehaviour {
 	public	Texture2D	imgVolverExtrasOver;
 	public	Texture2D	contenidoBoxImagen;
 	public	Texture2D[] listaTutorial;
+	public	GameObject	animTutorial;
 	private	int			indiceTutorial;
 	private bool		haySiguiente;
 	private GUIContent contenidoBoxJugar;
@@ -58,7 +59,7 @@ public class Interfaz : MonoBehaviour {
 	void Start () {
 		login = "";
 		pass = "";
-		info = "BIENVENIDO A LA CYBERAVENTURA CANAPRO 2014, UN JUEGO QUE TE PERMITIRA GANAR, SI CONOCES DE COOPERATIVISMO. ANIMO!!! INICIA";
+		info = "\t\t\t\t\t\t\tBIENVENIDO A LA CYBERAVENTURA CANAPRO 2014\nUn juego que te permitirá ganar, si conoces de coperativismo. ÁNIMO!!!";
 		contenidoBoxJugar = new GUIContent();
 		contenidoBoxJugar.image = (Texture2D)imgJugar;
 		contenidoBoxExtras = new GUIContent();
@@ -80,6 +81,7 @@ public class Interfaz : MonoBehaviour {
 		onTutorial = true;
 		indiceTutorial = 0;
 		haySiguiente = true;
+		activarTutorial(false);
 
 		GameObject adSQL = GameObject.Find("AdminSQL");
 		SQL = (AdminSQL)adSQL.GetComponent(typeof(AdminSQL));
@@ -116,46 +118,52 @@ public class Interfaz : MonoBehaviour {
 		{
 			if(onTutorial){
 				GUI.skin = skinTutorial;
-				rectTutorial = GUI.Window(0,rectTutorial,WindowFunction,"");
+				activarTutorial(true);
+				if(GUI.Button(new Rect((Screen.width*35/100),(Screen.height*91/100),(Screen.width*18/100),(Screen.height*7/100)), "INICIO"))
+				{
+					onMenu = true;
+					onTutorial = false;
+					activarTutorial(false);
+				}
 			}
 			else if(onMenu){
 				GUI.skin = skinMenu;
 				GUI.Box(new Rect(0,0,Screen.width,Screen.height), "");
 				GUI.Label(new Rect((Screen.width*18/100),(Screen.height*5/100),(Screen.width*2/3),(Screen.height*1/3)), info);
-				if(GUI.Button(new Rect((Screen.width/12),(Screen.height*8/48),(Screen.width*1/4),(Screen.height*1/8)), "JUGAR"))
+				if(GUI.Button(new Rect((Screen.width/12),(Screen.height*12/48),(Screen.width*1/4),(Screen.height*1/8)), "JUGAR"))
 				{
 					estado = MODO;
 					info = "INICIA UN NUEVO JUEGO O CARGA TU AVANCE PREVIO";
 
 				}
-				GUI.Label(new Rect((Screen.width*3/12),(Screen.height*12/60),Screen.width/12,Screen.height/12), contenidoBoxJugar);
-				if(GUI.Button(new Rect((Screen.width/12),(Screen.height*16/48),(Screen.width*1/4),(Screen.height*1/8)), "EXTRAS"))
+				GUI.Label(new Rect((Screen.width*3/12),(Screen.height*16/60),Screen.width/12,Screen.height/12), contenidoBoxJugar);
+				/*if(GUI.Button(new Rect((Screen.width/12),(Screen.height*16/48),(Screen.width*1/4),(Screen.height*1/8)), "EXTRAS"))
 				{
 					//Fader.Instance.FadeIn().StartCoroutine(this, "esperarInterno");
 					estado = EXTRAS;
 				}
-				GUI.Label(new Rect((Screen.width*3/12),(Screen.height*20/60),Screen.width/10,Screen.height/10), contenidoBoxExtras);
-				if(GUI.Button(new Rect((Screen.width/12),(Screen.height*24/48),(Screen.width*1/4),(Screen.height*1/8)), "ESTADISTICAS"))
+				GUI.Label(new Rect((Screen.width*3/12),(Screen.height*20/60),Screen.width/10,Screen.height/10), contenidoBoxExtras);**/
+				if(GUI.Button(new Rect((Screen.width/12),(Screen.height*20/48),(Screen.width*1/4),(Screen.height*1/8)), "ESTADISTICAS"))
 				{
 					SQL.pedirTop20();
 					//Fader.Instance.FadeIn().StartCoroutine(this, "esperarInterno");
 					estado= ESTADISTICAS;
 				}
-				GUI.Label(new Rect((Screen.width*3/12),(Screen.height*28/60),Screen.width/7,Screen.height/7), contenidoBoxEstadisticas);
+				GUI.Label(new Rect((Screen.width*3/12),(Screen.height*24/60),Screen.width/7,Screen.height/7), contenidoBoxEstadisticas);
 					//if(GUI.Button(new Rect((Screen.width/12),(Screen.height*26/48),(Screen.width*1/4),(Screen.height*1/8)), "Tutorial"))
 			//{
 				//Fader.Instance.FadeIn().StartCoroutine(this, "esperarInterno");
 			//	estado= TUTO;
 			//}
 			//GUI.Label(new Rect((Screen.width*3/12),(Screen.height*33/60),Screen.width/10,Screen.height/10), contenidoBoxTutorial);
-				if(GUI.Button(new Rect((Screen.width/12),(Screen.height*32/48),(Screen.width*1/4),(Screen.height*1/8)), "SALIR"))
+				if(GUI.Button(new Rect((Screen.width/12),(Screen.height*28/48),(Screen.width*1/4),(Screen.height*1/8)), "SALIR"))
 				{
 					SQL.LogOut();
-					info = "BIENVENIDO A LA CYBERAVENTURA CANAPRO 2014, UN JUEGO QUE TE PERMITIRA GANAR, SI CONOCES DE COOPERATIVISMO. ANIMO!!! INICIA";
+					info = "\t\t\t\t\t\t\tBIENVENIDO A LA CYBERAVENTURA CANAPRO 2014\nUn juego que te permitirá ganar, si conoces de coperativismo. ÁNIMO!!!";
 					//Fader.Instance.FadeIn().StartCoroutine(this, "esperarInterno");
 					estado= LOGIN;
 				}
-				GUI.Label(new Rect((Screen.width*3/12),(Screen.height*41/60),Screen.width/10,Screen.height/10), contenidoBoxSalir);
+				GUI.Label(new Rect((Screen.width*3/12),(Screen.height*36/60),Screen.width/10,Screen.height/10), contenidoBoxSalir);
 				GUI.Label(new Rect((Screen.width*9/24),(Screen.height*11/48),Screen.width*97/180,Screen.height*97/180), contenidoBoxImagen);
 			}
 		}
@@ -169,7 +177,7 @@ public class Interfaz : MonoBehaviour {
 			//GUI.Box(new Rect((Screen.width/12),(Screen.height*1/12),(Screen.width*10/12),(Screen.height*10/12)), "Panel principal");
 			scrollPosition = GUI.BeginScrollView(new Rect((Screen.width/128),(Screen.height*1/128),(Screen.width*82/96),(Screen.height)), scrollPosition, 
 			                                     new Rect(0,0,Screen.width*10/12,numeroImagenes/5*Screen.height/6+Screen.height/6), false, true);
-			GUI.skin = skinPreguntas;
+			//GUI.skin = skinPreguntas;
 			int indice = 1;
 			for(int i = 1; i < cadena.Length;)
 			{
@@ -239,7 +247,7 @@ public class Interfaz : MonoBehaviour {
 			if(GUI.Button(new Rect((Screen.width/3),(Screen.height*24/48),(Screen.width*1/4),(Screen.height*1/8)), "VOLVER"))
 			{
 				estado= PRINCIPAL;
-				info = "BIENVENIDO A LA CYBERAVENTURA CANAPRO 2014, UN JUEGO QUE TE PERMITIRA GANAR, SI CONOCES DE COOPERATIVISMO. ANIMO!!! INICIA";
+				info = "\t\t\t\t\t\t\tBIENVENIDO A LA CYBERAVENTURA CANAPRO 2014\nUn juego que te permitirá ganar, si conoces de coperativismo. ÁNIMO!!!";
 			}
 			GUI.Label(new Rect((Screen.width*27/50),(Screen.height*24/48),Screen.width/12,Screen.height/12), contenidoBoxVolver);
 		}
@@ -340,14 +348,21 @@ public class Interfaz : MonoBehaviour {
 		}
 		else if(LlaveUsuario.Equals("1991")){
 			estado = PRINCIPAL;
-			info = "BIENVENIDO A LA CYBERAVENTURA CANAPRO 2014, UN JUEGO QUE TE PERMITIRA GANAR, SI CONOCES DE COOPERATIVISMO. ANIMO!!! INICIA";
+			info = "\t\t\t\t\t\t\tBIENVENIDO A LA CYBERAVENTURA CANAPRO 2014\nUn juego que te permitirá ganar, si conoces de coperativismo. ÁNIMO!!!";
 			Fader.Instance.FadeOut(0.25f);
 		}
 		else{
 			SQL.verificarPrimerBulk();
 			SQL.pedirAvance();
-			info = "BIENVENIDO A LA CYBERAVENTURA CANAPRO 2014, UN JUEGO QUE TE PERMITIRA GANAR, SI CONOCES DE COOPERATIVISMO. ANIMO!!! INICIA";
+			info = "\t\t\t\t\t\t\tBIENVENIDO A LA CYBERAVENTURA CANAPRO 2014\nUn juego que te permitirá ganar, si conoces de coperativismo. ÁNIMO!!!";
 			Fader.Instance.FadeIn(0.25f).StartCoroutine(this, "esperarInterno");
 		}
+	}
+
+	public void activarTutorial(bool param){
+		SpriteRenderer a = (SpriteRenderer)animTutorial.GetComponent(typeof(SpriteRenderer));
+		a.enabled = param;
+		Animator an = (Animator)animTutorial.GetComponent(typeof(Animator));
+		an.SetBool("activo",param);
 	}
 }
