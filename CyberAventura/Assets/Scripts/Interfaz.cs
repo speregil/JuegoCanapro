@@ -77,8 +77,6 @@ public class Interfaz : MonoBehaviour {
 		contenidoBoxVolver = new GUIContent();
 		contenidoBoxVolver.image = (Texture2D)imgVolver;
 		rectTutorial = new Rect(Screen.width*3/100,Screen.height*3/100,Screen.width*95/100,Screen.height*95/100);
-		onMenu = false;
-		onTutorial = true;
 		indiceTutorial = 0;
 		haySiguiente = true;
 		activarTutorial(false);
@@ -90,6 +88,15 @@ public class Interfaz : MonoBehaviour {
 			estado = LOGIN;
 		else
 			estado = PRINCIPAL;
+
+		if(SQL.verTutorial){
+			onTutorial = true;
+			onMenu = false;
+		}
+		else{
+			onTutorial = false;
+			onMenu = true;
+		}
 	}
 	
 	// Update is called once per frame
@@ -123,6 +130,7 @@ public class Interfaz : MonoBehaviour {
 				{
 					onMenu = true;
 					onTutorial = false;
+					SQL.verTutorial = false;
 					activarTutorial(false);
 				}
 			}

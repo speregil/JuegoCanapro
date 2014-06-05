@@ -14,6 +14,7 @@ public class AdminSQL : MonoBehaviour {
 
 	//variable ultra provicional
 	public bool primerRun = false;
+	public bool verTutorial = true;
 
 	void Awake(){
 		DontDestroyOnLoad(transform.gameObject);
